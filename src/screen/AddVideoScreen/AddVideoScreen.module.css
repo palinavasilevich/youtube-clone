@@ -1,0 +1,43 @@
+.container {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #cccccc;
+}
+
+.btn {
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 10px;
+  background-color: indigo;
+}
+
+.errorMessage {
+  color: #ee1111;
+}
+
+.errorInput {
+  border-color: #ee1111;
+}

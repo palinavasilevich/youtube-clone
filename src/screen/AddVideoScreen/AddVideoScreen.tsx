@@ -1,24 +1,41 @@
 "use client";
 
 import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { parseYouTube } from "@/shared/libs";
 import cls from "./AddVideoScreen.module.css";
 
-// https://www.youtube.com/watch?v=oHAmjGo7h58
+type Inputs = {
+  videoUrl: string;
+};
+
+const schema = z.object({
+  videoUrl: z.string().min(1, { message: "This field is required" }),
+});
 
 export const AddVideoScreen = () => {
   const [videoId, setVideoId] = useState<string | null>(null);
   const [title, setTitle] = useState<string>("");
 
-  const addVideo = async (formData: FormData) => {
-    const url = formData.get("url");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>({
+    resolver: zodResolver(schema),
+  });
 
-    if (typeof url !== "string" || !url) return;
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const { videoUrl } = data;
+
+    if (!videoUrl) return;
 
     let finalUrl = null;
 
     try {
-      finalUrl = new URL(url);
+      finalUrl = new URL(videoUrl);
     } catch (error) {
       console.error(error);
     }
@@ -34,25 +51,37 @@ export const AddVideoScreen = () => {
       );
 
       const data = await res.json();
-      console.log(data);
       setTitle(data.title);
     }
   };
 
+  const hasVideoUrlError = !!errors.videoUrl?.message;
+
   return (
-    <div className={cls.addVideoScreen}>
-      <form action={addVideo}>
-        <input
-          name="url"
-          type="text"
-          placeholder="Paste the link to the YouTube video"
-        />
-        <button type="submit">Add Video</button>
+    <div className={cls.container}>
+      <form onSubmit={handleSubmit(onSubmit)} className={cls.form}>
+        <label htmlFor="videoUrl" className={cls.label}>
+          <input
+            id="videoUrl"
+            type="text"
+            placeholder="Paste the link to the YouTube video"
+            className={`${cls.input} ${hasVideoUrlError ? cls.errorInput : ""}`}
+            defaultValue="https://www.youtube.com/watch?v=oHAmjGo7h58"
+            {...register("videoUrl")}
+          />
+          {hasVideoUrlError && (
+            <p className={cls.errorMessage}>{errors.videoUrl?.message}</p>
+          )}
+        </label>
+
+        <button type="submit" className={cls.btn}>
+          Add Video
+        </button>
       </form>
 
       {videoId && (
         <iframe
-          width="853"
+          width="100%"
           height="480"
           src={`https://www.youtube.com/embed/${videoId}`}
           title={title}
