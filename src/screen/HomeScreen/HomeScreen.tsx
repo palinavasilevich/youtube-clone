@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import cls from "./HomeScreen.module.css";
 
 export const HomeScreen = () => {
@@ -37,15 +39,14 @@ export const HomeScreen = () => {
     <div className={cls.container}>
       {videos && videos?.length > 0 ? (
         videos.map((videoId) => (
-          <iframe
-            key={videoId}
-            width="550"
-            height="550"
-            src={`https://www.youtube.com/embed/${videoId}`}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-          />
+          <Link href={`/video/${videoId}`} key={videoId}>
+            <Image
+              width="150"
+              height="150"
+              src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
+              alt="YouTube video"
+            />
+          </Link>
         ))
       ) : (
         <p>There are no videos</p>

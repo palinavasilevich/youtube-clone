@@ -1,3 +1,4 @@
+import { VideoScreen } from "@/screen/VideoScreen";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -10,5 +11,6 @@ type VideoPageProps = {
 
 export default async function VideoPage({ params }: VideoPageProps) {
   const { videoId } = await params;
-  return <div>Video Page: {videoId}</div>;
+
+  return <VideoScreen videoId={videoId} />;
 }

@@ -14,8 +14,6 @@ export async function GET() {
 export async function POST(request: Request): Promise<Response> {
   const { videoId }: PostBody = await request.json();
 
-  console.log(videoId);
-
   if (videosData.has(videoId)) {
     return Response.json(
       {
