@@ -4,7 +4,7 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { parseYouTube } from "@/shared/libs";
+import { isAllowedHost, parseYouTube, YOUTUBE_DOMAINS } from "@/shared/libs";
 import cls from "./AddVideoScreen.module.css";
 
 type Inputs = {
@@ -12,12 +12,35 @@ type Inputs = {
 };
 
 const schema = z.object({
-  videoUrl: z.string().min(1, { message: "This field is required" }),
+  videoUrl: z
+    .string()
+    .min(1, { message: "This field is required" })
+    .superRefine((url, ctx) => {
+      let parsedUrl: URL;
+      try {
+        parsedUrl = new URL(url);
+      } catch {
+        ctx.addIssue({
+          code: "custom",
+          message: "This field must contain a link",
+          input: url,
+        });
+
+        return;
+      }
+
+      if (!isAllowedHost(parsedUrl.host, YOUTUBE_DOMAINS)) {
+        ctx.addIssue({
+          code: "custom",
+          message: "The link must be from YouTube",
+          input: url,
+        });
+      }
+    }),
 });
 
 export const AddVideoScreen = () => {
   const [videoId, setVideoId] = useState<string | null>(null);
-  const [title, setTitle] = useState<string>("");
 
   const {
     register,
@@ -28,31 +51,10 @@ export const AddVideoScreen = () => {
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const { videoUrl } = data;
+    const videoUrl = new URL(data.videoUrl);
 
-    if (!videoUrl) return;
-
-    let finalUrl = null;
-
-    try {
-      finalUrl = new URL(videoUrl);
-    } catch (error) {
-      console.error(error);
-    }
-
-    if (!finalUrl) return;
-
-    const id = parseYouTube(finalUrl);
+    const id = parseYouTube(videoUrl);
     setVideoId(id);
-
-    if (id) {
-      const res = await fetch(
-        `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`,
-      );
-
-      const data = await res.json();
-      setTitle(data.title);
-    }
   };
 
   const hasVideoUrlError = !!errors.videoUrl?.message;
@@ -84,7 +86,6 @@ export const AddVideoScreen = () => {
           width="100%"
           height="480"
           src={`https://www.youtube.com/embed/${videoId}`}
-          title={title}
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerPolicy="strict-origin-when-cross-origin"
