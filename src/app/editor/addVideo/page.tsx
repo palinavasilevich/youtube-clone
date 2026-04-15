@@ -1,9 +1,10 @@
 import { Metadata } from "next";
+import { AddVideoScreen } from "@/screen/AddVideoScreen";
 
 export const metadata: Metadata = {
   title: "Add video",
 };
 
 export default function AddVideoPage() {
-  return <div>Add Video Page</div>;
+  return <AddVideoScreen />;
 }
