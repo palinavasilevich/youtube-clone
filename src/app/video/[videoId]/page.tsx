@@ -1,3 +1,9 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Video: ...",
+};
+
 type VideoPageProps = {
   params: Promise<{ videoId: string }>;
 };
