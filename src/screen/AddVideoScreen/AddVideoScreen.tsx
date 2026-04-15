@@ -52,24 +52,21 @@ export const AddVideoScreen = () => {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const url = new URL(data.videoUrl);
-    const id = parseYouTube(url);
+    const videoId = parseYouTube(url);
 
-    if (!id) return;
+    if (!videoId) return;
 
-    setVideoId(id);
+    setVideoId(videoId);
 
     await fetch("/api/videos", {
       method: "POST",
       body: JSON.stringify({ videoId }),
     });
 
-    const dataFromServer = await fetch("/api/videos", {
-      method: "GET",
-    });
+    const response = await fetch("/api/videos");
+    const dataFromServer = await response.json();
 
-    const response = await dataFromServer.json();
-
-    console.log("dataFromServer", response);
+    console.log("dataFromServer", dataFromServer);
   };
 
   const hasVideoUrlError = !!errors.videoUrl?.message;
