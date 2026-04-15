@@ -40,7 +40,7 @@ const schema = z.object({
 });
 
 export const AddVideoScreen = () => {
-  const [videoId, setVideoId] = useState<string | null>(null);
+  const [videoId, setVideoId] = useState<string>("");
 
   const {
     register,
@@ -51,10 +51,25 @@ export const AddVideoScreen = () => {
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const videoUrl = new URL(data.videoUrl);
+    const url = new URL(data.videoUrl);
+    const id = parseYouTube(url);
 
-    const id = parseYouTube(videoUrl);
+    if (!id) return;
+
     setVideoId(id);
+
+    await fetch("/api/videos", {
+      method: "POST",
+      body: JSON.stringify({ videoId }),
+    });
+
+    const dataFromServer = await fetch("/api/videos", {
+      method: "GET",
+    });
+
+    const response = await dataFromServer.json();
+
+    console.log("dataFromServer", response);
   };
 
   const hasVideoUrlError = !!errors.videoUrl?.message;
@@ -68,7 +83,6 @@ export const AddVideoScreen = () => {
             type="text"
             placeholder="Paste the link to the YouTube video"
             className={`${cls.input} ${hasVideoUrlError ? cls.errorInput : ""}`}
-            defaultValue="https://www.youtube.com/watch?v=oHAmjGo7h58"
             {...register("videoUrl")}
           />
           {hasVideoUrlError && (
