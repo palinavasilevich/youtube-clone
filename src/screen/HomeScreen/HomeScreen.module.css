@@ -41,15 +41,15 @@
   border-radius: 50%;
   z-index: 1;
 
+  .hiddenText {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+
   &:hover {
     background: #bbbbbb;
   }
-}
-
-.hiddenText {
-  width: 0;
-  height: 0;
-  opacity: 0;
 }
 
 .videoInfo {
