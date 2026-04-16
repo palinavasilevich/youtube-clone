@@ -10,7 +10,7 @@ type MainLayoutProps = Readonly<{
 export const MainLayout = ({ children }: MainLayoutProps) => {
   return (
     <div className={cls.container}>
-      <Header />
+      <Header profileId={"29051453"} />
       <Sidebar />
       {children}
     </div>

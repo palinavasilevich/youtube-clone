@@ -1,4 +1,47 @@
 .header {
   height: 100%;
-  border-bottom: 0.5px solid #cbcbcb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.createVideoLink {
+  width: 111px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  transition: background 0.2s ease-in;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+}
+
+.profileLink {
+  display: block;
+  width: 32px;
+  height: 32px;
+  background: gray;
+  border-radius: 50%;
+  transition: background 0.2s ease-in;
+
+  &:hover {
+    background: #bbbbbb;
+  }
+
+  .hiddenText {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
 }
