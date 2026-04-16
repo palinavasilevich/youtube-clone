@@ -5,14 +5,27 @@ import Image from "next/image";
 
 export const NotFoundPage = () => {
   return (
-    <div className={cls.notFoundPage}>
+    <div className={cls.container}>
       <Image
-        width={500}
-        height={500}
-        src="/notFound.png"
+        unoptimized
+        width="185"
+        height="174"
+        src="/monkey.webp"
         alt="Page not found"
+        className={cls.img}
       />
-      <Link href="/">Return Home</Link>
+
+      <p>This page isn&apos;t available. Sorry about that.</p>
+      <p>Try searching for something else.</p>
+
+      <Link href="/" className={cls.link}>
+        <Image
+          width="145"
+          height="30"
+          src="/youtubeLogo.svg"
+          alt="YouTube Logo"
+        />
+      </Link>
     </div>
   );
 };
