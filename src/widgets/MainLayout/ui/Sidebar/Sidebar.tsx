@@ -1,17 +1,17 @@
-import React from "react";
+import { Fragment } from "react";
 
 import Link from "next/link";
 import cls from "./Sidebar.module.css";
 import { Home, User, PlusCircle, SquarePlay, LucideIcon } from "lucide-react";
 
-type Link = {
+type NavItem = {
   label: string;
   href: string;
   icon: LucideIcon;
   withDivider?: boolean;
 };
 
-const LINKS: Link[] = [
+const NAV_ITEMS: NavItem[] = [
   { label: "Home", href: "/", icon: Home },
   {
     label: "Profile",
@@ -27,17 +27,17 @@ export function Sidebar() {
   return (
     <aside className={cls.sidebar}>
       <nav className={cls.nav}>
-        {LINKS.map((link) => {
-          const { label, href, icon: Icon, withDivider } = link;
+        {NAV_ITEMS.map((navLink) => {
+          const { label, href, icon: Icon, withDivider } = navLink;
 
           return (
-            <React.Fragment key={href}>
-              <Link href={href} className={cls.link}>
+            <Fragment key={href}>
+              <Link href={href} className={cls.navLink}>
                 <Icon width={24} />
                 {label}
               </Link>
               {withDivider && <div className={cls.divider}></div>}
-            </React.Fragment>
+            </Fragment>
           );
         })}
       </nav>

@@ -22,7 +22,7 @@ export const VideoScreen = ({ videoId }: VideoScreenProps) => {
       <b>VIDEO TITLE</b>
 
       <div className={cls.videoInfoContainer}>
-        <Link href="/CHANNEL-NAME" className={cls.channelImg}>
+        <Link href="/CHANNEL-NAME" className={cls.channelAvatarLink}>
           <div className={cls.hiddenText}>CHANNEL NAME</div>
         </Link>
 

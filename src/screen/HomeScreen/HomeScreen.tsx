@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import cls from "./HomeScreen.module.css";
+import { GetVideosResponse, Video } from "@/shared/types/api.types";
 
 export const HomeScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [videos, setVideos] = useState<string[] | null>(null);
+  const [videos, setVideos] = useState<Video[] | null>(null);
 
-  const getVideos = async () => {
+  const fetchVideos = async () => {
     setIsLoading(true);
     try {
       const response = await fetch("/api/videos");
@@ -18,7 +19,7 @@ export const HomeScreen = () => {
         throw new Error("");
       }
 
-      const { data } = await response.json();
+      const { data } = (await response.json()) as GetVideosResponse;
       setVideos(data);
     } catch (error) {
       console.error(error);
@@ -28,7 +29,7 @@ export const HomeScreen = () => {
   };
 
   useEffect(() => {
-    getVideos();
+    fetchVideos();
   }, []);
 
   if (isLoading) {
@@ -38,7 +39,7 @@ export const HomeScreen = () => {
   return (
     <div className={cls.container}>
       {videos && videos?.length > 0 ? (
-        videos.map((videoId) => (
+        videos.map(({ videoId, title, authorName, authorUrl }) => (
           <div key={videoId} className={cls.videoBlock}>
             <Link href={`/video/${videoId}`} className={cls.videoPreview}>
               <Image
@@ -50,17 +51,23 @@ export const HomeScreen = () => {
             </Link>
 
             <div className={cls.videoInfoContainer}>
-              <Link href="/CHANNEL-NAME" className={cls.channelImg}>
-                <div className={cls.hiddenText}>CHANNEL NAME</div>
+              <Link
+                href={`/profile/${authorUrl}`}
+                className={cls.channelAvatarLink}
+              >
+                <div className={cls.hiddenText}>{authorName}</div>
               </Link>
 
               <div className={cls.videoInfo}>
                 <Link href={`/video/${videoId}`} className={cls.videoTitleLink}>
-                  <b>VIDEO TITLE</b>
+                  <b>{title}</b>
                 </Link>
 
-                <Link href="/CHANNEL-NAME" className={cls.channelNameLink}>
-                  CHANNEL NAME
+                <Link
+                  href={`/profile/${authorUrl}`}
+                  className={cls.channelNameLink}
+                >
+                  {authorName}
                 </Link>
               </div>
             </div>

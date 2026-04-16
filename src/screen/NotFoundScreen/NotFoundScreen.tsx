@@ -1,9 +1,9 @@
 import Link from "next/link";
-import cls from "./NotFoundPage.module.css";
+import cls from "./NotFoundScreen.module.css";
 
 import Image from "next/image";
 
-export const NotFoundPage = () => {
+export const NotFoundScreen = () => {
   return (
     <div className={cls.container}>
       <Image
