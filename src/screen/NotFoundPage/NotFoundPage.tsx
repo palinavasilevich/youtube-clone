@@ -6,7 +6,12 @@ import Image from "next/image";
 export const NotFoundPage = () => {
   return (
     <div className={cls.notFoundPage}>
-      <Image width={500} src="/notFound.png" alt="Page not found" />
+      <Image
+        width={500}
+        height={500}
+        src="/notFound.png"
+        alt="Page not found"
+      />
       <Link href="/">Return Home</Link>
     </div>
   );
