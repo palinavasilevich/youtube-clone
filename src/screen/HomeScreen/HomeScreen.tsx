@@ -32,21 +32,41 @@ export const HomeScreen = () => {
   }, []);
 
   if (isLoading) {
-    <div>Loading...</div>;
+    return <div>Loading...</div>;
   }
 
   return (
     <div className={cls.container}>
       {videos && videos?.length > 0 ? (
         videos.map((videoId) => (
-          <Link href={`/video/${videoId}`} key={videoId}>
-            <Image
-              width="150"
-              height="150"
-              src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
-              alt="YouTube video"
-            />
-          </Link>
+          <div key={videoId} className={cls.videoBlock}>
+            <Link href={`/video/${videoId}`} className={cls.videoPreview}>
+              <Image
+                fill
+                src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
+                alt="YouTube video"
+                className={cls.videoImg}
+              />
+            </Link>
+
+            <div className={cls.videoInfoContainer}>
+              <Link href="/CHANNEL-NAME" className={cls.channelImg}>
+                <div className={cls.hiddenText}>CHANNEL NAME</div>
+              </Link>
+
+              <div className={cls.videoInfo}>
+                <Link href={`/video/${videoId}`} className={cls.videoTitleLink}>
+                  <b>VIDEO TITLE</b>
+                </Link>
+
+                <Link href="/CHANNEL-NAME" className={cls.channelNameLink}>
+                  CHANNEL NAME
+                </Link>
+              </div>
+            </div>
+
+            <Link href={`/video/${videoId}`} className={cls.link} />
+          </div>
         ))
       ) : (
         <p>There are no videos</p>

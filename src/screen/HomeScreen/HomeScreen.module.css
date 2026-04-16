@@ -1,0 +1,76 @@
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding-bottom: 32px;
+}
+
+.videoBlock {
+  position: relative;
+  padding: 8px;
+
+  &:hover .link {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.videoPreview {
+  display: flex;
+  width: 100%;
+  aspect-ratio: 16/9;
+}
+
+.videoImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.videoInfoContainer {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.channelImg {
+  display: block;
+  position: relative;
+  width: 32px;
+  height: 32px;
+  background: gray;
+  border-radius: 50%;
+  z-index: 1;
+
+  &:hover {
+    background: #bbbbbb;
+  }
+}
+
+.hiddenText {
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+.videoInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.videoPreview,
+.videoTitleLink,
+.channelNameLink {
+  position: relative;
+  z-index: 1;
+}
+
+.link {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  inset: 0;
+  border-radius: 14px;
+  transition: 0.3s background-color ease;
+  z-index: 0;
+}
