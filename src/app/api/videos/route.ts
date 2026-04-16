@@ -1,3 +1,5 @@
+import { PostVideoRequest, PostVideoResponse } from "@/shared/types/api.types";
+
 type PostBody = {
   videoId: string;
 };
@@ -12,19 +14,20 @@ export async function GET() {
 }
 
 export async function POST(request: Request): Promise<Response> {
-  const { videoId }: PostBody = await request.json();
+  const body: PostVideoRequest = await request.json();
 
-  if (videosData.has(videoId)) {
-    return Response.json(
-      {
-        ok: false,
-        error: "The link to this video has already been added previously",
-      },
-      { status: 400 },
-    );
+  if (videosData.has(body.videoId)) {
+    const res: PostVideoResponse = {
+      ok: false,
+      error: "The link to this video has already been added previously",
+    };
+
+    return Response.json(res, { status: 400 });
   }
 
-  videosData.add(videoId);
+  videosData.add(body.videoId);
 
-  return Response.json({ ok: true });
+  const res: PostVideoResponse = { ok: true };
+
+  return Response.json(res);
 }
