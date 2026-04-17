@@ -1,4 +1,8 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { GetVideoByIdResponse } from "@/shared/types/api.types";
 import cls from "./VideoScreen.module.css";
 
 type VideoScreenProps = {
@@ -6,6 +10,42 @@ type VideoScreenProps = {
 };
 
 export const VideoScreen = ({ videoId }: VideoScreenProps) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [video, setVideo] = useState<GetVideoByIdResponse["data"] | null>(null);
+
+  const fetchVideos = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(`/api/video/${videoId}`);
+
+      if (!response.ok) {
+        throw new Error("No video data available");
+      }
+
+      const { data } = (await response.json()) as GetVideoByIdResponse;
+
+      if (data) {
+        setVideo(data);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchVideos();
+  }, [videoId]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!video) {
+    return null;
+  }
+
   return (
     <div className={cls.container}>
       <iframe
@@ -19,15 +59,21 @@ export const VideoScreen = ({ videoId }: VideoScreenProps) => {
         className={cls.iframe}
       />
 
-      <b>VIDEO TITLE</b>
+      <b>{video?.title}</b>
 
       <div className={cls.videoInfoContainer}>
-        <Link href="/CHANNEL-NAME" className={cls.channelAvatarLink}>
-          <div className={cls.hiddenText}>CHANNEL NAME</div>
+        <Link
+          href={`/profile/${video.authorUrl}`}
+          className={cls.channelAvatarLink}
+        >
+          <div className={cls.hiddenText}>{video.authorName}</div>
         </Link>
 
-        <Link href="/CHANNEL-NAME" className={cls.channelNameLink}>
-          CHANNEL NAME
+        <Link
+          href={`/profile/${video?.authorUrl}`}
+          className={cls.channelNameLink}
+        >
+          {video.authorName}
         </Link>
       </div>
     </div>

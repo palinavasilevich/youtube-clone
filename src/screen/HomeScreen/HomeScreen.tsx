@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import cls from "./HomeScreen.module.css";
-import { GetVideosResponse, Video } from "@/shared/types/api.types";
+import { GetVideosResponse } from "@/shared/types/api.types";
 
 export const HomeScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [videos, setVideos] = useState<Video[] | null>(null);
+  const [videos, setVideos] = useState<GetVideosResponse["data"] | null>(null);
 
   const fetchVideos = async () => {
     setIsLoading(true);
@@ -44,6 +44,8 @@ export const HomeScreen = () => {
             <Link href={`/video/${videoId}`} className={cls.videoPreview}>
               <Image
                 fill
+                priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
                 alt="YouTube video"
                 className={cls.videoImg}

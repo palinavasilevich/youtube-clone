@@ -1,53 +1,42 @@
-import { PostVideoRequest, PostVideoResponse } from "@/shared/types/api.types";
-
-type OEmbedVideoInfo = {
-  title: string;
-  author_name: string;
-  author_url: string;
-  type: string;
-  height: number;
-  width: number;
-  version: string;
-  provider_name: string;
-  provider_url: string;
-  thumbnail_height: number;
-  thumbnail_width: number;
-  thumbnail_url: string;
-  html: string;
-};
-
-const videoIds = new Set<string>([
-  "hXYHZVMHec0",
-  "3KZnAVWL5IQ",
-  "oHAmjGo7h58",
-  "At2gVjhf9Ac",
-]);
+import { videos } from "@/db/videos";
+import {
+  OEmbedVideoInfo,
+  PostVideoRequest,
+  PostVideoResponse,
+} from "@/shared/types/api.types";
 
 export async function GET() {
-  const videoPromises = [...videoIds].map(async (videoId) => {
-    const rawResponse = await fetch(
-      `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`,
-    );
+  try {
+    const videoPromises = [...videos].map(async (video) => {
+      const videoId = video[1].id;
+      const rawResponse = await fetch(
+        `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`,
+      );
 
-    const videoInfo = (await rawResponse.json()) as OEmbedVideoInfo;
+      const videoInfo = (await rawResponse.json()) as OEmbedVideoInfo;
+      const authorUrl = videoInfo.author_url.split("/").at(-1);
 
-    return {
-      videoId,
-      title: videoInfo.title,
-      authorName: videoInfo.author_name,
-      authorUrl: videoInfo.author_url,
-    };
-  });
+      return {
+        videoId,
+        title: videoInfo.title,
+        authorName: videoInfo.author_name,
+        authorUrl,
+      };
+    });
 
-  const result = await Promise.all(videoPromises);
+    const result = await Promise.all(videoPromises);
 
-  return Response.json({ ok: true, data: result });
+    return Response.json({ ok: true, data: result });
+  } catch (error) {
+    console.error(error);
+    return Response.json({ ok: false, data: [] }, { status: 500 });
+  }
 }
 
 export async function POST(request: Request): Promise<Response> {
-  const body: PostVideoRequest = await request.json();
+  const { videoId }: PostVideoRequest = await request.json();
 
-  if (videoIds.has(body.videoId)) {
+  if (videos.has(videoId)) {
     const res: PostVideoResponse = {
       ok: false,
       error: "The link to this video has already been added previously",
@@ -56,7 +45,7 @@ export async function POST(request: Request): Promise<Response> {
     return Response.json(res, { status: 400 });
   }
 
-  videoIds.add(body.videoId);
+  videos.set(videoId, { id: videoId });
 
   const res: PostVideoResponse = { ok: true };
 

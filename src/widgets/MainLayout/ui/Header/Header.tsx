@@ -13,6 +13,7 @@ export function Header({ profileId }: HeaderProps) {
     <header className={cls.header}>
       <Link href="/">
         <Image
+          priority
           width={93}
           height={24}
           src="/youtubeLogo.svg"
