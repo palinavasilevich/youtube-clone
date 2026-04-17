@@ -1,10 +1,11 @@
 type VideoData = {
   id: string;
+  categoryId: string;
 };
 
-export const videos = new Map<string, VideoData>([
-  ["hXYHZVMHec0", { id: "hXYHZVMHec0" }],
-  ["3KZnAVWL5IQ", { id: "3KZnAVWL5IQ" }],
-  ["oHAmjGo7h58", { id: "oHAmjGo7h58" }],
-  ["At2gVjhf9Ac", { id: "At2gVjhf9Ac" }],
+export const videosData = new Map<string, VideoData>([
+  ["hXYHZVMHec0", { id: "hXYHZVMHec0", categoryId: "science" }],
+  ["3KZnAVWL5IQ", { id: "3KZnAVWL5IQ", categoryId: "fun" }],
+  ["oHAmjGo7h58", { id: "oHAmjGo7h58", categoryId: "news" }],
+  ["At2gVjhf9Ac", { id: "At2gVjhf9Ac", categoryId: "games" }],
 ]);

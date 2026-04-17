@@ -5,58 +5,78 @@ import Link from "next/link";
 import Image from "next/image";
 import cls from "./HomeScreen.module.css";
 import { GetVideosResponse } from "@/shared/types/api.types";
+import { VideoCategoriesType } from "@/shared/constants/videoCategories";
 
 type HomeScreenProps = {
   data: GetVideosResponse["data"];
+  categories: VideoCategoriesType;
 };
 
-export const HomeScreen = ({ data: videos }: HomeScreenProps) => {
+export const HomeScreen = ({ data: videos, categories }: HomeScreenProps) => {
   const [isImageLoading, setImageLoading] = useState(true);
+
   return (
     <div className={cls.container}>
-      {videos && videos?.length > 0 ? (
-        videos.map(({ videoId, title, authorName, authorUrl }) => (
-          <div key={videoId} className={cls.videoBlock}>
-            <Link href={`/video/${videoId}`} className={cls.videoPreview}>
-              <Image
-                fill
-                priority
-                unoptimized
-                src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
-                alt="YouTube video"
-                onLoad={() => setImageLoading(false)}
-                className={`${cls.videoImg} ${isImageLoading ? cls.imgBlur : ""}`}
-              />
+      <div className={cls.categoriesContainer}>
+        {categories.length > 0 &&
+          categories.map((category) => (
+            <Link
+              key={category.id}
+              href={`/${category}`}
+              className={cls.categoryLink}
+            >
+              {category.title}
             </Link>
-
-            <div className={cls.videoInfoContainer}>
-              <Link
-                href={`/profile/${authorUrl}`}
-                className={cls.channelAvatarLink}
-              >
-                <div className={cls.hiddenText}>{authorName}</div>
+          ))}
+      </div>
+      <div className={cls.videoGrid}>
+        {videos.length > 0 ? (
+          videos.map(({ videoId, title, authorName, authorUrl }) => (
+            <div key={videoId} className={cls.videoBlock}>
+              <Link href={`/video/${videoId}`} className={cls.videoPreview}>
+                <Image
+                  fill
+                  priority
+                  unoptimized
+                  src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
+                  alt="YouTube video"
+                  onLoad={() => setImageLoading(false)}
+                  className={`${cls.videoImg} ${isImageLoading ? cls.imgBlur : ""}`}
+                />
               </Link>
 
-              <div className={cls.videoInfo}>
-                <Link href={`/video/${videoId}`} className={cls.videoTitleLink}>
-                  <b>{title}</b>
-                </Link>
-
+              <div className={cls.videoInfoContainer}>
                 <Link
                   href={`/profile/${authorUrl}`}
-                  className={cls.channelNameLink}
+                  className={cls.channelAvatarLink}
                 >
-                  {authorName}
+                  <div className={cls.hiddenText}>{authorName}</div>
                 </Link>
-              </div>
-            </div>
 
-            <Link href={`/video/${videoId}`} className={cls.link} />
-          </div>
-        ))
-      ) : (
-        <p>There are no videos</p>
-      )}
+                <div className={cls.videoInfo}>
+                  <Link
+                    href={`/video/${videoId}`}
+                    className={cls.videoTitleLink}
+                  >
+                    <b>{title}</b>
+                  </Link>
+
+                  <Link
+                    href={`/profile/${authorUrl}`}
+                    className={cls.channelNameLink}
+                  >
+                    {authorName}
+                  </Link>
+                </div>
+              </div>
+
+              <Link href={`/video/${videoId}`} className={cls.link} />
+            </div>
+          ))
+        ) : (
+          <p>There are no videos</p>
+        )}
+      </div>
     </div>
   );
 };

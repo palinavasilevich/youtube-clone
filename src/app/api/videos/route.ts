@@ -1,4 +1,4 @@
-import { videos } from "@/db/videos";
+import { videosData } from "@/db/videos";
 import {
   OEmbedVideoInfo,
   PostVideoRequest,
@@ -7,8 +7,14 @@ import {
 
 export async function GET() {
   try {
-    const videoPromises = [...videos].map(async (video) => {
+    const categories = Array.from(
+      new Set([...videosData].map((data) => data[1].categoryId)),
+    );
+
+    const videoPromises = [...videosData].map(async (video) => {
       const videoId = video[1].id;
+      const categoryId = video[1].categoryId;
+
       const rawResponse = await fetch(
         `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`,
       );
@@ -18,6 +24,7 @@ export async function GET() {
 
       return {
         videoId,
+        categoryId,
         title: videoInfo.title,
         authorName: videoInfo.author_name,
         authorUrl,
@@ -26,7 +33,7 @@ export async function GET() {
 
     const result = await Promise.all(videoPromises);
 
-    return Response.json({ ok: true, data: result });
+    return Response.json({ ok: true, data: result, categories });
   } catch (error) {
     console.error(error);
     return Response.json({ ok: false, data: [] }, { status: 500 });
@@ -34,9 +41,9 @@ export async function GET() {
 }
 
 export async function POST(request: Request): Promise<Response> {
-  const { videoId }: PostVideoRequest = await request.json();
+  const { videoId, categoryId }: PostVideoRequest = await request.json();
 
-  if (videos.has(videoId)) {
+  if (videosData.has(videoId)) {
     const res: PostVideoResponse = {
       ok: false,
       error: "The link to this video has already been added previously",
@@ -45,7 +52,7 @@ export async function POST(request: Request): Promise<Response> {
     return Response.json(res, { status: 400 });
   }
 
-  videos.set(videoId, { id: videoId });
+  videosData.set(videoId, { id: videoId, categoryId });
 
   const res: PostVideoResponse = { ok: true };
 

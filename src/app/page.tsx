@@ -9,8 +9,9 @@ export default async function Home() {
       throw new Error(`Response status: ${response.status}`);
     }
 
-    const { data } = (await response.json()) as GetVideosResponse;
-    return <HomeScreen data={data} />;
+    const { data, categories } = (await response.json()) as GetVideosResponse;
+
+    return <HomeScreen data={data} categories={categories} />;
   } catch (error) {
     console.error(error);
     return <div>Something went wrong...</div>;

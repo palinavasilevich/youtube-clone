@@ -6,6 +6,7 @@ import { isAllowedHost, parseYouTube, YOUTUBE_DOMAINS } from "@/shared/libs";
 
 type Inputs = {
   videoUrl: string;
+  videoCategory: string;
 };
 
 const schema = z.object({
@@ -34,6 +35,8 @@ const schema = z.object({
         });
       }
     }),
+
+  videoCategory: z.string(),
 });
 
 export function useAddVideoForm() {
@@ -67,7 +70,7 @@ export function useAddVideoForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ videoId }),
+        body: JSON.stringify({ videoId, categoryId: data.videoCategory }),
       });
 
       let result = null;

@@ -1,5 +1,6 @@
 "use client";
 
+import { VIDEO_CATEGORIES } from "@/shared/constants/videoCategories";
 import { useAddVideoForm } from "../../lib/useAddVideoForm";
 import cls from "./AddVideoScreen.module.css";
 
@@ -8,10 +9,28 @@ export const AddVideoScreen = () => {
     useAddVideoForm();
 
   const hasVideoUrlError = !!errors.videoUrl?.message;
+  const hasVideoCategoryError = !!errors.videoCategory?.message;
 
   return (
     <div className={cls.container}>
       <form onSubmit={onSubmit} className={cls.form}>
+        <label htmlFor="videoCategory" className={cls.label}>
+          <select
+            id="videoCategory"
+            className={`${cls.select} ${hasVideoUrlError ? cls.errorInput : ""}`}
+            {...register("videoCategory")}
+          >
+            {VIDEO_CATEGORIES.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.title}
+              </option>
+            ))}
+          </select>
+          {hasVideoCategoryError && (
+            <p className={cls.errorMessage}>{errors.videoCategory?.message}</p>
+          )}
+        </label>
+
         <label htmlFor="videoUrl" className={cls.label}>
           <input
             id="videoUrl"
@@ -23,15 +42,13 @@ export const AddVideoScreen = () => {
           {hasVideoUrlError && (
             <p className={cls.errorMessage}>{errors.videoUrl?.message}</p>
           )}
-
-          {errorMessage && <p className={cls.errorMessage}>{errorMessage}</p>}
         </label>
 
         <button type="submit" className={cls.submitButton} disabled={isLoading}>
           {isLoading ? "Adding..." : "Add Video"}
         </button>
       </form>
-
+      {errorMessage && <p className={cls.errorMessage}>{errorMessage}</p>}
       {videoId && (
         <iframe
           width="700"
