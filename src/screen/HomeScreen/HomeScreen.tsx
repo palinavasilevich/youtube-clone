@@ -1,41 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import cls from "./HomeScreen.module.css";
 import { GetVideosResponse } from "@/shared/types/api.types";
 
-export const HomeScreen = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [videos, setVideos] = useState<GetVideosResponse["data"] | null>(null);
+type HomeScreenProps = {
+  data: GetVideosResponse["data"];
+};
 
-  const fetchVideos = async () => {
-    setIsLoading(true);
-    try {
-      const response = await fetch("/api/videos");
-
-      if (!response.ok) {
-        throw new Error("");
-      }
-
-      const { data } = (await response.json()) as GetVideosResponse;
-      setVideos(data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchVideos();
-  }, []);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
+export const HomeScreen = ({ data: videos }: HomeScreenProps) => {
+  const [isImageLoading, setImageLoading] = useState(true);
   return (
     <div className={cls.container}>
       {videos && videos?.length > 0 ? (
@@ -45,10 +21,11 @@ export const HomeScreen = () => {
               <Image
                 fill
                 priority
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                unoptimized
                 src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
                 alt="YouTube video"
-                className={cls.videoImg}
+                onLoad={() => setImageLoading(false)}
+                className={`${cls.videoImg} ${isImageLoading ? cls.imgBlur : ""}`}
               />
             </Link>
 

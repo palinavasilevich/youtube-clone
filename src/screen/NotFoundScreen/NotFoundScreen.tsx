@@ -20,6 +20,7 @@ export const NotFoundScreen = () => {
 
       <Link href="/" className={cls.link}>
         <Image
+          priority
           width="145"
           height="30"
           src="/youtubeLogo.svg"
