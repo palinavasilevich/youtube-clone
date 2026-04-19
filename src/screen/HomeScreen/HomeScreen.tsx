@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import cls from "./HomeScreen.module.css";
+
+import { useSearchParams } from "next/navigation";
 import { GetVideosResponse } from "@/shared/types/api.types";
 import { VideoCategoriesType } from "@/shared/constants/videoCategories";
+import { VideoThumbnail } from "@/shared/components";
+import cls from "./HomeScreen.module.css";
 
 type HomeScreenProps = {
   data: GetVideosResponse["data"];
@@ -13,7 +14,11 @@ type HomeScreenProps = {
 };
 
 export const HomeScreen = ({ data: videos, categories }: HomeScreenProps) => {
-  const [isImageLoading, setImageLoading] = useState(true);
+  const searchParams = useSearchParams();
+  const activeCategory = searchParams.get("category");
+  const filteredVideos = activeCategory
+    ? videos.filter((v) => v.categoryId === activeCategory)
+    : videos;
 
   return (
     <div className={cls.container}>
@@ -22,7 +27,7 @@ export const HomeScreen = ({ data: videos, categories }: HomeScreenProps) => {
           categories.map((category) => (
             <Link
               key={category.id}
-              href={`/${category.id}`}
+              href={`/?category=${category.id}`}
               className={cls.categoryLink}
             >
               {category.title}
@@ -30,19 +35,11 @@ export const HomeScreen = ({ data: videos, categories }: HomeScreenProps) => {
           ))}
       </div>
       <div className={cls.videoGrid}>
-        {videos.length > 0 ? (
-          videos.map(({ videoId, title, authorName, authorUrl }) => (
+        {filteredVideos.length > 0 ? (
+          filteredVideos.map(({ videoId, title, authorName, authorUrl }) => (
             <div key={videoId} className={cls.videoBlock}>
               <Link href={`/video/${videoId}`} className={cls.videoPreview}>
-                <Image
-                  fill
-                  priority
-                  unoptimized
-                  src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
-                  alt="YouTube video"
-                  onLoad={() => setImageLoading(false)}
-                  className={`${cls.videoImg} ${isImageLoading ? cls.imgBlur : ""}`}
-                />
+                <VideoThumbnail videoId={videoId} />
               </Link>
 
               <div className={cls.videoInfoContainer}>
@@ -74,7 +71,7 @@ export const HomeScreen = ({ data: videos, categories }: HomeScreenProps) => {
             </div>
           ))
         ) : (
-          <p>There are no videos</p>
+          <p>No videos found</p>
         )}
       </div>
     </div>

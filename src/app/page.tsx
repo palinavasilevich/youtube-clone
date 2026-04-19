@@ -4,7 +4,7 @@ import { GetVideosResponse } from "@/shared/types/api.types";
 
 export default async function Home() {
   try {
-    const response = await fetch(`${process.env.SERVER_ARI_URL}/api/videos`);
+    const response = await fetch(`${process.env.SERVER_API_URL}/api/videos`);
 
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);

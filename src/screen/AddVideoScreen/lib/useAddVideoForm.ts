@@ -3,6 +3,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { isAllowedHost, parseYouTube, YOUTUBE_DOMAINS } from "@/shared/libs";
+import { VIDEO_CATEGORIES } from "@/shared/constants/videoCategories";
+
+const validCategoryIds = VIDEO_CATEGORIES.map((c) => c.id);
 
 type Inputs = {
   videoUrl: string;
@@ -36,7 +39,11 @@ const schema = z.object({
       }
     }),
 
-  videoCategory: z.string(),
+  videoCategory: z
+    .string()
+    .refine((val) => validCategoryIds.includes(val), {
+      message: "Invalid category",
+    }),
 });
 
 export function useAddVideoForm() {

@@ -1,11 +1,19 @@
-import { OEmbedVideoInfo } from "@/shared/types/api.types";
 import { NextRequest, NextResponse } from "next/server";
+
+import { videosData } from "@/db/videos";
+import { OEmbedVideoInfo } from "@/shared/types/api.types";
 
 export async function GET(
   _req: NextRequest,
   ctx: RouteContext<"/api/video/[videoId]">,
 ) {
   const { videoId } = await ctx.params;
+
+  if (!videosData.has(videoId)) {
+    return NextResponse.json({ ok: false, data: null }, { status: 404 });
+  }
+
+  const categoryId = videosData.get(videoId)!.categoryId;
 
   try {
     const response = await fetch(
@@ -17,6 +25,7 @@ export async function GET(
 
     const result = {
       videoId,
+      categoryId,
       authorUrl,
       title: videoInfo.title,
       authorName: videoInfo.author_name,

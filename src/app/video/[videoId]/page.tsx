@@ -15,7 +15,7 @@ export default async function VideoPage({ params }: VideoPageProps) {
 
   try {
     const response = await fetch(
-      `${process.env.SERVER_ARI_URL}/api/video/${videoId}`,
+      `${process.env.SERVER_API_URL}/api/video/${videoId}`,
     );
 
     if (!response.ok) {

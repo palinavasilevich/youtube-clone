@@ -17,7 +17,7 @@ export const AddVideoScreen = () => {
         <label htmlFor="videoCategory" className={cls.label}>
           <select
             id="videoCategory"
-            className={`${cls.select} ${hasVideoUrlError ? cls.errorInput : ""}`}
+            className={`${cls.select} ${hasVideoCategoryError ? cls.errorInput : ""}`}
             {...register("videoCategory")}
           >
             {VIDEO_CATEGORIES.map((category) => (

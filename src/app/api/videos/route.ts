@@ -12,7 +12,7 @@ export async function GET() {
     );
 
     const videoPromises = [...videosData].map(async (video) => {
-      const videoId = video[1].id;
+      const videoId = video[0];
       const categoryId = video[1].categoryId;
 
       const rawResponse = await fetch(
@@ -52,7 +52,7 @@ export async function POST(request: Request): Promise<Response> {
     return Response.json(res, { status: 400 });
   }
 
-  videosData.set(videoId, { id: videoId, categoryId });
+  videosData.set(videoId, { categoryId });
 
   const res: PostVideoResponse = { ok: true };
 
