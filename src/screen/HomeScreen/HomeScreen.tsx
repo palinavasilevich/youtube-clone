@@ -22,7 +22,7 @@ export const HomeScreen = ({ data: videos, categories }: HomeScreenProps) => {
           categories.map((category) => (
             <Link
               key={category.id}
-              href={`/${category}`}
+              href={`/${category.id}`}
               className={cls.categoryLink}
             >
               {category.title}

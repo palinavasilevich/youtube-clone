@@ -1,4 +1,5 @@
 import { HomeScreen } from "@/screen/HomeScreen";
+import { VIDEO_CATEGORIES } from "@/shared/constants/videoCategories";
 import { GetVideosResponse } from "@/shared/types/api.types";
 
 export default async function Home() {
@@ -11,7 +12,11 @@ export default async function Home() {
 
     const { data, categories } = (await response.json()) as GetVideosResponse;
 
-    return <HomeScreen data={data} categories={categories} />;
+    const filteredCategories = VIDEO_CATEGORIES.filter(({ id }) =>
+      categories.includes(id),
+    );
+
+    return <HomeScreen data={data} categories={filteredCategories} />;
   } catch (error) {
     console.error(error);
     return <div>Something went wrong...</div>;

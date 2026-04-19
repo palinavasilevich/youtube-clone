@@ -1,5 +1,3 @@
-import { VideoCategoriesType } from "../constants/videoCategories";
-
 export type OEmbedVideoInfo = {
   title: string;
   author_name: string;
@@ -32,7 +30,7 @@ export type GetVideoByIdResponse = {
 export type GetVideosResponse = {
   ok: boolean;
   data: Video[];
-  categories: VideoCategoriesType;
+  categories: string[];
 };
 
 export type PostVideoRequest = {
