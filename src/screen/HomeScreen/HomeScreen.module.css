@@ -17,6 +17,12 @@
   }
 }
 
+.activeCategoryLink {
+  background-color: white;
+  color: black;
+  pointer-events: none;
+}
+
 .videoGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

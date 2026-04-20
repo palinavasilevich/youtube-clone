@@ -5,31 +5,38 @@ import {
   PostVideoResponse,
 } from "@/shared/types/api.types";
 
-export async function GET() {
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const categoryIdParam = searchParams.get("categoryId");
+
   try {
     const categories = Array.from(
       new Set([...videosData].map((data) => data[1].categoryId)),
     );
 
-    const videoPromises = [...videosData].map(async (video) => {
-      const videoId = video[0];
-      const categoryId = video[1].categoryId;
+    const videoPromises = [...videosData]
+      .filter((data) =>
+        categoryIdParam ? data[1].categoryId === categoryIdParam : true,
+      )
+      .map(async (video) => {
+        const videoId = video[0];
+        const categoryId = video[1].categoryId;
 
-      const rawResponse = await fetch(
-        `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`,
-      );
+        const rawResponse = await fetch(
+          `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`,
+        );
 
-      const videoInfo = (await rawResponse.json()) as OEmbedVideoInfo;
-      const authorUrl = videoInfo.author_url.split("/").at(-1);
+        const videoInfo = (await rawResponse.json()) as OEmbedVideoInfo;
+        const authorUrl = videoInfo.author_url.split("/").at(-1);
 
-      return {
-        videoId,
-        categoryId,
-        title: videoInfo.title,
-        authorName: videoInfo.author_name,
-        authorUrl,
-      };
-    });
+        return {
+          videoId,
+          categoryId,
+          title: videoInfo.title,
+          authorName: videoInfo.author_name,
+          authorUrl,
+        };
+      });
 
     const result = await Promise.all(videoPromises);
 
