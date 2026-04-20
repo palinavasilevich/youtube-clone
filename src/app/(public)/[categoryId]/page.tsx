@@ -1,7 +1,9 @@
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+
 import { HomeScreen } from "@/screen/HomeScreen";
 import { VIDEO_CATEGORIES } from "@/shared/constants/videoCategories";
 import { GetVideosResponse } from "@/shared/types/api.types";
-import { Metadata } from "next";
 
 type CategoryPageProps = {
   params: Promise<{ categoryId: string }>;
@@ -17,7 +19,7 @@ export async function generateMetadata({
   );
 
   if (!foundCategory) {
-    return { title: "Video in unknown category" };
+    return { title: "Category not found" };
   }
 
   return {
@@ -27,6 +29,14 @@ export async function generateMetadata({
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { categoryId } = await params;
+
+  const foundCategory = VIDEO_CATEGORIES.find(
+    (category) => category.id === categoryId,
+  );
+
+  if (!foundCategory) {
+    return notFound();
+  }
 
   try {
     const response = await fetch(
