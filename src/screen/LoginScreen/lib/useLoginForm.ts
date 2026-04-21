@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { PostUserLoginResponse } from "@/app/api/users/login/route";
 
 type Inputs = {
   login: string;
@@ -14,6 +16,8 @@ const schema = z.object({
 });
 
 export function useLoginForm() {
+  const router = useRouter();
+
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -34,18 +38,21 @@ export function useLoginForm() {
     try {
       const response = await fetch("/api/users/login", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           login,
           password,
         }),
       });
 
-      const result = await response.json();
+      const result = (await response.json()) as PostUserLoginResponse;
 
-      if (!response.ok) {
-        setErrorMessage(result?.error || "Something went wrong");
+      if (!result.ok) {
+        setErrorMessage(result.message || "Something went wrong");
         return;
       }
+
+      router.replace("/");
     } catch (error) {
       console.error(error);
       setErrorMessage("Network error. Please try again.");

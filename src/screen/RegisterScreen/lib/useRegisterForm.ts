@@ -1,8 +1,8 @@
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useRouter } from "next/navigation";
 
 type Inputs = {
   login: string;
@@ -42,8 +42,9 @@ export function useRegisterForm() {
     const { login, password } = data;
 
     try {
-      const response = await fetch("/api/users", {
+      const response = await fetch("/api/users/register", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           login,
           password,
@@ -53,7 +54,7 @@ export function useRegisterForm() {
       const result = await response.json();
 
       if (!response.ok) {
-        setErrorMessage(result?.error || "Something went wrong");
+        setErrorMessage(result?.message || "Something went wrong");
         return;
       }
 

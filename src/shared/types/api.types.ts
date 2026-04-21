@@ -32,3 +32,8 @@ export type GetVideosResponse = {
   data: Video[];
   categories: string[];
 };
+
+export type AuthUser = {
+  id: string;
+  login: string;
+};
