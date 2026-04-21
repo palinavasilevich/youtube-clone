@@ -1,11 +1,13 @@
+import { z } from "zod";
+
 import { videos } from "@/app/api/db/videos";
 import { OEmbedVideoInfo } from "@/shared/types/api.types";
 
-type PostVideoRequest = {
-  userId: string;
-  videoId: string;
-  categoryId: string;
-};
+const postVideoSchema = z.object({
+  userId: z.string().min(1),
+  videoId: z.string().min(1),
+  categoryId: z.string().min(1),
+});
 
 type PostVideoResponse = { ok: true } | { ok: false; message: string };
 
@@ -28,23 +30,33 @@ export async function GET(request: Request) {
         const videoId = video[0];
         const categoryId = video[1].categoryId;
 
-        const rawResponse = await fetch(
-          `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`,
-        );
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 5000);
 
-        const videoInfo = (await rawResponse.json()) as OEmbedVideoInfo;
-        const authorUrl = videoInfo.author_url.split("/").at(-1);
+        try {
+          const rawResponse = await fetch(
+            `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`,
+            { signal: controller.signal },
+          );
 
-        return {
-          videoId,
-          categoryId,
-          title: videoInfo.title,
-          authorName: videoInfo.author_name,
-          authorUrl,
-        };
+          const videoInfo = (await rawResponse.json()) as OEmbedVideoInfo;
+          const authorUrl = videoInfo.author_url.split("/").at(-1);
+
+          return {
+            videoId,
+            categoryId,
+            title: videoInfo.title,
+            authorName: videoInfo.author_name,
+            authorUrl,
+          };
+        } finally {
+          clearTimeout(timeout);
+        }
       });
 
-    const result = await Promise.all(videoPromises);
+    const result = (await Promise.allSettled(videoPromises)).flatMap((r) =>
+      r.status === "fulfilled" ? [r.value] : [],
+    );
 
     return Response.json({ ok: true, data: result, categories });
   } catch (error) {
@@ -54,8 +66,18 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request): Promise<Response> {
-  const { videoId, userId, categoryId }: PostVideoRequest =
-    await request.json();
+  const parsed = postVideoSchema.safeParse(await request.json());
+
+  if (!parsed.success) {
+    const res: PostVideoResponse = {
+      ok: false,
+      message: parsed.error.issues[0]?.message ?? "Invalid request body",
+    };
+
+    return Response.json(res, { status: 400 });
+  }
+
+  const { videoId, userId, categoryId } = parsed.data;
 
   if (videos.has(videoId)) {
     const res: PostVideoResponse = {
