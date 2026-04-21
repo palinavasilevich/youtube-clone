@@ -11,7 +11,8 @@
   gap: 8px;
 }
 
-.createVideoLink {
+.createVideoLink,
+.loginLink {
   width: 111px;
   height: 35px;
   display: flex;

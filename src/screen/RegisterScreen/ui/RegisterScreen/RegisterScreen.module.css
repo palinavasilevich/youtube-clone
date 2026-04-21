@@ -1,0 +1,71 @@
+.container {
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.label {
+  text-align: center;
+}
+
+.input {
+  width: 500px;
+  height: 40px;
+  background: transparent;
+  padding: 8px 12px;
+  border: 1px solid #8c8c8c;
+  border-radius: 12px;
+  color: white;
+
+  &::placeholder {
+    color: #b9b9b9;
+  }
+}
+
+.errorInput {
+  border-color: #ee1111;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.createAccountLink {
+  text-decoration: underline;
+  transition: color 0.2s ease-in;
+
+  &:hover {
+    color: rgba(89, 30, 185, 0.7);
+  }
+}
+
+.submitButton {
+  background: transparent;
+  padding: 8px 12px;
+  border: 1px solid #8c8c8c;
+  border-radius: 12px;
+  color: white;
+  transition: background 0.2s ease-in;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+}
+
+.errorMessage {
+  margin-left: 10px;
+  margin-top: 3px;
+  color: #ee1111;
+}

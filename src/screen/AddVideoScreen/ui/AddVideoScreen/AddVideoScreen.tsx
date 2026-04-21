@@ -1,9 +1,9 @@
 "use client";
 
 import { VIDEO_CATEGORIES } from "@/shared/constants/videoCategories";
-import { useAddVideoForm } from "../../lib/useAddVideoForm";
-import cls from "./AddVideoScreen.module.css";
+import { useAddVideoForm } from "@/screen/AddVideoScreen/lib/useAddVideoForm";
 import { cn } from "@/shared/lib/css";
+import cls from "./AddVideoScreen.module.css";
 
 export const AddVideoScreen = () => {
   const { videoId, isLoading, errors, errorMessage, register, onSubmit } =

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import cls from "./Header.module.css";
 
-import { Plus } from "lucide-react";
+import { Plus, UserCircle } from "lucide-react";
 
 type HeaderProps = {
   profileId: string;
@@ -22,13 +22,17 @@ export function Header({ profileId }: HeaderProps) {
       </Link>
 
       <div className={cls.links}>
-        <Link href={`/editor/addVideo`} className={cls.createVideoLink}>
+        <Link href={`/auth/login`} className={cls.loginLink}>
+          <UserCircle width={24} height={24} /> Sign in
+        </Link>
+
+        {/* <Link href={`/editor/addVideo`} className={cls.createVideoLink}>
           <Plus width={24} height={24} /> Create
         </Link>
 
         <Link href={`/profile/${profileId}`} className={cls.profileLink}>
           <span className={cls.hiddenText}>Profile</span>
-        </Link>
+        </Link> */}
       </div>
     </header>
   );
