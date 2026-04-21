@@ -44,9 +44,6 @@ export function LoginScreen() {
         </label>
 
         <div className={cls.actions}>
-          <Link href={`/auth/register`} className={cls.createAccountLink}>
-            Create account
-          </Link>
           <button
             type="submit"
             className={cls.submitButton}
@@ -54,6 +51,12 @@ export function LoginScreen() {
           >
             Sign in
           </button>
+          <span>
+            Don&apos;t have an account yet?{" "}
+            <Link href={`/auth/register`} className={cls.createAccountLink}>
+              Sign up
+            </Link>
+          </span>
         </div>
       </form>
       {errorMessage && <p className={cls.errorMessage}>{errorMessage}</p>}

@@ -11,6 +11,7 @@ export function RegisterScreen() {
 
   const hasLoginError = !!errors.login?.message;
   const hasPasswordError = !!errors.password?.message;
+  const hasConfirmPasswordError = !!errors.confirmPassword?.message;
 
   return (
     <div className={cls.container}>
@@ -43,17 +44,37 @@ export function RegisterScreen() {
           )}
         </label>
 
+        <label htmlFor="confirmPassword" className={cls.label}>
+          <input
+            id="confirmPassword"
+            type="password"
+            placeholder="Confirm your password"
+            className={cn(cls.input, hasPasswordError && cls.errorInput)}
+            {...register("confirmPassword")}
+          />
+
+          {hasConfirmPasswordError && (
+            <p className={cls.errorMessage}>
+              {errors.confirmPassword?.message}
+            </p>
+          )}
+        </label>
+
         <div className={cls.actions}>
-          <Link href={`/auth/login`} className={cls.createAccountLink}>
-            Sign in
-          </Link>
           <button
             type="submit"
             className={cls.submitButton}
             disabled={isLoading}
           >
-            Create account
+            Sign Up
           </button>
+
+          <span>
+            Do you already have an account?{" "}
+            <Link href={`/auth/login`} className={cls.createAccountLink}>
+              Sign in
+            </Link>
+          </span>
         </div>
       </form>
       {errorMessage && <p className={cls.errorMessage}>{errorMessage}</p>}

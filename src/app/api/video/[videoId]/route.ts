@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { videosData } from "@/db/videos";
+import { videosData } from "@/app/api/db/videos";
 import { OEmbedVideoInfo } from "@/shared/types/api.types";
 
 export async function GET(

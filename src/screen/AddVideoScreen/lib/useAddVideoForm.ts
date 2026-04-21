@@ -93,7 +93,7 @@ export function useAddVideoForm() {
 
       if (!response.ok) {
         setVideoId("");
-        setErrorMessage(result?.error || "Something went wrong");
+        setErrorMessage(result?.message || "Something went wrong");
         return;
       }
 

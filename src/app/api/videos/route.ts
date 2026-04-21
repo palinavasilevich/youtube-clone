@@ -1,9 +1,13 @@
-import { videosData } from "@/db/videos";
-import {
-  OEmbedVideoInfo,
-  PostVideoRequest,
-  PostVideoResponse,
-} from "@/shared/types/api.types";
+import { videos } from "@/app/api/db/videos";
+import { OEmbedVideoInfo } from "@/shared/types/api.types";
+
+type PostVideoRequest = {
+  userId: string;
+  videoId: string;
+  categoryId: string;
+};
+
+type PostVideoResponse = { ok: true } | { ok: false; message: string };
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -12,10 +16,10 @@ export async function GET(request: Request) {
 
   try {
     const categories = Array.from(
-      new Set([...videosData].map((data) => data[1].categoryId)),
+      new Set([...videos].map((data) => data[1].categoryId)),
     );
 
-    const videoPromises = [...videosData]
+    const videoPromises = [...videos]
       .filter((data) => (userIdParam ? data[1].userId === userIdParam : true))
       .filter((data) =>
         categoryIdParam ? data[1].categoryId === categoryIdParam : true,
@@ -53,16 +57,16 @@ export async function POST(request: Request): Promise<Response> {
   const { videoId, userId, categoryId }: PostVideoRequest =
     await request.json();
 
-  if (videosData.has(videoId)) {
+  if (videos.has(videoId)) {
     const res: PostVideoResponse = {
       ok: false,
-      error: "The link to this video has already been added previously",
+      message: "The link to this video has already been added previously",
     };
 
     return Response.json(res, { status: 400 });
   }
 
-  videosData.set(videoId, { userId, categoryId });
+  videos.set(videoId, { id: videoId, userId, categoryId });
 
   const res: PostVideoResponse = { ok: true };
 

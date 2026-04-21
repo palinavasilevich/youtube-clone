@@ -32,11 +32,3 @@ export type GetVideosResponse = {
   data: Video[];
   categories: string[];
 };
-
-export type PostVideoRequest = {
-  userId: string;
-  videoId: string;
-  categoryId: string;
-};
-
-export type PostVideoResponse = { ok: true } | { ok: false; error: string };

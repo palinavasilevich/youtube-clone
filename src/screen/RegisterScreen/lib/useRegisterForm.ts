@@ -2,18 +2,28 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 
 type Inputs = {
   login: string;
   password: string;
+  confirmPassword: string;
 };
 
-const schema = z.object({
-  login: z.string().min(1, { message: "This field is required" }),
-  password: z.string().min(1, { message: "This field is required" }),
-});
+const schema = z
+  .object({
+    login: z.string().min(1, { message: "This field is required" }),
+    password: z.string().min(1, { message: "This field is required" }),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "The passwords do not match",
+  });
 
 export function useRegisterForm() {
+  const router = useRouter();
+
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -32,7 +42,7 @@ export function useRegisterForm() {
     const { login, password } = data;
 
     try {
-      const response = await fetch("/api/users/login", {
+      const response = await fetch("/api/users", {
         method: "POST",
         body: JSON.stringify({
           login,
@@ -46,6 +56,8 @@ export function useRegisterForm() {
         setErrorMessage(result?.error || "Something went wrong");
         return;
       }
+
+      router.replace("/");
     } catch (error) {
       console.error(error);
       setErrorMessage("Network error. Please try again.");
