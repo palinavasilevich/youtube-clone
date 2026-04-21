@@ -34,6 +34,7 @@ export type GetVideosResponse = {
 };
 
 export type PostVideoRequest = {
+  userId: string;
   videoId: string;
   categoryId: string;
 };

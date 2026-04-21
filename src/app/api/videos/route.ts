@@ -7,6 +7,7 @@ import {
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
+  const userIdParam = searchParams.get("userId");
   const categoryIdParam = searchParams.get("categoryId");
 
   try {
@@ -15,6 +16,7 @@ export async function GET(request: Request) {
     );
 
     const videoPromises = [...videosData]
+      .filter((data) => (userIdParam ? data[1].userId === userIdParam : true))
       .filter((data) =>
         categoryIdParam ? data[1].categoryId === categoryIdParam : true,
       )
@@ -48,7 +50,8 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request): Promise<Response> {
-  const { videoId, categoryId }: PostVideoRequest = await request.json();
+  const { videoId, userId, categoryId }: PostVideoRequest =
+    await request.json();
 
   if (videosData.has(videoId)) {
     const res: PostVideoResponse = {
@@ -59,7 +62,7 @@ export async function POST(request: Request): Promise<Response> {
     return Response.json(res, { status: 400 });
   }
 
-  videosData.set(videoId, { categoryId });
+  videosData.set(videoId, { userId, categoryId });
 
   const res: PostVideoResponse = { ok: true };
 

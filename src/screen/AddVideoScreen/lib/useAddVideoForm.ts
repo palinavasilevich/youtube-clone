@@ -75,7 +75,11 @@ export function useAddVideoForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ videoId, categoryId: data.videoCategory }),
+        body: JSON.stringify({
+          userId: "USER_ID",
+          videoId,
+          categoryId: data.videoCategory,
+        }),
       });
 
       let result = null;

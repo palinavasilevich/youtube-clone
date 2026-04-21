@@ -1,14 +1,13 @@
 "use client";
 
 import Link from "next/link";
-
-import { useSearchParams } from "next/navigation";
 import { GetVideosResponse } from "@/shared/types/api.types";
 import {
   DEFAULT_CATEGORY,
   VideoCategoriesType,
 } from "@/shared/constants/videoCategories";
-import { VideoThumbnail } from "@/shared/components";
+import { VideoList } from "@/widgets/VideoList";
+
 import cls from "./HomeScreen.module.css";
 import { cn } from "@/shared/lib/css";
 
@@ -19,7 +18,7 @@ type HomeScreenProps = {
 };
 
 export const HomeScreen = ({
-  data: videos,
+  data,
   categories,
   activeCategoryId,
 }: HomeScreenProps) => {
@@ -46,46 +45,7 @@ export const HomeScreen = ({
           </>
         )}
       </div>
-      <div className={cls.videoGrid}>
-        {videos.length > 0 ? (
-          videos.map(({ videoId, title, authorName, authorUrl }) => (
-            <div key={videoId} className={cls.videoBlock}>
-              <Link href={`/video/${videoId}`} className={cls.videoPreview}>
-                <VideoThumbnail videoId={videoId} />
-              </Link>
-
-              <div className={cls.videoInfoContainer}>
-                <Link
-                  href={`/profile/${authorUrl}`}
-                  className={cls.channelAvatarLink}
-                >
-                  <div className={cls.hiddenText}>{authorName}</div>
-                </Link>
-
-                <div className={cls.videoInfo}>
-                  <Link
-                    href={`/video/${videoId}`}
-                    className={cls.videoTitleLink}
-                  >
-                    <b>{title}</b>
-                  </Link>
-
-                  <Link
-                    href={`/profile/${authorUrl}`}
-                    className={cls.channelNameLink}
-                  >
-                    {authorName}
-                  </Link>
-                </div>
-              </div>
-
-              <Link href={`/video/${videoId}`} className={cls.link} />
-            </div>
-          ))
-        ) : (
-          <p>No videos found</p>
-        )}
-      </div>
+      <VideoList videos={data} />
     </div>
   );
 };

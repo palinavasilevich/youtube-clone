@@ -20,7 +20,7 @@ const NAV_ITEMS: NavItem[] = [
     withDivider: true,
   },
   { label: "Add Video", href: "/editor/addVideo", icon: PlusCircle },
-  { label: "Your videos", href: "/videos", icon: SquarePlay },
+  { label: "Your videos", href: "/myVideos", icon: SquarePlay },
 ];
 
 export function Sidebar() {
