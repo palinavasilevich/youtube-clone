@@ -52,6 +52,7 @@ export function useAddVideoForm() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<Inputs>({
     resolver: zodResolver(schema),
@@ -97,6 +98,7 @@ export function useAddVideoForm() {
       }
 
       setVideoId(videoId);
+      reset();
     } catch (error) {
       console.error(error);
       setErrorMessage("Network error. Please try again.");

@@ -27,7 +27,13 @@ export const HomeScreen = ({
       <div className={cls.categoriesContainer}>
         {categories && categories.length > 0 && (
           <>
-            <Link href={`/`} className={cn(cls.categoryLink)}>
+            <Link
+              href={`/`}
+              className={cn(
+                cls.categoryLink,
+                !activeCategoryId && cls.activeCategoryLink,
+              )}
+            >
               {DEFAULT_CATEGORY.title}
             </Link>
             {categories.map((category) => (

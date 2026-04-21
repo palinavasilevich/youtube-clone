@@ -3,6 +3,7 @@
 }
 
 .categoriesContainer {
+  margin-bottom: 24px;
   display: flex;
   gap: 8px;
 }

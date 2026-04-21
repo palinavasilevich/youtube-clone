@@ -3,6 +3,7 @@
 import { VIDEO_CATEGORIES } from "@/shared/constants/videoCategories";
 import { useAddVideoForm } from "../../lib/useAddVideoForm";
 import cls from "./AddVideoScreen.module.css";
+import { cn } from "@/shared/lib/css";
 
 export const AddVideoScreen = () => {
   const { videoId, isLoading, errors, errorMessage, register, onSubmit } =
@@ -17,11 +18,15 @@ export const AddVideoScreen = () => {
         <label htmlFor="videoCategory" className={cls.label}>
           <select
             id="videoCategory"
-            className={`${cls.select} ${hasVideoCategoryError ? cls.errorInput : ""}`}
+            className={cn(cls.select, hasVideoCategoryError && cls.errorInput)}
             {...register("videoCategory")}
           >
             {VIDEO_CATEGORIES.map((category) => (
-              <option key={category.id} value={category.id}>
+              <option
+                key={category.id}
+                value={category.id}
+                className={cls.category}
+              >
                 {category.title}
               </option>
             ))}
@@ -36,7 +41,7 @@ export const AddVideoScreen = () => {
             id="videoUrl"
             type="text"
             placeholder="Paste the link to the YouTube video"
-            className={`${cls.input} ${hasVideoUrlError ? cls.errorInput : ""}`}
+            className={cn(cls.input, hasVideoUrlError && cls.errorInput)}
             {...register("videoUrl")}
           />
           {hasVideoUrlError && (
