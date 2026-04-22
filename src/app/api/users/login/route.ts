@@ -4,7 +4,7 @@ import jsonwebtoken from "jsonwebtoken";
 import { users } from "@/app/api/db/users";
 import { AUTH_COOKIE_NAME } from "@/shared/constants/cookiesNames";
 import { AuthUser } from "@/shared/types/api.types";
-import { env } from "@/shared/lib";
+import { env } from "@/shared/lib/env";
 
 type PostUserRequest = {
   username: string;

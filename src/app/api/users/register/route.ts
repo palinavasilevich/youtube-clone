@@ -5,7 +5,7 @@ import { z } from "zod";
 import { users } from "@/app/api/db/users";
 import { cookies } from "next/headers";
 import { AUTH_COOKIE_NAME } from "@/shared/constants/cookiesNames";
-import { env } from "@/shared/lib";
+import { env } from "@/shared/lib/env";
 
 const postUserSchema = z.object({
   username: z
