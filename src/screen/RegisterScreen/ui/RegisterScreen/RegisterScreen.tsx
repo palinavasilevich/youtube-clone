@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ROUTES } from "@/shared/constants/routes";
 import { useRegisterForm } from "@/screen/RegisterScreen/lib/useRegisterForm";
 import { cn } from "@/shared/lib/css";
 import cls from "./RegisterScreen.module.css";
@@ -71,7 +72,7 @@ export function RegisterScreen() {
 
           <span>
             Do you already have an account?{" "}
-            <Link href={`/auth/login`} className={cls.createAccountLink}>
+            <Link href={ROUTES.LOGIN} className={cls.createAccountLink}>
               Sign in
             </Link>
           </span>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ROUTES, buildRoute } from "@/shared/constants/routes";
 import cls from "./VideoList.module.css";
 import { GetVideosResponse } from "@/shared/types/api.types";
 import { VideoThumbnail } from "../VideoThumbnail";
@@ -16,25 +17,25 @@ export function VideoList({ videos }: VideoListProps) {
     <div className={cls.videoGrid}>
       {videos.map(({ videoId, title, authorName, authorUrl }) => (
         <div key={videoId} className={cls.videoBlock}>
-          <Link href={`/video/${videoId}`} className={cls.videoPreview}>
+          <Link href={buildRoute(ROUTES.VIDEO, { videoId })} className={cls.videoPreview}>
             <VideoThumbnail videoId={videoId} />
           </Link>
 
           <div className={cls.videoInfoContainer}>
             <Link
-              href={`/profile/${authorUrl}`}
+              href={buildRoute(ROUTES.PROFILE, { profileId: authorUrl })}
               className={cls.channelAvatarLink}
             >
               <div className={cls.hiddenText}>{authorName}</div>
             </Link>
 
             <div className={cls.videoInfo}>
-              <Link href={`/video/${videoId}`} className={cls.videoTitleLink}>
+              <Link href={buildRoute(ROUTES.VIDEO, { videoId })} className={cls.videoTitleLink}>
                 <b>{title}</b>
               </Link>
 
               <Link
-                href={`/profile/${authorUrl}`}
+                href={buildRoute(ROUTES.PROFILE, { profileId: authorUrl })}
                 className={cls.channelNameLink}
               >
                 {authorName}
@@ -42,7 +43,7 @@ export function VideoList({ videos }: VideoListProps) {
             </div>
           </div>
 
-          <Link href={`/video/${videoId}`} className={cls.videoOverlayLink} />
+          <Link href={buildRoute(ROUTES.VIDEO, { videoId })} className={cls.videoOverlayLink} />
         </div>
       ))}
     </div>

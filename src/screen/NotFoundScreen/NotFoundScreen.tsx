@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ROUTES } from "@/shared/constants/routes";
 import cls from "./NotFoundScreen.module.css";
 
 import Image from "next/image";
@@ -18,7 +19,7 @@ export const NotFoundScreen = () => {
       <p>This page isn&apos;t available. Sorry about that.</p>
       <p>Try searching for something else.</p>
 
-      <Link href="/" className={cls.link}>
+      <Link href={ROUTES.HOME} className={cls.link}>
         <Image
           priority
           width="145"

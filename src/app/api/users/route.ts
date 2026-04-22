@@ -21,7 +21,7 @@ export async function GET() {
   try {
     const decodedUserInfo = jsonwebtoken.verify(
       token.value,
-      "process.env.JWT_SECRET",
+      process.env.JWT_SECRET!,
     ) as UserInfoFromToken;
 
     const user = users.get(decodedUserInfo.username);
@@ -32,7 +32,7 @@ export async function GET() {
         message: "User with this username not found",
       };
 
-      return Response.json(res, { status: 500 });
+      return Response.json(res, { status: 401 });
     }
 
     const res: GetUserResponse = {

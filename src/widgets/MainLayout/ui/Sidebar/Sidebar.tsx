@@ -1,49 +1,65 @@
-import { Fragment } from "react";
+"use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { ROUTES, buildRoute } from "@/shared/constants/routes";
+import { Home, User, PlusCircle, SquarePlay, LogOut } from "lucide-react";
 import cls from "./Sidebar.module.css";
-import { Home, User, PlusCircle, SquarePlay, LucideIcon } from "lucide-react";
 
 type SidebarProps = {
   userId?: string;
 };
 
-type NavItem = {
-  label: string;
-  href: string;
-  icon: LucideIcon;
-  withDivider?: boolean;
-};
-
-const NAV_ITEMS: NavItem[] = [
-  { label: "Home", href: "/", icon: Home },
-  {
-    label: "Profile",
-    href: "/profile/:profileId",
-    icon: User,
-    withDivider: true,
-  },
-  { label: "Add Video", href: "/editor/addVideo", icon: PlusCircle },
-  { label: "Your videos", href: "/myVideos", icon: SquarePlay },
-];
-
 export function Sidebar({ userId }: SidebarProps) {
+  const router = useRouter();
+
+  const onLogout = async () => {
+    try {
+      const response = await fetch("/api/users/logout");
+
+      if (!response.ok) {
+        throw new Error(`Logout request failed: ${response.status}`);
+      }
+
+      router.refresh();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <aside className={cls.sidebar}>
       <nav className={cls.nav}>
-        {NAV_ITEMS.map((navLink) => {
-          const { label, href, icon: Icon, withDivider } = navLink;
+        <Link href={ROUTES.HOME} className={cls.navLink}>
+          <Home width={24} />
+          Home
+        </Link>
 
-          return (
-            <Fragment key={href}>
-              <Link href={href} className={cls.navLink}>
-                <Icon width={24} />
-                {label}
-              </Link>
-              {withDivider && <div className={cls.divider}></div>}
-            </Fragment>
-          );
-        })}
+        {userId && (
+          <>
+            <Link href={buildRoute(ROUTES.PROFILE, { profileId: userId })} className={cls.navLink}>
+              <User width={24} />
+              Profile
+            </Link>
+
+            <div className={cls.divider}></div>
+
+            <Link href={ROUTES.ADD_VIDEO} className={cls.navLink}>
+              <PlusCircle width={24} />
+              Add Video
+            </Link>
+
+            <Link href={ROUTES.MY_VIDEOS} className={cls.navLink}>
+              <SquarePlay width={24} />
+              Your Videos
+            </Link>
+
+            <button className={cls.buttonNavLink} onClick={onLogout}>
+              <LogOut width={24} />
+              Logout
+            </button>
+          </>
+        )}
       </nav>
     </aside>
   );

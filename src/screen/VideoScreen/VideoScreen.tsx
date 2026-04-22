@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ROUTES, buildRoute } from "@/shared/constants/routes";
 import { Video } from "@/shared/types/api.types";
 import cls from "./VideoScreen.module.css";
 
@@ -25,11 +26,11 @@ export const VideoScreen = ({ data }: VideoScreenProps) => {
       <b>{title}</b>
 
       <div className={cls.videoInfoContainer}>
-        <Link href={`/profile/${authorUrl}`} className={cls.channelAvatarLink}>
+        <Link href={buildRoute(ROUTES.PROFILE, { profileId: authorUrl })} className={cls.channelAvatarLink}>
           <div className={cls.hiddenText}>{authorName}</div>
         </Link>
 
-        <Link href={`/profile/${authorUrl}`} className={cls.channelNameLink}>
+        <Link href={buildRoute(ROUTES.PROFILE, { profileId: authorUrl })} className={cls.channelNameLink}>
           {authorName}
         </Link>
       </div>

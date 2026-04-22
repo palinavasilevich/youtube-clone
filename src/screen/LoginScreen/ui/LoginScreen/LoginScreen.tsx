@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ROUTES } from "@/shared/constants/routes";
 import { useLoginForm } from "@/screen/LoginScreen/lib/useLoginForm";
 import { cn } from "@/shared/lib/css";
 import cls from "./LoginScreen.module.css";
@@ -53,7 +54,7 @@ export function LoginScreen() {
           </button>
           <span>
             Don&apos;t have an account yet?{" "}
-            <Link href={`/auth/register`} className={cls.createAccountLink}>
+            <Link href={ROUTES.REGISTER} className={cls.createAccountLink}>
               Sign up
             </Link>
           </span>

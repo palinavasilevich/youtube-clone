@@ -10,6 +10,7 @@ import { VideoList } from "@/widgets/VideoList";
 
 import cls from "./HomeScreen.module.css";
 import { cn } from "@/shared/lib/css";
+import { ROUTES, buildRoute } from "@/shared/constants/routes";
 
 type HomeScreenProps = {
   data: GetVideosResponse["data"];
@@ -28,7 +29,7 @@ export const HomeScreen = ({
         {categories && categories.length > 0 && (
           <>
             <Link
-              href={`/`}
+              href={ROUTES.HOME}
               className={cn(
                 cls.categoryLink,
                 !activeCategoryId && cls.activeCategoryLink,
@@ -39,7 +40,7 @@ export const HomeScreen = ({
             {categories.map((category) => (
               <Link
                 key={category.id}
-                href={`/${category.id}`}
+                href={buildRoute(ROUTES.CATEGORY, { categoryId: category.id })}
                 className={cn(
                   cls.categoryLink,
                   activeCategoryId === category.id && cls.activeCategoryLink,

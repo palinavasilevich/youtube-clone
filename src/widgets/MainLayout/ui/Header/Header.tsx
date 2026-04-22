@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ROUTES, buildRoute } from "@/shared/constants/routes";
 import cls from "./Header.module.css";
 
 import { Plus, UserCircle } from "lucide-react";
@@ -11,7 +12,7 @@ type HeaderProps = {
 export function Header({ userId }: HeaderProps) {
   return (
     <header className={cls.header}>
-      <Link href="/">
+      <Link href={ROUTES.HOME}>
         <Image
           priority
           width={93}
@@ -24,16 +25,16 @@ export function Header({ userId }: HeaderProps) {
       <div className={cls.actions}>
         {userId ? (
           <>
-            <Link href={`/editor/addVideo`} className={cls.createVideoLink}>
+            <Link href={ROUTES.ADD_VIDEO} className={cls.createVideoLink}>
               <Plus width={24} height={24} /> Create
             </Link>
-            <Link href={`/profile/${userId}`} className={cls.profileLink}>
+            <Link href={buildRoute(ROUTES.PROFILE, { profileId: userId })} className={cls.profileLink}>
               <span className={cls.hiddenText}>Profile</span>
             </Link>
           </>
         ) : (
           <>
-            <Link href={`/auth/login`} className={cls.loginLink}>
+            <Link href={ROUTES.LOGIN} className={cls.loginLink}>
               <UserCircle width={24} height={24} /> Sign in
             </Link>
           </>

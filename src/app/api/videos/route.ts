@@ -43,13 +43,21 @@ export async function GET(request: Request) {
 
   const filtered = [...videos]
     .filter(([, v]) => (userIdParam ? v.userId === userIdParam : true))
-    .filter(([, v]) => (categoryIdParam ? v.categoryId === categoryIdParam : true));
+    .filter(([, v]) =>
+      categoryIdParam ? v.categoryId === categoryIdParam : true,
+    );
 
-  const categories = Array.from(new Set(filtered.map(([, v]) => v.categoryId)));
+  // const categories = Array.from(new Set(filtered.map(([, v]) => v.categoryId)));
+
+  const categories = Array.from(
+    new Set([...videos].map((data) => data[1].categoryId)),
+  );
 
   const result = (
     await Promise.allSettled(
-      filtered.map(([videoId, { categoryId }]) => fetchVideoInfo(videoId, categoryId)),
+      filtered.map(([videoId, { categoryId }]) =>
+        fetchVideoInfo(videoId, categoryId),
+      ),
     )
   ).flatMap((r) => (r.status === "fulfilled" ? [r.value] : []));
 

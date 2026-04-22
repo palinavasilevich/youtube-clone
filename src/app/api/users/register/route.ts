@@ -46,7 +46,7 @@ export async function POST(request: Request): Promise<Response> {
 
   users.set(username, { id, username, password: hashedPassword });
 
-  const jwt = jsonwebtoken.sign({ id, username }, "process.env.JWT_SECRET", {
+  const jwt = jsonwebtoken.sign({ id, username }, process.env.JWT_SECRET!, {
     expiresIn: "1h",
   });
 
