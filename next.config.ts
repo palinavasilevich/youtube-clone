@@ -1,4 +1,7 @@
 import type { NextConfig } from "next";
+import { schema } from "@/shared/lib";
+
+schema.parse(process.env);
 
 const nextConfig: NextConfig = {
   images: {

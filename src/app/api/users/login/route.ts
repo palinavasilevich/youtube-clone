@@ -4,6 +4,7 @@ import jsonwebtoken from "jsonwebtoken";
 import { users } from "@/app/api/db/users";
 import { AUTH_COOKIE_NAME } from "@/shared/constants/cookiesNames";
 import { AuthUser } from "@/shared/types/api.types";
+import { env } from "@/shared/lib";
 
 type PostUserRequest = {
   username: string;
@@ -50,11 +51,7 @@ export async function POST(request: Request): Promise<Response> {
 
   const { id, username } = user;
 
-  // const jwt = jsonwebtoken.sign({ id, username }, process.env.JWT_SECRET, {
-  //   expiresIn: "1h",
-  // });
-
-  const jwt = jsonwebtoken.sign({ id, username }, "process.env.JWT_SECRET", {
+  const jwt = jsonwebtoken.sign({ id, username }, env.JWT_SECRET, {
     expiresIn: "1h",
   });
 

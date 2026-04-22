@@ -5,6 +5,7 @@ import { z } from "zod";
 import { users } from "@/app/api/db/users";
 import { cookies } from "next/headers";
 import { AUTH_COOKIE_NAME } from "@/shared/constants/cookiesNames";
+import { env } from "@/shared/lib";
 
 const postUserSchema = z.object({
   username: z
@@ -46,7 +47,7 @@ export async function POST(request: Request): Promise<Response> {
 
   users.set(username, { id, username, password: hashedPassword });
 
-  const jwt = jsonwebtoken.sign({ id, username }, process.env.JWT_SECRET!, {
+  const jwt = jsonwebtoken.sign({ id, username }, env.JWT_SECRET, {
     expiresIn: "1h",
   });
 

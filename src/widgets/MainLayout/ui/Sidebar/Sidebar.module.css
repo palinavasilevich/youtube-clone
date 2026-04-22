@@ -23,6 +23,10 @@
   }
 }
 
+.buttonNavLink {
+  cursor: pointer;
+}
+
 .divider {
   height: 1px;
   width: 100%;
