@@ -4,6 +4,10 @@ import Link from "next/link";
 import cls from "./Sidebar.module.css";
 import { Home, User, PlusCircle, SquarePlay, LucideIcon } from "lucide-react";
 
+type SidebarProps = {
+  userId?: string;
+};
+
 type NavItem = {
   label: string;
   href: string;
@@ -23,7 +27,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Your videos", href: "/myVideos", icon: SquarePlay },
 ];
 
-export function Sidebar() {
+export function Sidebar({ userId }: SidebarProps) {
   return (
     <aside className={cls.sidebar}>
       <nav className={cls.nav}>

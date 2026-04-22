@@ -1,12 +1,9 @@
 import { cookies } from "next/headers";
 import jsonwebtoken from "jsonwebtoken";
-import { UserInfoFromToken, users } from "../db/users";
+import { users } from "../db/users";
+import { UserInfoFromToken } from "@/shared/types/api.types";
 import { AUTH_COOKIE_NAME } from "@/shared/constants/cookiesNames";
-import { AuthUser } from "@/shared/types/api.types";
-
-export type GetUserResponse =
-  | { ok: true; user: AuthUser }
-  | { ok: false; message: string };
+import { GetUserResponse } from "@/shared/types/api.types";
 
 export async function GET() {
   const cookiesStore = await cookies();

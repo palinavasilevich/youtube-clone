@@ -5,13 +5,13 @@ import cls from "./MainLayout.module.css";
 
 type MainLayoutProps = Readonly<{
   children: React.ReactNode;
-}>;
+}> & { userId?: string };
 
-export const MainLayout = ({ children }: MainLayoutProps) => {
+export const MainLayout = ({ userId, children }: MainLayoutProps) => {
   return (
     <div className={cls.container}>
-      <Header profileId={"29051453"} />
-      <Sidebar />
+      <Header userId={userId} />
+      <Sidebar userId={userId} />
       {children}
     </div>
   );

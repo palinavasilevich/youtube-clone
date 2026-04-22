@@ -1,7 +1,10 @@
 import crypto from "crypto";
 import bcrypt from "bcrypt";
+import jsonwebtoken from "jsonwebtoken";
 import { z } from "zod";
 import { users } from "@/app/api/db/users";
+import { cookies } from "next/headers";
+import { AUTH_COOKIE_NAME } from "@/shared/constants/cookiesNames";
 
 const postUserSchema = z.object({
   username: z
@@ -14,7 +17,7 @@ const postUserSchema = z.object({
     .min(3, { message: "The password must be more than 3 characters long" }),
 });
 
-type PostUserResponse = { ok: true } | { ok: false; message: string };
+export type PostUserResponse = { ok: true } | { ok: false; message: string };
 
 export async function POST(request: Request): Promise<Response> {
   const parsed = postUserSchema.safeParse(await request.json());
@@ -43,7 +46,21 @@ export async function POST(request: Request): Promise<Response> {
 
   users.set(username, { id, username, password: hashedPassword });
 
-  const res: PostUserResponse = { ok: true };
+  const jwt = jsonwebtoken.sign({ id, username }, "process.env.JWT_SECRET", {
+    expiresIn: "1h",
+  });
+
+  const cookieStore = await cookies();
+
+  cookieStore.set(AUTH_COOKIE_NAME, jwt, {
+    maxAge: 3600,
+    httpOnly: true,
+    secure: true,
+  });
+
+  const res: PostUserResponse = {
+    ok: true,
+  };
 
   return Response.json(res);
 }

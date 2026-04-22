@@ -1,9 +1,14 @@
+import withAuth from "@/shared/hoc/withAuth";
+import { AuthUser } from "@/shared/types/api.types";
 import { MainLayout } from "@/widgets/MainLayout";
 
-export default function PublicLayout({
-  children,
-}: {
+type PublicLayoutProps = {
   children: React.ReactNode;
-}) {
-  return <MainLayout>{children}</MainLayout>;
+  user?: AuthUser;
+};
+
+function PublicLayout({ user, children }: PublicLayoutProps) {
+  return <MainLayout userId={user?.id}>{children}</MainLayout>;
 }
+
+export default withAuth(PublicLayout);

@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { GetUserResponse } from "@/shared/types/api.types";
 
 type Inputs = {
   username: string;
@@ -51,11 +52,14 @@ export function useRegisterForm() {
         }),
       });
 
-      const result = await response.json();
-
       if (!response.ok) {
-        setErrorMessage(result?.message || "Something went wrong");
-        return;
+        throw new Error(`Register request failed: ${response.status}`);
+      }
+
+      const data: GetUserResponse = await response.json();
+
+      if (!data.ok) {
+        setErrorMessage(data?.message || "Something went wrong");
       }
 
       router.replace("/");

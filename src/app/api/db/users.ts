@@ -1,12 +1,8 @@
-type UserId = string;
+type UserInfo = { id: string; username: string; password: string };
 
-type UserInfo = { id: UserId; username: string; password: string };
-
-export type UserInfoFromToken = {
-  id: UserInfo["id"];
-  username: string;
-  iat: number;
-};
+declare global {
+  var dbUsers: Map<string, UserInfo> | undefined;
+}
 
 export const users =
-  globalThis.dbUsers || (globalThis.dbUsers = new Map<UserId, UserInfo>());
+  globalThis.dbUsers || (globalThis.dbUsers = new Map<string, UserInfo>());
