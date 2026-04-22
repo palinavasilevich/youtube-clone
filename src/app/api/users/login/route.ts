@@ -1,27 +1,31 @@
+import { cookies } from "next/headers";
 import bcrypt from "bcrypt";
-import { User, users } from "@/app/api/db/users";
+import jsonwebtoken from "jsonwebtoken";
+import { users } from "@/app/api/db/users";
+import { AUTH_COOKIE_NAME } from "@/shared/constants/cookiesNames";
+import { AuthUser } from "@/shared/types/api.types";
 
 type PostUserRequest = {
-  login: string;
+  username: string;
   password: string;
 };
 
 export type PostUserLoginResponse =
-  | { ok: true; user: User }
+  | { ok: true; user: AuthUser }
   | { ok: false; message: string };
 
 export async function POST(request: Request): Promise<Response> {
   const data: PostUserRequest = await request.json();
 
-  const user = users.get(data.login);
+  const user = users.get(data.username);
 
   if (!user) {
     const res: PostUserLoginResponse = {
       ok: false,
-      message: "User with this login not found",
+      message: "User with this username not found",
     };
 
-    return Response.json(res, { status: 400 });
+    return Response.json(res, { status: 500 });
   }
 
   try {
@@ -44,11 +48,27 @@ export async function POST(request: Request): Promise<Response> {
     return Response.json(res, { status: 500 });
   }
 
-  const { id, login } = user;
+  const { id, username } = user;
+
+  // const jwt = jsonwebtoken.sign({ id, username }, process.env.JWT_SECRET, {
+  //   expiresIn: "1h",
+  // });
+
+  const jwt = jsonwebtoken.sign({ id, username }, "process.env.JWT_SECRET", {
+    expiresIn: "1h",
+  });
+
+  const cookieStore = await cookies();
+
+  cookieStore.set(AUTH_COOKIE_NAME, jwt, {
+    maxAge: 3600,
+    httpOnly: true,
+    secure: true,
+  });
 
   const res: PostUserLoginResponse = {
     ok: true,
-    user: { id, login },
+    user: { id, username },
   };
 
   return Response.json(res);

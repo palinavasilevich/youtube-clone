@@ -5,14 +5,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 type Inputs = {
-  login: string;
+  username: string;
   password: string;
   confirmPassword: string;
 };
 
 const schema = z
   .object({
-    login: z.string().min(1, { message: "This field is required" }),
+    username: z.string().min(1, { message: "This field is required" }),
     password: z.string().min(1, { message: "This field is required" }),
     confirmPassword: z.string(),
   })
@@ -39,14 +39,14 @@ export function useRegisterForm() {
     setErrorMessage(null);
     setIsLoading(true);
 
-    const { login, password } = data;
+    const { username, password } = data;
 
     try {
       const response = await fetch("/api/users/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          login,
+          username,
           password,
         }),
       });

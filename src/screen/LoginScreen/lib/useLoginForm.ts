@@ -6,12 +6,12 @@ import { z } from "zod";
 import { PostUserLoginResponse } from "@/app/api/users/login/route";
 
 type Inputs = {
-  login: string;
+  username: string;
   password: string;
 };
 
 const schema = z.object({
-  login: z.string().min(1, { message: "This field is required" }),
+  username: z.string().min(1, { message: "This field is required" }),
   password: z.string().min(1, { message: "This field is required" }),
 });
 
@@ -33,14 +33,14 @@ export function useLoginForm() {
     setErrorMessage(null);
     setIsLoading(true);
 
-    const { login, password } = data;
+    const { username, password } = data;
 
     try {
       const response = await fetch("/api/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          login,
+          username,
           password,
         }),
       });

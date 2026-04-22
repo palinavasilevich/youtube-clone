@@ -9,23 +9,23 @@ export function LoginScreen() {
   const { isLoading, errors, errorMessage, register, onSubmit } =
     useLoginForm();
 
-  const hasLoginError = !!errors.login?.message;
+  const hasUsernameError = !!errors.username?.message;
   const hasPasswordError = !!errors.password?.message;
 
   return (
     <div className={cls.container}>
       <form onSubmit={onSubmit} className={cls.form}>
-        <label htmlFor="login" className={cls.label}>
+        <label htmlFor="username" className={cls.label}>
           <input
-            id="login"
+            id="username"
             type="text"
-            placeholder="Enter your login"
-            className={cn(cls.input, hasLoginError && cls.errorInput)}
-            {...register("login")}
+            placeholder="Enter your username"
+            className={cn(cls.input, hasUsernameError && cls.errorInput)}
+            {...register("username")}
           />
 
-          {hasLoginError && (
-            <p className={cls.errorMessage}>{errors.login?.message}</p>
+          {hasUsernameError && (
+            <p className={cls.errorMessage}>{errors.username?.message}</p>
           )}
         </label>
 

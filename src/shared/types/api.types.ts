@@ -35,5 +35,5 @@ export type GetVideosResponse = {
 
 export type AuthUser = {
   id: string;
-  login: string;
+  username: string;
 };
