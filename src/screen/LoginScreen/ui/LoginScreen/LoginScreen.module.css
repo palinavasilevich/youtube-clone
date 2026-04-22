@@ -1,16 +1,43 @@
 .container {
+  background: #1e1f20;
   height: 100dvh;
   display: flex;
-  align-items: center;
   justify-content: center;
-  flex-direction: column;
+  align-items: center;
+}
+
+.content {
+  padding: 108px 36px 36px 36px;
+  max-width: 960px;
+  width: 100%;
+  min-height: 384px;
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  background: black;
+  border-radius: 28px;
+}
+
+.leftPart {
+  position: absolute;
+  top: 36px;
+  left: 36px;
+}
+
+.title {
+  margin-top: 24px;
+  font-size: 36px;
+}
+
+.subtitle {
+  margin-top: 16px;
 }
 
 .form {
   display: flex;
   align-items: center;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 }
 
 .label {
@@ -18,16 +45,20 @@
 }
 
 .input {
+  padding: 0 16px;
   width: 500px;
-  height: 40px;
-  background: transparent;
-  padding: 8px 12px;
-  border: 1px solid #8c8c8c;
-  border-radius: 12px;
+  height: 54px;
   color: white;
+  background: none;
+  border: 1px solid #8c8c8c;
+  border-radius: 4px;
 
-  &::placeholder {
-    color: #b9b9b9;
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus {
+    border: 1px solid #8c8c8c;
+    -webkit-text-fill-color: white;
+    -webkit-box-shadow: 0 0 0 1000px #000 inset;
   }
 }
 
@@ -36,32 +67,44 @@
 }
 
 .actions {
+  margin-top: 50px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
+  justify-content: flex-end;
+  gap: 32px;
 }
 
 .createAccountLink {
-  text-decoration: underline;
-  transition: color 0.2s ease-in;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  padding: 0 24px;
+  color: #a8c7fa;
+  background: transparent;
+  border-radius: 20px;
+  transition: background 0.3s ease;
+  border: none;
 
   &:hover {
-    color: rgba(89, 30, 185, 0.7);
+    background: rgba(168, 199, 250, 0.1);
   }
 }
 
-.submitButton {
-  background: transparent;
-  padding: 8px 12px;
-  border: 1px solid #8c8c8c;
-  border-radius: 12px;
-  color: white;
-  transition: background 0.2s ease-in;
+.signInButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  padding: 0 24px;
+  background: #a8c7fa;
+  border-radius: 20px;
+  transition: background 0.3s ease;
+  border: none;
+  color: rgb(6 46 111 / 1);
   cursor: pointer;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: #7bacff;
   }
 }
 

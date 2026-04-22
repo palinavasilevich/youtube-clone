@@ -15,7 +15,7 @@ const schema = z
   .object({
     username: z.string().min(1, { message: "This field is required" }),
     password: z.string().min(1, { message: "This field is required" }),
-    confirmPassword: z.string(),
+    confirmPassword: z.string().min(1, { message: "This field is required" }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],

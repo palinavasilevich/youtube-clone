@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ROUTES } from "@/shared/constants/routes";
 import { useLoginForm } from "@/screen/LoginScreen/lib/useLoginForm";
 import { cn } from "@/shared/lib/css";
@@ -15,52 +16,67 @@ export function LoginScreen() {
 
   return (
     <div className={cls.container}>
-      <form onSubmit={onSubmit} className={cls.form}>
-        <label htmlFor="username" className={cls.label}>
-          <input
-            id="username"
-            type="text"
-            placeholder="Enter your username"
-            className={cn(cls.input, hasUsernameError && cls.errorInput)}
-            {...register("username")}
+      <div className={cls.content}>
+        <div className={cls.leftPart}>
+          <Image
+            unoptimized
+            src={"/googleLogo.svg"}
+            width={48}
+            height={48}
+            alt=""
+            aria-hidden="true"
+            className={cls.icon}
           />
-
-          {hasUsernameError && (
-            <p className={cls.errorMessage}>{errors.username?.message}</p>
-          )}
-        </label>
-
-        <label htmlFor="password" className={cls.label}>
-          <input
-            id="password"
-            type="password"
-            placeholder="Enter your password"
-            className={cn(cls.input, hasPasswordError && cls.errorInput)}
-            {...register("password")}
-          />
-
-          {hasPasswordError && (
-            <p className={cls.errorMessage}>{errors.password?.message}</p>
-          )}
-        </label>
-
-        <div className={cls.actions}>
-          <button
-            type="submit"
-            className={cls.submitButton}
-            disabled={isLoading}
-          >
-            Sign in
-          </button>
-          <span>
-            Don&apos;t have an account yet?{" "}
-            <Link href={ROUTES.REGISTER} className={cls.createAccountLink}>
-              Sign up
-            </Link>
-          </span>
+          <p className={cls.title}>Sign in</p>
+          <p className={cls.subtitle}>to continue to YouTube</p>
         </div>
-      </form>
-      {errorMessage && <p className={cls.errorMessage}>{errorMessage}</p>}
+
+        <div>
+          <form onSubmit={onSubmit} className={cls.form}>
+            <label htmlFor="username" className={cls.label}>
+              <input
+                id="username"
+                type="text"
+                placeholder="Enter your username"
+                className={cn(cls.input, hasUsernameError && cls.errorInput)}
+                {...register("username")}
+              />
+
+              {hasUsernameError && (
+                <p className={cls.errorMessage}>{errors.username?.message}</p>
+              )}
+            </label>
+
+            <label htmlFor="password" className={cls.label}>
+              <input
+                id="password"
+                type="password"
+                placeholder="Enter your password"
+                className={cn(cls.input, hasPasswordError && cls.errorInput)}
+                {...register("password")}
+              />
+
+              {hasPasswordError && (
+                <p className={cls.errorMessage}>{errors.password?.message}</p>
+              )}
+            </label>
+
+            <div className={cls.actions}>
+              <Link href={ROUTES.REGISTER} className={cls.createAccountLink}>
+                Create account
+              </Link>
+              <button
+                type="submit"
+                className={cls.signInButton}
+                disabled={isLoading}
+              >
+                Sign in
+              </button>
+            </div>
+          </form>
+          {errorMessage && <p className={cls.errorMessage}>{errorMessage}</p>}
+        </div>
+      </div>
     </div>
   );
 }
