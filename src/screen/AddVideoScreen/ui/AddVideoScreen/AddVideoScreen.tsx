@@ -5,9 +5,9 @@ import { useAddVideoForm } from "@/screen/AddVideoScreen/lib/useAddVideoForm";
 import { cn } from "@/shared/lib/css";
 import cls from "./AddVideoScreen.module.css";
 
-export const AddVideoScreen = () => {
+export const AddVideoScreen = ({ userId }: { userId: string }) => {
   const { videoId, isLoading, errors, errorMessage, register, onSubmit } =
-    useAddVideoForm();
+    useAddVideoForm(userId);
 
   const hasVideoUrlError = !!errors.videoUrl?.message;
   const hasVideoCategoryError = !!errors.videoCategory?.message;
@@ -32,7 +32,9 @@ export const AddVideoScreen = () => {
             ))}
           </select>
           {hasVideoCategoryError && (
-            <p className={cls.errorMessage}>{errors.videoCategory?.message}</p>
+            <p className={cls.inputErrorMessage}>
+              {errors.videoCategory?.message}
+            </p>
           )}
         </label>
 
@@ -45,15 +47,19 @@ export const AddVideoScreen = () => {
             {...register("videoUrl")}
           />
           {hasVideoUrlError && (
-            <p className={cls.errorMessage}>{errors.videoUrl?.message}</p>
+            <p className={cls.inputErrorMessage}>{errors.videoUrl?.message}</p>
           )}
         </label>
+
+        {errorMessage && !hasVideoUrlError && !hasVideoCategoryError && (
+          <p className={cls.errorMessage}>{errorMessage}</p>
+        )}
 
         <button type="submit" className={cls.submitButton} disabled={isLoading}>
           {isLoading ? "Adding..." : "Add Video"}
         </button>
       </form>
-      {errorMessage && <p className={cls.errorMessage}>{errorMessage}</p>}
+
       {videoId && (
         <iframe
           width="700"

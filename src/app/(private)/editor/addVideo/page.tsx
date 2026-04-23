@@ -1,10 +1,16 @@
 import { Metadata } from "next";
 import { AddVideoScreen } from "@/screen/AddVideoScreen/ui/AddVideoScreen";
+import withAuth from "@/shared/hoc/withAuth";
+import { AuthUser } from "@/shared/types/api.types";
 
 export const metadata: Metadata = {
   title: "Add video",
 };
 
-export default function AddVideoPage() {
-  return <AddVideoScreen />;
+type Props = { user?: AuthUser };
+
+function AddVideoPage({ user }: Props) {
+  return <AddVideoScreen userId={user?.id ?? ""} />;
 }
+
+export default withAuth(AddVideoPage);

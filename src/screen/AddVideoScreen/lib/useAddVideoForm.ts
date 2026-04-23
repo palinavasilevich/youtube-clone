@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { isAllowedHost, parseYouTube, YOUTUBE_DOMAINS } from "@/shared/lib";
 import { VIDEO_CATEGORIES } from "@/shared/constants/videoCategories";
+import { addVideo } from "@/app/api/videos/addVideo";
 
 const validCategoryIds = VIDEO_CATEGORIES.map((c) => c.id);
 
@@ -44,7 +45,7 @@ const schema = z.object({
   }),
 });
 
-export function useAddVideoForm() {
+export function useAddVideoForm(userId: string) {
   const [videoId, setVideoId] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -71,29 +72,15 @@ export function useAddVideoForm() {
         return;
       }
 
-      const response = await fetch("/api/videos", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: "USER_ID",
-          videoId,
-          categoryId: data.videoCategory,
-        }),
+      const response = await addVideo({
+        userId,
+        videoId,
+        categoryId: data.videoCategory,
       });
-
-      let result = null;
-
-      try {
-        result = await response.json();
-      } catch (error) {
-        console.error(error);
-      }
 
       if (!response.ok) {
         setVideoId("");
-        setErrorMessage(result?.message || "Something went wrong");
+        setErrorMessage(response?.message || "Something went wrong");
         return;
       }
 

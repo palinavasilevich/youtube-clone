@@ -43,7 +43,9 @@ export function LoginScreen() {
               />
 
               {hasUsernameError && (
-                <p className={cls.errorMessage}>{errors.username?.message}</p>
+                <p className={cls.inputErrorMessage}>
+                  {errors.username?.message}
+                </p>
               )}
             </label>
 
@@ -57,9 +59,15 @@ export function LoginScreen() {
               />
 
               {hasPasswordError && (
-                <p className={cls.errorMessage}>{errors.password?.message}</p>
+                <p className={cls.inputErrorMessage}>
+                  {errors.password?.message}
+                </p>
               )}
             </label>
+
+            {errorMessage && !hasUsernameError && !hasPasswordError && (
+              <p className={cls.errorMessage}>{errorMessage}</p>
+            )}
 
             <div className={cls.actions}>
               <Link href={ROUTES.REGISTER} className={cls.createAccountLink}>
@@ -74,7 +82,6 @@ export function LoginScreen() {
               </button>
             </div>
           </form>
-          {errorMessage && <p className={cls.errorMessage}>{errorMessage}</p>}
         </div>
       </div>
     </div>

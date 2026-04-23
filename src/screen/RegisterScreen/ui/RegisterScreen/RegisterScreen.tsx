@@ -44,7 +44,9 @@ export function RegisterScreen() {
               />
 
               {hasUsernameError && (
-                <p className={cls.errorMessage}>{errors.username?.message}</p>
+                <p className={cls.inputErrorMessage}>
+                  {errors.username?.message}
+                </p>
               )}
             </label>
 
@@ -58,7 +60,9 @@ export function RegisterScreen() {
               />
 
               {hasPasswordError && (
-                <p className={cls.errorMessage}>{errors.password?.message}</p>
+                <p className={cls.inputErrorMessage}>
+                  {errors.password?.message}
+                </p>
               )}
             </label>
 
@@ -67,16 +71,27 @@ export function RegisterScreen() {
                 id="confirmPassword"
                 type="password"
                 placeholder="Confirm your password"
-                className={cn(cls.input, hasConfirmPasswordError && cls.errorInput)}
+                className={cn(
+                  cls.input,
+                  hasConfirmPasswordError && cls.errorInput,
+                )}
                 {...register("confirmPassword")}
               />
 
               {hasConfirmPasswordError && (
-                <p className={cls.errorMessage}>
+                <p className={cls.inputErrorMessage}>
                   {errors.confirmPassword?.message}
                 </p>
               )}
             </label>
+
+            {errorMessage &&
+              !hasUsernameError &&
+              !hasPasswordError &&
+              !hasConfirmPasswordError && (
+                <p className={cls.errorMessage}>{errorMessage}</p>
+              )}
+
             <div className={cls.actions}>
               <Link href={ROUTES.LOGIN} className={cls.accountLink}>
                 Already have an account?
@@ -90,7 +105,6 @@ export function RegisterScreen() {
               </button>
             </div>
           </form>
-          {errorMessage && <p className={cls.errorMessage}>{errorMessage}</p>}
         </div>
       </div>
     </div>

@@ -48,7 +48,7 @@ export function useLoginForm() {
       const result = (await response.json()) as PostUserLoginResponse;
 
       if (!result.ok) {
-        setErrorMessage(result.message || "Something went wrong");
+        setErrorMessage(result.message || "Login request failed");
         return;
       }
 

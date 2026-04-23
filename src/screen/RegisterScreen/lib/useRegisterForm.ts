@@ -52,14 +52,10 @@ export function useRegisterForm() {
         }),
       });
 
-      if (!response.ok) {
-        throw new Error(`Register request failed: ${response.status}`);
-      }
-
       const result: GetUserResponse = await response.json();
 
       if (!result.ok) {
-        setErrorMessage(result?.message || "Something went wrong");
+        setErrorMessage(result?.message || "Register request failed");
         return;
       }
 
