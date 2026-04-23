@@ -1,36 +1,27 @@
 import { Metadata } from "next";
-
 import { MyVideosScreen } from "@/screen/MyVideosScreen";
-import { GetVideosResponse } from "@/shared/types/api.types";
-
-type MyVideosPageProps = {
-  params: Promise<{ userId: string }>;
-};
+import { getVideos } from "@/app/api/videos/getVideos";
+import { getUsers } from "@/app/api/users/getUsers";
 
 export const metadata: Metadata = {
   title: "My videos",
 };
 
-export default async function MyVideosPage({}: MyVideosPageProps) {
-  // const { categoryId } = await params;
-  const userId = "USER_ID";
-
+export default async function MyVideosPage() {
   try {
-    const response = await fetch(
-      `${process.env.SERVER_API_URL}/api/videos?userId=${userId}`,
-    );
+    const userResponse = await getUsers();
 
-    if (!response.ok) {
-      throw new Error("No video data available");
+    if (!userResponse.ok) {
+      throw new Error("Failed to get current user");
     }
 
-    const { data } = (await response.json()) as GetVideosResponse;
+    const response = await getVideos({ userId: userResponse.user.id });
 
-    if (!data) {
-      throw new Error("No video data available");
+    if (!response.data) {
+      throw new Error(`Video request failed`);
     }
 
-    return <MyVideosScreen videos={data} />;
+    return <MyVideosScreen videos={response.data} />;
   } catch (error) {
     console.error(error);
     return <div>Something went wrong...</div>;

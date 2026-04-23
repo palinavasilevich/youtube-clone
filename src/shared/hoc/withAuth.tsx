@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { AUTH_COOKIE_NAME } from "@/shared/constants/cookiesNames";
-import { AuthUser, GetUserResponse } from "../types/api.types";
+import { AuthUser } from "../types/api.types";
+import { getUsers } from "@/app/api/users/getUsers";
 
 type WithAuthProps = {
   user?: AuthUser;
@@ -18,21 +19,10 @@ export default function withAuth<T extends WithAuthProps>(
     }
 
     try {
-      const response = await fetch(`${process.env.SERVER_API_URL}/api/users`, {
-        method: "GET",
-        headers: {
-          cookie: `${AUTH_COOKIE_NAME}=${authToken.value}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`Auth request failed: ${response.status}`);
-      }
-
-      const data: GetUserResponse = await response.json();
+      const data = await getUsers();
 
       if (!data.ok) {
-        throw new Error(data.message);
+        throw new Error(`Auth request failed`);
       }
 
       return <Component user={data.user} {...(props as T)} />;

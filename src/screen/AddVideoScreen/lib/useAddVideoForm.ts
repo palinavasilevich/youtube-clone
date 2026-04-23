@@ -101,7 +101,7 @@ export function useAddVideoForm() {
       reset();
     } catch (error) {
       console.error(error);
-      setErrorMessage("Network error. Please try again.");
+      setErrorMessage("Request to add video failed. Please try again.");
     } finally {
       setIsLoading(false);
     }

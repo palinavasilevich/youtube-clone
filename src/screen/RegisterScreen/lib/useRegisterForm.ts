@@ -56,16 +56,17 @@ export function useRegisterForm() {
         throw new Error(`Register request failed: ${response.status}`);
       }
 
-      const data: GetUserResponse = await response.json();
+      const result: GetUserResponse = await response.json();
 
-      if (!data.ok) {
-        setErrorMessage(data?.message || "Something went wrong");
+      if (!result.ok) {
+        setErrorMessage(result?.message || "Something went wrong");
+        return;
       }
 
       router.replace("/");
     } catch (error) {
       console.error(error);
-      setErrorMessage("Network error. Please try again.");
+      setErrorMessage("Register request failed. Please try again.");
     } finally {
       setIsLoading(false);
     }

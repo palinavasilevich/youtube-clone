@@ -29,7 +29,7 @@ export function useLoginForm() {
     resolver: zodResolver(schema),
   });
 
-  const onSubmitHandler: SubmitHandler<Inputs> = async (data: Inputs) => {
+  const onSubmitHandler: SubmitHandler<Inputs> = async (data) => {
     setErrorMessage(null);
     setIsLoading(true);
 
@@ -55,7 +55,7 @@ export function useLoginForm() {
       router.replace("/");
     } catch (error) {
       console.error(error);
-      setErrorMessage("Network error. Please try again.");
+      setErrorMessage("Login request failed. Please try again.");
     } finally {
       setIsLoading(false);
     }

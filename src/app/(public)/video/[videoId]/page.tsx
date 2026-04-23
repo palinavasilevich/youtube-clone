@@ -1,6 +1,9 @@
+import { cache } from "react";
+import { getVideoById } from "@/app/api/videos/getVideoById";
 import { VideoScreen } from "@/screen/VideoScreen";
-import { GetVideoByIdResponse } from "@/shared/types/api.types";
 import { Metadata } from "next";
+
+const cachedGetVideoById = cache(getVideoById);
 
 type VideoPageProps = {
   params: Promise<{ videoId: string }>;
@@ -12,17 +15,14 @@ export async function generateMetadata({
   const { videoId } = await params;
 
   try {
-    const response = await fetch(
-      `${process.env.SERVER_API_URL}/api/video/${videoId}`,
-    );
-    const { data: video } = (await response.json()) as GetVideoByIdResponse;
+    const response = await cachedGetVideoById({ videoId });
 
-    if (!video) {
+    if (!response.ok) {
       throw new Error("No video data available");
     }
 
     return {
-      title: `Video: ${video.title}`,
+      title: `Video: ${response.data.title}`,
     };
   } catch (error) {
     console.error(error);
@@ -36,21 +36,13 @@ export default async function VideoPage({ params }: VideoPageProps) {
   const { videoId } = await params;
 
   try {
-    const response = await fetch(
-      `${process.env.SERVER_API_URL}/api/video/${videoId}`,
-    );
+    const response = await cachedGetVideoById({ videoId });
 
     if (!response.ok) {
       throw new Error("No video data available");
     }
 
-    const { data } = (await response.json()) as GetVideoByIdResponse;
-
-    if (!data) {
-      throw new Error("No video data available");
-    }
-
-    return <VideoScreen data={data} />;
+    return <VideoScreen data={response.data} />;
   } catch (error) {
     console.error(error);
     return <div>Something went wrong...</div>;

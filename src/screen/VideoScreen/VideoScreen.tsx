@@ -4,7 +4,7 @@ import { Video } from "@/shared/types/api.types";
 import cls from "./VideoScreen.module.css";
 
 type VideoScreenProps = {
-  data: Video;
+  data: Omit<Video, "categoryId">;
 };
 
 export const VideoScreen = ({ data }: VideoScreenProps) => {
@@ -23,14 +23,20 @@ export const VideoScreen = ({ data }: VideoScreenProps) => {
         className={cls.iframe}
       />
 
-      <b>{title}</b>
+      <h1 className={cls.title}>{title}</h1>
 
       <div className={cls.videoInfoContainer}>
-        <Link href={buildRoute(ROUTES.PROFILE, { profileId: authorUrl })} className={cls.channelAvatarLink}>
+        <Link
+          href={buildRoute(ROUTES.PROFILE, { profileId: authorUrl })}
+          className={cls.channelAvatarLink}
+        >
           <div className={cls.hiddenText}>{authorName}</div>
         </Link>
 
-        <Link href={buildRoute(ROUTES.PROFILE, { profileId: authorUrl })} className={cls.channelNameLink}>
+        <Link
+          href={buildRoute(ROUTES.PROFILE, { profileId: authorUrl })}
+          className={cls.channelNameLink}
+        >
           {authorName}
         </Link>
       </div>

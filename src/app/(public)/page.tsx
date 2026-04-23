@@ -1,16 +1,16 @@
 import { HomeScreen } from "@/screen/HomeScreen";
 import { VIDEO_CATEGORIES } from "@/shared/constants/videoCategories";
-import { GetVideosResponse } from "@/shared/types/api.types";
+import { getVideos } from "../api/videos/getVideos";
 
 export default async function Home() {
   try {
-    const response = await fetch(`${process.env.SERVER_API_URL}/api/videos`);
+    const response = await getVideos();
 
     if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
+      throw new Error(`Video request failed`);
     }
 
-    const { data, categories } = (await response.json()) as GetVideosResponse;
+    const { data, categories } = response;
 
     const filteredCategories = VIDEO_CATEGORIES.filter(({ id }) =>
       categories.includes(id),

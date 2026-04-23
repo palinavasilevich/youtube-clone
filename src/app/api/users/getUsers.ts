@@ -1,21 +1,19 @@
 import { cookies } from "next/headers";
 import jsonwebtoken from "jsonwebtoken";
-import { users } from "../db/users";
-import { UserInfoFromToken } from "@/shared/types/api.types";
-import { AUTH_COOKIE_NAME } from "@/shared/constants/cookiesNames";
-import { GetUserResponse } from "@/shared/types/api.types";
 
-export async function GET() {
+import { GetUserResponse, UserInfoFromToken } from "@/shared/types/api.types";
+import { AUTH_COOKIE_NAME } from "@/shared/constants/cookiesNames";
+import { users } from "@/app/api/db/users";
+
+export async function getUsers(): Promise<GetUserResponse> {
   const cookiesStore = await cookies();
   const token = cookiesStore.get(AUTH_COOKIE_NAME);
 
   if (!token?.value) {
-    const res: GetUserResponse = {
+    return {
       ok: false,
       message: "The token is out of date",
     };
-
-    return Response.json(res, { status: 400 });
   }
 
   try {
@@ -27,27 +25,21 @@ export async function GET() {
     const user = users.get(decodedUserInfo.username);
 
     if (!user) {
-      const res: GetUserResponse = {
+      return {
         ok: false,
         message: "User with this username not found",
       };
-
-      return Response.json(res, { status: 401 });
     }
 
-    const res: GetUserResponse = {
+    return {
       ok: true,
       user,
     };
-
-    return Response.json(res);
   } catch (error) {
     console.error(error);
-    const res: GetUserResponse = {
+    return {
       ok: false,
       message: "The token is out of date",
     };
-
-    return Response.json(res, { status: 400 });
   }
 }

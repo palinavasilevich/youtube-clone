@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 
 import { HomeScreen } from "@/screen/HomeScreen";
 import { VIDEO_CATEGORIES } from "@/shared/constants/videoCategories";
-import { GetVideosResponse } from "@/shared/types/api.types";
+import { getVideos } from "@/app/api/videos/getVideos";
 
 type CategoryPageProps = {
   params: Promise<{ categoryId: string }>;
@@ -39,19 +39,13 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   }
 
   try {
-    const response = await fetch(
-      `${process.env.SERVER_API_URL}/api/videos?categoryId=${categoryId}`,
-    );
+    const response = await getVideos({ categoryId });
 
     if (!response.ok) {
       throw new Error("No category data available");
     }
 
-    const { data, categories } = (await response.json()) as GetVideosResponse;
-
-    if (!data) {
-      throw new Error("No category data available");
-    }
+    const { data, categories } = response;
 
     const filteredCategories = VIDEO_CATEGORIES.filter(({ id }) =>
       categories.includes(id),
