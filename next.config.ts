@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-import { schema } from "@/shared/lib";
+import { schema } from "@/shared/lib/env";
 
 schema.parse(process.env);
 
