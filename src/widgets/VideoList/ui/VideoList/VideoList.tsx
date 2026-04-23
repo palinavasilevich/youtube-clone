@@ -9,7 +9,7 @@ type VideoListProps = {
 };
 
 export function VideoList({ videos }: VideoListProps) {
-  if (videos.length <= 0) {
+  if (!videos || videos.length <= 0) {
     return <div className={cls.noVideosBlock}>No videos found 😕</div>;
   }
 
@@ -17,7 +17,10 @@ export function VideoList({ videos }: VideoListProps) {
     <div className={cls.videoGrid}>
       {videos.map(({ videoId, title, authorName, authorUrl }) => (
         <div key={videoId} className={cls.videoBlock}>
-          <Link href={buildRoute(ROUTES.VIDEO, { videoId })} className={cls.videoPreview}>
+          <Link
+            href={buildRoute(ROUTES.VIDEO, { videoId })}
+            className={cls.videoPreview}
+          >
             <VideoThumbnail videoId={videoId} />
           </Link>
 
@@ -30,7 +33,10 @@ export function VideoList({ videos }: VideoListProps) {
             </Link>
 
             <div className={cls.videoInfo}>
-              <Link href={buildRoute(ROUTES.VIDEO, { videoId })} className={cls.videoTitleLink}>
+              <Link
+                href={buildRoute(ROUTES.VIDEO, { videoId })}
+                className={cls.videoTitleLink}
+              >
                 <b>{title}</b>
               </Link>
 
@@ -43,7 +49,10 @@ export function VideoList({ videos }: VideoListProps) {
             </div>
           </div>
 
-          <Link href={buildRoute(ROUTES.VIDEO, { videoId })} className={cls.videoOverlayLink} />
+          <Link
+            href={buildRoute(ROUTES.VIDEO, { videoId })}
+            className={cls.videoOverlayLink}
+          />
         </div>
       ))}
     </div>
