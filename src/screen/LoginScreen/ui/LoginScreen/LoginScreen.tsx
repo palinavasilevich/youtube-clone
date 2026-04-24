@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ROUTES } from "@/shared/constants/routes";
 import { useLoginForm } from "@/screen/LoginScreen/lib/useLoginForm";
 import { cn } from "@/shared/lib/css";
+import { Loader } from "@/shared/components/Loader";
 import cls from "./LoginScreen.module.css";
 
 export function LoginScreen() {
@@ -78,7 +79,7 @@ export function LoginScreen() {
                 className={cls.signInButton}
                 disabled={isLoading}
               >
-                Sign in
+                {isLoading ? <Loader size={18} /> : "Sign in"}
               </button>
             </div>
           </form>

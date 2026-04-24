@@ -3,7 +3,9 @@
 import { VIDEO_CATEGORIES } from "@/shared/constants/videoCategories";
 import { useAddVideoForm } from "@/screen/AddVideoScreen/lib/useAddVideoForm";
 import { cn } from "@/shared/lib/css";
+
 import cls from "./AddVideoScreen.module.css";
+import { Loader } from "@/shared/components";
 
 export const AddVideoScreen = ({ userId }: { userId: string }) => {
   const { videoId, isLoading, errors, errorMessage, register, onSubmit } =
@@ -15,7 +17,7 @@ export const AddVideoScreen = ({ userId }: { userId: string }) => {
   if (isLoading) {
     return (
       <div className={cls.container}>
-        <p>Loading...</p>
+        <Loader size={48} />
       </div>
     );
   }

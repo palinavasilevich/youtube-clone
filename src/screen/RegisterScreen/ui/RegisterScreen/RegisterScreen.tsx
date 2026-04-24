@@ -6,6 +6,7 @@ import { ROUTES } from "@/shared/constants/routes";
 import { useRegisterForm } from "@/screen/RegisterScreen/lib/useRegisterForm";
 import { cn } from "@/shared/lib/css";
 import cls from "./RegisterScreen.module.css";
+import { Loader } from "@/shared/components";
 
 export function RegisterScreen() {
   const { isLoading, errors, errorMessage, register, onSubmit } =
@@ -101,7 +102,7 @@ export function RegisterScreen() {
                 className={cls.signUpButton}
                 disabled={isLoading}
               >
-                Sign Up
+                {isLoading ? <Loader size={18} /> : "Sign Up"}
               </button>
             </div>
           </form>
