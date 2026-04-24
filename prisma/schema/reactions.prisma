@@ -1,0 +1,31 @@
+model Like {
+    id String @id @default(cuid())
+
+    userId String @map("user_id")
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    videoId String @map("video_id")
+    video   Video  @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now()) @map("created_at")
+
+    @@unique([userId, videoId])
+    @@map("likes")
+}
+
+model Comment {
+    id String @id @default(cuid())
+
+    text String
+
+    userId String @map("user_id")
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    videoId String @map("video_id")
+    video   Video  @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@map("comments")
+}

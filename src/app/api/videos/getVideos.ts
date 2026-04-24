@@ -1,3 +1,5 @@
+import prisma from "@/shared/lib/prisma";
+
 import { GetVideosResponse } from "@/shared/types/api.types";
 import { fetchVideoInfo } from "./fetchVideoInfo";
 import { getVideosData } from "@/app/api/db/blobVideos";
@@ -11,7 +13,12 @@ export async function getVideos({
   userId,
   categoryId,
 }: GetVideosProps = {}): Promise<GetVideosResponse> {
+  const videosFromPrisma = await prisma.video.findMany();
+
+  console.log(videosFromPrisma);
+
   const videos = await getVideosData();
+
   const all = [...videos];
 
   const categories = Array.from(new Set(all.map((data) => data[1].categoryId)));
