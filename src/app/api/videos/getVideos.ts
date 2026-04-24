@@ -1,6 +1,6 @@
-import { videos } from "@/app/api/db/videos";
 import { GetVideosResponse } from "@/shared/types/api.types";
 import { fetchVideoInfo } from "./fetchVideoInfo";
+import { getVideosData } from "@/app/api/db/blobVideos";
 
 type GetVideosProps = {
   userId?: string;
@@ -11,6 +11,7 @@ export async function getVideos({
   userId,
   categoryId,
 }: GetVideosProps = {}): Promise<GetVideosResponse> {
+  const videos = await getVideosData();
   const all = [...videos];
 
   const categories = Array.from(new Set(all.map((data) => data[1].categoryId)));

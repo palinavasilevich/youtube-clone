@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import bcrypt from "bcrypt";
 import jsonwebtoken from "jsonwebtoken";
-import { users } from "@/app/api/db/users";
+import { getUsersData } from "@/app/api/db/blobUsers";
 import { AUTH_COOKIE_NAME } from "@/shared/constants/cookiesNames";
 import { AuthUser } from "@/shared/types/api.types";
 import { env } from "@/shared/lib/env";
@@ -17,6 +17,7 @@ export type PostUserLoginResponse =
 
 export async function POST(request: Request): Promise<Response> {
   const data: PostUserRequest = await request.json();
+  const users = await getUsersData();
 
   const user = users.get(data.username);
 

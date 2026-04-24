@@ -1,6 +1,6 @@
-import { videos } from "@/app/api/db/videos";
 import { GetVideoByIdResponse } from "@/shared/types/api.types";
 import { fetchVideoInfo } from "./fetchVideoInfo";
+import { getVideosData } from "../db/blobVideos";
 
 type GetVideoByIdProps = {
   videoId: string;
@@ -9,6 +9,8 @@ type GetVideoByIdProps = {
 export async function getVideoById({
   videoId,
 }: GetVideoByIdProps): Promise<GetVideoByIdResponse> {
+  const videos = await getVideosData();
+
   if (!videos.has(videoId)) {
     return { ok: false, data: null };
   }

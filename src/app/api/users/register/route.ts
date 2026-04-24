@@ -2,7 +2,7 @@ import crypto from "crypto";
 import bcrypt from "bcrypt";
 import jsonwebtoken from "jsonwebtoken";
 import { z } from "zod";
-import { users } from "@/app/api/db/users";
+import { getUsersData, saveUsers } from "@/app/api/db/blobUsers";
 import { cookies } from "next/headers";
 import { AUTH_COOKIE_NAME } from "@/shared/constants/cookiesNames";
 import { env } from "@/shared/lib/env";
@@ -30,6 +30,7 @@ export async function POST(request: Request): Promise<Response> {
     };
     return Response.json(res, { status: 400 });
   }
+  const users = await getUsersData();
 
   const { username, password } = parsed.data;
 
@@ -46,6 +47,7 @@ export async function POST(request: Request): Promise<Response> {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   users.set(username, { id, username, password: hashedPassword });
+  await saveUsers(users);
 
   const jwt = jsonwebtoken.sign({ id, username }, env.JWT_SECRET, {
     expiresIn: "1h",

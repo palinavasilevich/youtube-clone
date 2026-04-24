@@ -1,7 +1,7 @@
 "use server";
 
 import { z } from "zod";
-import { videos } from "@/app/api/db/videos";
+import { getVideosData, saveVideos } from "../db/blobVideos";
 
 type AddVideoProps = {
   userId: string;
@@ -29,6 +29,8 @@ export async function addVideo(
     };
   }
 
+  const videos = await getVideosData();
+
   const { videoId, userId, categoryId } = parsed.data;
 
   if (videos.has(videoId)) {
@@ -39,6 +41,7 @@ export async function addVideo(
   }
 
   videos.set(videoId, { id: videoId, userId, categoryId });
+  await saveVideos(videos);
 
   return { ok: true };
 }

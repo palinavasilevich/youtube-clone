@@ -12,6 +12,14 @@ export const AddVideoScreen = ({ userId }: { userId: string }) => {
   const hasVideoUrlError = !!errors.videoUrl?.message;
   const hasVideoCategoryError = !!errors.videoCategory?.message;
 
+  if (isLoading) {
+    return (
+      <div className={cls.container}>
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
   return (
     <div className={cls.container}>
       <form onSubmit={onSubmit} className={cls.form}>

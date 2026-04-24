@@ -22,7 +22,7 @@ export default function withAuth<T extends WithAuthProps>(
       const data = await getUsers();
 
       if (!data.ok) {
-        throw new Error(`Auth request failed`);
+        throw new Error(data.message || `Auth request failed`);
       }
 
       return <Component user={data.user} {...(props as T)} />;

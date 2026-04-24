@@ -6,6 +6,7 @@ export const VIDEO_CATEGORIES = [
   { id: "fun", title: "Fun" },
   { id: "science", title: "Science" },
   { id: "sport", title: "Sport" },
+  { id: "music", title: "Music" },
 ];
 
 export type VideoCategoriesType = typeof VIDEO_CATEGORIES;
