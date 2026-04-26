@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { GetUserResponse } from "@/shared/types/api.types";
+import { createUser } from "@/app/api/users/createUser";
 
 type Inputs = {
   username: string;
@@ -43,19 +43,10 @@ export function useRegisterForm() {
     const { username, password } = data;
 
     try {
-      const response = await fetch("/api/users/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username,
-          password,
-        }),
-      });
+      const response = await createUser({ username, password });
 
-      const result: GetUserResponse = await response.json();
-
-      if (!result.ok) {
-        setErrorMessage(result?.message || "Register request failed");
+      if (!response.ok) {
+        setErrorMessage(response?.message || "Register request failed");
         return;
       }
 

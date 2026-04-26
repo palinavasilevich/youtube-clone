@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { PostUserLoginResponse } from "@/app/api/users/login/route";
+import { login } from "@/app/api/users/login";
 
 type Inputs = {
   username: string;
@@ -33,22 +33,11 @@ export function useLoginForm() {
     setErrorMessage(null);
     setIsLoading(true);
 
-    const { username, password } = data;
-
     try {
-      const response = await fetch("/api/users/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username,
-          password,
-        }),
-      });
+      const response = await login(data);
 
-      const result = (await response.json()) as PostUserLoginResponse;
-
-      if (!result.ok) {
-        setErrorMessage(result.message || "Login request failed");
+      if (!response.ok) {
+        setErrorMessage(response.message || "Login request failed");
         return;
       }
 

@@ -1,12 +1,14 @@
-import { cookies } from "next/headers";
+"use server";
+
 import bcrypt from "bcrypt";
 import jsonwebtoken from "jsonwebtoken";
-import { getUsersData } from "@/app/api/db/blobUsers";
+import { cookies } from "next/headers";
+import prisma from "@/shared/lib/prisma";
 import { AUTH_COOKIE_NAME } from "@/shared/constants/cookiesNames";
 import { AuthUser } from "@/shared/types/api.types";
 import { env } from "@/shared/lib/env";
 
-type PostUserRequest = {
+type LoginUserProps = {
   username: string;
   password: string;
 };
@@ -15,39 +17,36 @@ export type PostUserLoginResponse =
   | { ok: true; user: AuthUser }
   | { ok: false; message: string };
 
-export async function POST(request: Request): Promise<Response> {
-  const data: PostUserRequest = await request.json();
-  const users = await getUsersData();
-
-  const user = users.get(data.username);
+export async function login(
+  data: LoginUserProps,
+): Promise<PostUserLoginResponse> {
+  const user = await prisma.user.findFirst({
+    where: {
+      username: data.username,
+    },
+  });
 
   if (!user) {
-    const res: PostUserLoginResponse = {
+    return {
       ok: false,
       message: "User with this username not found",
     };
-
-    return Response.json(res, { status: 500 });
   }
 
   try {
     const isPasswordsEqual = await bcrypt.compare(data.password, user.password);
 
     if (!isPasswordsEqual) {
-      const res: PostUserLoginResponse = {
+      return {
         ok: false,
         message: "Incorrect password",
       };
-
-      return Response.json(res, { status: 400 });
     }
   } catch {
-    const res: PostUserLoginResponse = {
+    return {
       ok: false,
       message: "Error logging in",
     };
-
-    return Response.json(res, { status: 500 });
   }
 
   const { id, username } = user;
@@ -64,10 +63,8 @@ export async function POST(request: Request): Promise<Response> {
     secure: true,
   });
 
-  const res: PostUserLoginResponse = {
+  return {
     ok: true,
     user: { id, username },
   };
-
-  return Response.json(res);
 }

@@ -1,11 +1,20 @@
+"use server";
+
 import crypto from "crypto";
 import bcrypt from "bcrypt";
 import jsonwebtoken from "jsonwebtoken";
 import { z } from "zod";
-import { getUsersData, saveUsers } from "@/app/api/db/blobUsers";
 import { cookies } from "next/headers";
+import prisma from "@/shared/lib/prisma";
 import { AUTH_COOKIE_NAME } from "@/shared/constants/cookiesNames";
 import { env } from "@/shared/lib/env";
+
+type CreateUserProps = {
+  username: string;
+  password: string;
+};
+
+export type PostUserResponse = { ok: true } | { ok: false; message: string };
 
 const postUserSchema = z.object({
   username: z
@@ -18,36 +27,43 @@ const postUserSchema = z.object({
     .min(3, { message: "The password must be more than 3 characters long" }),
 });
 
-export type PostUserResponse = { ok: true } | { ok: false; message: string };
-
-export async function POST(request: Request): Promise<Response> {
-  const parsed = postUserSchema.safeParse(await request.json());
+export async function createUser(
+  data: CreateUserProps,
+): Promise<PostUserResponse> {
+  const parsed = postUserSchema.safeParse(data);
 
   if (!parsed.success) {
-    const res: PostUserResponse = {
+    return {
       ok: false,
       message: parsed.error.issues[0]?.message ?? "Invalid request body",
     };
-    return Response.json(res, { status: 400 });
   }
-  const users = await getUsersData();
 
   const { username, password } = parsed.data;
 
-  if (users.has(username)) {
-    const res: PostUserResponse = {
+  const user = await prisma.user.findFirst({
+    where: {
+      username,
+    },
+  });
+
+  if (user) {
+    return {
       ok: false,
       message: "User with this username is already registered",
     };
-
-    return Response.json(res, { status: 400 });
   }
 
   const id = crypto.randomBytes(16).toString("hex");
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  users.set(username, { id, username, password: hashedPassword });
-  await saveUsers(users);
+  await prisma.user.create({
+    data: {
+      id,
+      username,
+      password: hashedPassword,
+    },
+  });
 
   const jwt = jsonwebtoken.sign({ id, username }, env.JWT_SECRET, {
     expiresIn: "1h",
@@ -61,9 +77,7 @@ export async function POST(request: Request): Promise<Response> {
     secure: true,
   });
 
-  const res: PostUserResponse = {
+  return {
     ok: true,
   };
-
-  return Response.json(res);
 }

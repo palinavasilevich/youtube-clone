@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import jsonwebtoken from "jsonwebtoken";
 import { GetUserResponse, UserInfoFromToken } from "@/shared/types/api.types";
 import { AUTH_COOKIE_NAME } from "@/shared/constants/cookiesNames";
-import { getUsersData } from "@/app/api/db/blobUsers";
+import prisma from "@/shared/lib/prisma";
 
 export async function getUsers(): Promise<GetUserResponse> {
   const cookiesStore = await cookies();
@@ -21,9 +21,16 @@ export async function getUsers(): Promise<GetUserResponse> {
       process.env.JWT_SECRET!,
     ) as UserInfoFromToken;
 
-    const users = await getUsersData();
-
-    const user = users.get(decodedUserInfo.username);
+    const user = await prisma.user.findUnique({
+      where: {
+        id: decodedUserInfo.id,
+      },
+      omit: {
+        password: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
 
     if (!user) {
       return {
@@ -34,7 +41,7 @@ export async function getUsers(): Promise<GetUserResponse> {
 
     return {
       ok: true,
-      user,
+      user: { ...user, avatar: user.avatar ?? undefined },
     };
   } catch (error) {
     console.error(error);

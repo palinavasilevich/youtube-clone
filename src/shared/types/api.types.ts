@@ -17,6 +17,7 @@ export type GetVideoByIdResponse =
 export type AuthUser = {
   id: string;
   username: string;
+  avatar?: string;
 };
 
 export type UserInfoFromToken = AuthUser & { iat: number };
