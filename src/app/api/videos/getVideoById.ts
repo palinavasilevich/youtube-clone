@@ -1,6 +1,5 @@
 import { GetVideoByIdResponse } from "@/shared/types/api.types";
-import { fetchVideoInfo } from "./fetchVideoInfo";
-import { getVideosData } from "../db/blobVideos";
+import prisma from "@/shared/lib/prisma";
 
 type GetVideoByIdProps = {
   videoId: string;
@@ -9,18 +8,21 @@ type GetVideoByIdProps = {
 export async function getVideoById({
   videoId,
 }: GetVideoByIdProps): Promise<GetVideoByIdResponse> {
-  const videos = await getVideosData();
+  const video = await prisma.video.findUnique({
+    where: { youtubeId: videoId },
+  });
 
-  if (!videos.has(videoId)) {
+  if (!video || !video.title || !video.authorName || !video.authorUrl) {
     return { ok: false, data: null };
   }
 
-  const categoryId = videos.get(videoId)!.categoryId;
-  const result = await fetchVideoInfo({ videoId, categoryId });
-
-  if (!result) {
-    return { ok: false, data: null };
-  }
-
-  return { ok: true, data: result };
+  return {
+    ok: true,
+    data: {
+      videoId: video.youtubeId,
+      title: video.title,
+      authorName: video.authorName,
+      authorUrl: video.authorUrl,
+    },
+  };
 }

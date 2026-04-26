@@ -1,4 +1,4 @@
-export type Video = {
+export type VideoInfo = {
   videoId: string;
   categoryId: string;
   title: string;
@@ -7,11 +7,11 @@ export type Video = {
 };
 
 export type GetVideosResponse =
-  | { ok: true; data: Video[]; categories: string[] }
+  | { ok: true; data: VideoInfo[]; categories: string[] }
   | { ok: false; data: null };
 
 export type GetVideoByIdResponse =
-  | { ok: true; data: Omit<Video, "categoryId"> }
+  | { ok: true; data: Omit<VideoInfo, "categoryId"> }
   | { ok: false; data: null };
 
 export type AuthUser = {

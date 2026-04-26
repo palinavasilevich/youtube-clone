@@ -2,6 +2,7 @@ import "dotenv/config";
 
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "./schema/generated/client";
+import { fetchVideoInfo } from "../src/app/api/videos/fetchVideoInfo";
 
 const databaseUrl = process.env.DATABASE_URL;
 if (!databaseUrl) {
@@ -14,14 +15,14 @@ const prisma = new PrismaClient({ adapter });
 
 const SEED_USER_ID = "seed-user-0";
 
-const youtubeIds = [
-  "hXYHZVMHec0",
-  "3KZnAVWL5IQ",
-  "dQw4w9WgXcQ",
-  "oHAmjGo7h58",
-  "At2gVjhf9Ac",
-  "ssoCumPEH0g",
-  "BXv8NUSOZko",
+const seedVideos = [
+  { youtubeId: "hXYHZVMHec0", categoryId: "science" },
+  { youtubeId: "3KZnAVWL5IQ", categoryId: "science" },
+  { youtubeId: "dQw4w9WgXcQ", categoryId: "music" },
+  { youtubeId: "oHAmjGo7h58", categoryId: "news" },
+  { youtubeId: "At2gVjhf9Ac", categoryId: "games" },
+  { youtubeId: "ssoCumPEH0g", categoryId: "fun" },
+  { youtubeId: "BXv8NUSOZko", categoryId: "fun" },
 ];
 
 async function main() {
@@ -35,12 +36,37 @@ async function main() {
     },
   });
 
-  await prisma.video.createMany({
-    data: youtubeIds.map((youtubeId) => ({ youtubeId, userId: SEED_USER_ID })),
-    skipDuplicates: true,
-  });
+  let seeded = 0;
 
-  console.log(`Seeded ${youtubeIds.length} videos.`);
+  for (const { youtubeId, categoryId } of seedVideos) {
+    const info = await fetchVideoInfo(youtubeId);
+    if (!info) {
+      console.warn(`Could not fetch info for ${youtubeId}, skipping.`);
+      continue;
+    }
+
+    await prisma.video.upsert({
+      where: { youtubeId },
+      update: {
+        categoryId,
+        title: info.title,
+        authorName: info.authorName,
+        authorUrl: info.authorUrl,
+      },
+      create: {
+        youtubeId,
+        userId: SEED_USER_ID,
+        categoryId,
+        title: info.title,
+        authorName: info.authorName,
+        authorUrl: info.authorUrl,
+      },
+    });
+
+    seeded++;
+  }
+
+  console.log(`Seeded ${seeded} videos.`);
 }
 
 main()

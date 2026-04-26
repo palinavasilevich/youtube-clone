@@ -1,53 +1,37 @@
-import { Video } from "@/shared/types/api.types";
-
-type OEmbedVideoInfo = {
+type OEmbedResponse = {
   title: string;
   author_name: string;
   author_url: string;
-  type: string;
-  height: number;
-  width: number;
-  version: string;
-  provider_name: string;
-  provider_url: string;
-  thumbnail_height: number;
-  thumbnail_width: number;
-  thumbnail_url: string;
-  html: string;
 };
 
-type FetchVideoInfoProps = {
-  videoId: string;
-  categoryId: string;
+export type VideoOEmbedInfo = {
+  title: string;
+  authorName: string;
+  authorUrl: string;
 };
 
-export async function fetchVideoInfo({
-  videoId,
-  categoryId,
-}: FetchVideoInfoProps): Promise<Video | null> {
+export async function fetchVideoInfo(
+  videoId: string,
+): Promise<VideoOEmbedInfo | null> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 5000);
 
   try {
-    const rawResponse = await fetch(
+    const response = await fetch(
       `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`,
       { signal: controller.signal },
     );
 
-    if (!rawResponse.ok) return null;
+    if (!response.ok) return null;
 
-    const videoInfo = (await rawResponse.json()) as OEmbedVideoInfo;
-    const authorUrl = videoInfo.author_url.split("/").at(-1) || "";
+    const data = (await response.json()) as OEmbedResponse;
 
     return {
-      videoId,
-      categoryId,
-      title: videoInfo.title,
-      authorName: videoInfo.author_name,
-      authorUrl,
+      title: data.title,
+      authorName: data.author_name,
+      authorUrl: data.author_url.split("/").at(-1) ?? "",
     };
-  } catch (error) {
-    console.error(error);
+  } catch {
     return null;
   } finally {
     clearTimeout(timeout);

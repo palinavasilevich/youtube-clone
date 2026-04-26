@@ -7,6 +7,10 @@ model Video {
     description String?
     views       Int     @default(0)
 
+    categoryId String? @map("category_id")
+    authorName String? @map("author_name")
+    authorUrl  String? @map("author_url")
+
     userId String @map("user_id")
     user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 

@@ -1,11 +1,11 @@
 import Link from "next/link";
+import { VideoInfo } from "@/shared/types/api.types";
 import { ROUTES, buildRoute } from "@/shared/constants/routes";
 import cls from "./VideoList.module.css";
-import { GetVideosResponse } from "@/shared/types/api.types";
 import { VideoThumbnail } from "../VideoThumbnail";
 
 type VideoListProps = {
-  videos: GetVideosResponse["data"];
+  videos: VideoInfo[];
 };
 
 export function VideoList({ videos }: VideoListProps) {

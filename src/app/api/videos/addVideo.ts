@@ -1,12 +1,14 @@
 "use server";
 
 import { z } from "zod";
-import { getVideosData, saveVideos } from "../db/blobVideos";
+import prisma from "@/shared/lib/prisma";
+import { fetchVideoInfo } from "./fetchVideoInfo";
+import { VideoCategory, CATEGORIES } from "@/shared/constants/videoCategories";
 
 type AddVideoProps = {
   userId: string;
   videoId: string;
-  categoryId: string;
+  categoryId: VideoCategory;
 };
 
 type PostVideoResponse = { ok: true } | { ok: false; message: string };
@@ -14,7 +16,7 @@ type PostVideoResponse = { ok: true } | { ok: false; message: string };
 const postVideoSchema = z.object({
   userId: z.string().min(1),
   videoId: z.string().min(1),
-  categoryId: z.string().min(1),
+  categoryId: z.enum(CATEGORIES),
 });
 
 export async function addVideo(
@@ -29,19 +31,38 @@ export async function addVideo(
     };
   }
 
-  const videos = await getVideosData();
-
   const { videoId, userId, categoryId } = parsed.data;
 
-  if (videos.has(videoId)) {
+  const existing = await prisma.video.findUnique({
+    where: { youtubeId: videoId },
+  });
+
+  if (existing) {
     return {
       ok: false,
       message: "The link to this video has already been added previously",
     };
   }
 
-  videos.set(videoId, { id: videoId, userId, categoryId });
-  await saveVideos(videos);
+  const videoInfo = await fetchVideoInfo(videoId);
+
+  if (!videoInfo) {
+    return {
+      ok: false,
+      message: "Could not fetch video information. Please check the video ID.",
+    };
+  }
+
+  await prisma.video.create({
+    data: {
+      youtubeId: videoId,
+      userId,
+      categoryId,
+      title: videoInfo.title,
+      authorName: videoInfo.authorName,
+      authorUrl: videoInfo.authorUrl,
+    },
+  });
 
   return { ok: true };
 }

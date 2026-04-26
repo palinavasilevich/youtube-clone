@@ -1,20 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { GetVideosResponse } from "@/shared/types/api.types";
-import {
-  DEFAULT_CATEGORY,
-  VideoCategoriesType,
-} from "@/shared/constants/videoCategories";
+import { VideoInfo, GetVideosResponse } from "@/shared/types/api.types";
+import { DEFAULT_CATEGORY } from "@/shared/constants/videoCategories";
 import { VideoList } from "@/widgets/VideoList";
 
 import cls from "./HomeScreen.module.css";
 import { cn } from "@/shared/lib/css";
 import { ROUTES, buildRoute } from "@/shared/constants/routes";
 
+type Category = { id: string; title: string };
+
 type HomeScreenProps = {
-  data: GetVideosResponse["data"];
-  categories: VideoCategoriesType;
+  data: VideoInfo[];
+  categories: Category[];
   activeCategoryId?: string;
 };
 

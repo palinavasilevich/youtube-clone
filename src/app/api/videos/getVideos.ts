@@ -1,8 +1,7 @@
-import prisma from "@/shared/lib/prisma";
+"use server";
 
 import { GetVideosResponse } from "@/shared/types/api.types";
-import { fetchVideoInfo } from "./fetchVideoInfo";
-import { getVideosData } from "@/app/api/db/blobVideos";
+import prisma from "@/shared/lib/prisma";
 
 type GetVideosProps = {
   userId?: string;
@@ -13,29 +12,29 @@ export async function getVideos({
   userId,
   categoryId,
 }: GetVideosProps = {}): Promise<GetVideosResponse> {
-  const videosFromPrisma = await prisma.video.findMany();
+  const videos = await prisma.video.findMany({
+    where: {
+      ...(userId ? { userId } : {}),
+      ...(categoryId ? { categoryId } : {}),
+    },
+    orderBy: { createdAt: "desc" },
+  });
 
-  console.log(videosFromPrisma);
-
-  const videos = await getVideosData();
-
-  const all = [...videos];
-
-  const categories = Array.from(new Set(all.map((data) => data[1].categoryId)));
-
-  const filtered = all
-    .filter(([, v]) => (userId ? v.userId === userId : true))
-    .filter(([, v]) => (categoryId ? v.categoryId === categoryId : true));
-
-  const result = (
-    await Promise.allSettled(
-      filtered.map(([videoId, { categoryId }]) =>
-        fetchVideoInfo({ videoId, categoryId }),
-      ),
-    )
-  ).flatMap((r) =>
-    r.status === "fulfilled" && r.value != null ? [r.value] : [],
+  const categories = Array.from(
+    new Set(
+      videos.map((v) => v.categoryId).filter((c): c is string => c !== null),
+    ),
   );
 
-  return { ok: true, data: result, categories };
+  const data = videos
+    .filter((v) => v.title && v.authorName && v.authorUrl && v.categoryId)
+    .map((v) => ({
+      videoId: v.youtubeId,
+      categoryId: v.categoryId!,
+      title: v.title!,
+      authorName: v.authorName!,
+      authorUrl: v.authorUrl!,
+    }));
+
+  return { ok: true, data, categories };
 }
