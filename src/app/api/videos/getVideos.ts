@@ -1,40 +1,56 @@
 "use server";
 
-import { GetVideosResponse } from "@/shared/types/api.types";
+import { VideoInfo } from "@/shared/types/api.types";
 import prisma from "@/shared/lib/prisma";
+import {
+  VIDEO_CATEGORIES,
+  VideoCategory,
+} from "@/shared/constants/videoCategories";
 
 type GetVideosProps = {
   userId?: string;
   categoryId?: string;
 };
 
+type GetVideosResponse =
+  | { ok: true; data: VideoInfo[]; categories: VideoCategory[] }
+  | { ok: false; data: null };
+
 export async function getVideos({
   userId,
   categoryId,
 }: GetVideosProps = {}): Promise<GetVideosResponse> {
-  const videos = await prisma.video.findMany({
-    where: {
-      ...(userId ? { userId } : {}),
-      ...(categoryId ? { categoryId } : {}),
-    },
-    orderBy: { createdAt: "desc" },
-  });
+  try {
+    const [videos, categoryRows] = await Promise.all([
+      prisma.video.findMany({
+        where: { userId, categoryId },
+        orderBy: { createdAt: "desc" },
+      }),
+      categoryId
+        ? prisma.video.findMany({
+            where: { userId },
+            select: { categoryId: true },
+            distinct: ["categoryId"],
+          })
+        : Promise.resolve(null),
+    ]);
 
-  const categories = Array.from(
-    new Set(
-      videos.map((v) => v.categoryId).filter((c): c is string => c !== null),
-    ),
-  );
+    const usedCategoryIds = (categoryRows ?? videos).map((v) => v.categoryId);
 
-  const data = videos
-    .filter((v) => v.title && v.authorName && v.authorUrl && v.categoryId)
-    .map((v) => ({
+    const categories = VIDEO_CATEGORIES.filter(({ id }) =>
+      usedCategoryIds.includes(id),
+    );
+
+    const data: VideoInfo[] = videos.map((v) => ({
       videoId: v.youtubeId,
-      categoryId: v.categoryId!,
-      title: v.title!,
-      authorName: v.authorName!,
-      authorUrl: v.authorUrl!,
+      categoryId: v.categoryId,
+      title: v.title,
+      authorName: v.authorName,
+      authorUrl: v.authorUrl,
     }));
 
-  return { ok: true, data, categories };
+    return { ok: true, data, categories };
+  } catch {
+    return { ok: false, data: null };
+  }
 }

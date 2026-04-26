@@ -6,10 +6,6 @@ export type VideoInfo = {
   authorUrl: string;
 };
 
-export type GetVideosResponse =
-  | { ok: true; data: VideoInfo[]; categories: string[] }
-  | { ok: false; data: null };
-
 export type GetVideoByIdResponse =
   | { ok: true; data: Omit<VideoInfo, "categoryId"> }
   | { ok: false; data: null };

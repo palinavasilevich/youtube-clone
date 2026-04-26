@@ -218,12 +218,12 @@ export type VideoGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type VideoGroupByOutputType = {
   id: string
   youtubeId: string
-  title: string | null
+  title: string
   description: string | null
   views: number
-  categoryId: string | null
-  authorName: string | null
-  authorUrl: string | null
+  categoryId: string
+  authorName: string
+  authorUrl: string
   userId: string
   createdAt: Date
   updatedAt: Date
@@ -255,12 +255,12 @@ export type VideoWhereInput = {
   NOT?: Prisma.VideoWhereInput | Prisma.VideoWhereInput[]
   id?: Prisma.StringFilter<"Video"> | string
   youtubeId?: Prisma.StringFilter<"Video"> | string
-  title?: Prisma.StringNullableFilter<"Video"> | string | null
+  title?: Prisma.StringFilter<"Video"> | string
   description?: Prisma.StringNullableFilter<"Video"> | string | null
   views?: Prisma.IntFilter<"Video"> | number
-  categoryId?: Prisma.StringNullableFilter<"Video"> | string | null
-  authorName?: Prisma.StringNullableFilter<"Video"> | string | null
-  authorUrl?: Prisma.StringNullableFilter<"Video"> | string | null
+  categoryId?: Prisma.StringFilter<"Video"> | string
+  authorName?: Prisma.StringFilter<"Video"> | string
+  authorUrl?: Prisma.StringFilter<"Video"> | string
   userId?: Prisma.StringFilter<"Video"> | string
   createdAt?: Prisma.DateTimeFilter<"Video"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Video"> | Date | string
@@ -272,12 +272,12 @@ export type VideoWhereInput = {
 export type VideoOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   youtubeId?: Prisma.SortOrder
-  title?: Prisma.SortOrderInput | Prisma.SortOrder
+  title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   views?: Prisma.SortOrder
-  categoryId?: Prisma.SortOrderInput | Prisma.SortOrder
-  authorName?: Prisma.SortOrderInput | Prisma.SortOrder
-  authorUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  categoryId?: Prisma.SortOrder
+  authorName?: Prisma.SortOrder
+  authorUrl?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -292,12 +292,12 @@ export type VideoWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.VideoWhereInput | Prisma.VideoWhereInput[]
   OR?: Prisma.VideoWhereInput[]
   NOT?: Prisma.VideoWhereInput | Prisma.VideoWhereInput[]
-  title?: Prisma.StringNullableFilter<"Video"> | string | null
+  title?: Prisma.StringFilter<"Video"> | string
   description?: Prisma.StringNullableFilter<"Video"> | string | null
   views?: Prisma.IntFilter<"Video"> | number
-  categoryId?: Prisma.StringNullableFilter<"Video"> | string | null
-  authorName?: Prisma.StringNullableFilter<"Video"> | string | null
-  authorUrl?: Prisma.StringNullableFilter<"Video"> | string | null
+  categoryId?: Prisma.StringFilter<"Video"> | string
+  authorName?: Prisma.StringFilter<"Video"> | string
+  authorUrl?: Prisma.StringFilter<"Video"> | string
   userId?: Prisma.StringFilter<"Video"> | string
   createdAt?: Prisma.DateTimeFilter<"Video"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Video"> | Date | string
@@ -309,12 +309,12 @@ export type VideoWhereUniqueInput = Prisma.AtLeast<{
 export type VideoOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   youtubeId?: Prisma.SortOrder
-  title?: Prisma.SortOrderInput | Prisma.SortOrder
+  title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   views?: Prisma.SortOrder
-  categoryId?: Prisma.SortOrderInput | Prisma.SortOrder
-  authorName?: Prisma.SortOrderInput | Prisma.SortOrder
-  authorUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  categoryId?: Prisma.SortOrder
+  authorName?: Prisma.SortOrder
+  authorUrl?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -331,12 +331,12 @@ export type VideoScalarWhereWithAggregatesInput = {
   NOT?: Prisma.VideoScalarWhereWithAggregatesInput | Prisma.VideoScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Video"> | string
   youtubeId?: Prisma.StringWithAggregatesFilter<"Video"> | string
-  title?: Prisma.StringNullableWithAggregatesFilter<"Video"> | string | null
+  title?: Prisma.StringWithAggregatesFilter<"Video"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Video"> | string | null
   views?: Prisma.IntWithAggregatesFilter<"Video"> | number
-  categoryId?: Prisma.StringNullableWithAggregatesFilter<"Video"> | string | null
-  authorName?: Prisma.StringNullableWithAggregatesFilter<"Video"> | string | null
-  authorUrl?: Prisma.StringNullableWithAggregatesFilter<"Video"> | string | null
+  categoryId?: Prisma.StringWithAggregatesFilter<"Video"> | string
+  authorName?: Prisma.StringWithAggregatesFilter<"Video"> | string
+  authorUrl?: Prisma.StringWithAggregatesFilter<"Video"> | string
   userId?: Prisma.StringWithAggregatesFilter<"Video"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Video"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Video"> | Date | string
@@ -345,12 +345,12 @@ export type VideoScalarWhereWithAggregatesInput = {
 export type VideoCreateInput = {
   id?: string
   youtubeId: string
-  title?: string | null
+  title: string
   description?: string | null
   views?: number
-  categoryId?: string | null
-  authorName?: string | null
-  authorUrl?: string | null
+  categoryId: string
+  authorName: string
+  authorUrl: string
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutVideosInput
@@ -361,12 +361,12 @@ export type VideoCreateInput = {
 export type VideoUncheckedCreateInput = {
   id?: string
   youtubeId: string
-  title?: string | null
+  title: string
   description?: string | null
   views?: number
-  categoryId?: string | null
-  authorName?: string | null
-  authorUrl?: string | null
+  categoryId: string
+  authorName: string
+  authorUrl: string
   userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -377,12 +377,12 @@ export type VideoUncheckedCreateInput = {
 export type VideoUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   youtubeId?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   views?: Prisma.IntFieldUpdateOperationsInput | number
-  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  authorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  authorUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  authorName?: Prisma.StringFieldUpdateOperationsInput | string
+  authorUrl?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutVideosNestedInput
@@ -393,12 +393,12 @@ export type VideoUpdateInput = {
 export type VideoUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   youtubeId?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   views?: Prisma.IntFieldUpdateOperationsInput | number
-  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  authorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  authorUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  authorName?: Prisma.StringFieldUpdateOperationsInput | string
+  authorUrl?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -409,12 +409,12 @@ export type VideoUncheckedUpdateInput = {
 export type VideoCreateManyInput = {
   id?: string
   youtubeId: string
-  title?: string | null
+  title: string
   description?: string | null
   views?: number
-  categoryId?: string | null
-  authorName?: string | null
-  authorUrl?: string | null
+  categoryId: string
+  authorName: string
+  authorUrl: string
   userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -423,12 +423,12 @@ export type VideoCreateManyInput = {
 export type VideoUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   youtubeId?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   views?: Prisma.IntFieldUpdateOperationsInput | number
-  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  authorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  authorUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  authorName?: Prisma.StringFieldUpdateOperationsInput | string
+  authorUrl?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -436,12 +436,12 @@ export type VideoUpdateManyMutationInput = {
 export type VideoUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   youtubeId?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   views?: Prisma.IntFieldUpdateOperationsInput | number
-  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  authorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  authorUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  authorName?: Prisma.StringFieldUpdateOperationsInput | string
+  authorUrl?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -593,12 +593,12 @@ export type IntFieldUpdateOperationsInput = {
 export type VideoCreateWithoutLikesInput = {
   id?: string
   youtubeId: string
-  title?: string | null
+  title: string
   description?: string | null
   views?: number
-  categoryId?: string | null
-  authorName?: string | null
-  authorUrl?: string | null
+  categoryId: string
+  authorName: string
+  authorUrl: string
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutVideosInput
@@ -608,12 +608,12 @@ export type VideoCreateWithoutLikesInput = {
 export type VideoUncheckedCreateWithoutLikesInput = {
   id?: string
   youtubeId: string
-  title?: string | null
+  title: string
   description?: string | null
   views?: number
-  categoryId?: string | null
-  authorName?: string | null
-  authorUrl?: string | null
+  categoryId: string
+  authorName: string
+  authorUrl: string
   userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -639,12 +639,12 @@ export type VideoUpdateToOneWithWhereWithoutLikesInput = {
 export type VideoUpdateWithoutLikesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   youtubeId?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   views?: Prisma.IntFieldUpdateOperationsInput | number
-  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  authorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  authorUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  authorName?: Prisma.StringFieldUpdateOperationsInput | string
+  authorUrl?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutVideosNestedInput
@@ -654,12 +654,12 @@ export type VideoUpdateWithoutLikesInput = {
 export type VideoUncheckedUpdateWithoutLikesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   youtubeId?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   views?: Prisma.IntFieldUpdateOperationsInput | number
-  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  authorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  authorUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  authorName?: Prisma.StringFieldUpdateOperationsInput | string
+  authorUrl?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -669,12 +669,12 @@ export type VideoUncheckedUpdateWithoutLikesInput = {
 export type VideoCreateWithoutCommentsInput = {
   id?: string
   youtubeId: string
-  title?: string | null
+  title: string
   description?: string | null
   views?: number
-  categoryId?: string | null
-  authorName?: string | null
-  authorUrl?: string | null
+  categoryId: string
+  authorName: string
+  authorUrl: string
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutVideosInput
@@ -684,12 +684,12 @@ export type VideoCreateWithoutCommentsInput = {
 export type VideoUncheckedCreateWithoutCommentsInput = {
   id?: string
   youtubeId: string
-  title?: string | null
+  title: string
   description?: string | null
   views?: number
-  categoryId?: string | null
-  authorName?: string | null
-  authorUrl?: string | null
+  categoryId: string
+  authorName: string
+  authorUrl: string
   userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -715,12 +715,12 @@ export type VideoUpdateToOneWithWhereWithoutCommentsInput = {
 export type VideoUpdateWithoutCommentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   youtubeId?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   views?: Prisma.IntFieldUpdateOperationsInput | number
-  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  authorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  authorUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  authorName?: Prisma.StringFieldUpdateOperationsInput | string
+  authorUrl?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutVideosNestedInput
@@ -730,12 +730,12 @@ export type VideoUpdateWithoutCommentsInput = {
 export type VideoUncheckedUpdateWithoutCommentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   youtubeId?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   views?: Prisma.IntFieldUpdateOperationsInput | number
-  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  authorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  authorUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  authorName?: Prisma.StringFieldUpdateOperationsInput | string
+  authorUrl?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -745,12 +745,12 @@ export type VideoUncheckedUpdateWithoutCommentsInput = {
 export type VideoCreateWithoutUserInput = {
   id?: string
   youtubeId: string
-  title?: string | null
+  title: string
   description?: string | null
   views?: number
-  categoryId?: string | null
-  authorName?: string | null
-  authorUrl?: string | null
+  categoryId: string
+  authorName: string
+  authorUrl: string
   createdAt?: Date | string
   updatedAt?: Date | string
   likes?: Prisma.LikeCreateNestedManyWithoutVideoInput
@@ -760,12 +760,12 @@ export type VideoCreateWithoutUserInput = {
 export type VideoUncheckedCreateWithoutUserInput = {
   id?: string
   youtubeId: string
-  title?: string | null
+  title: string
   description?: string | null
   views?: number
-  categoryId?: string | null
-  authorName?: string | null
-  authorUrl?: string | null
+  categoryId: string
+  authorName: string
+  authorUrl: string
   createdAt?: Date | string
   updatedAt?: Date | string
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutVideoInput
@@ -804,12 +804,12 @@ export type VideoScalarWhereInput = {
   NOT?: Prisma.VideoScalarWhereInput | Prisma.VideoScalarWhereInput[]
   id?: Prisma.StringFilter<"Video"> | string
   youtubeId?: Prisma.StringFilter<"Video"> | string
-  title?: Prisma.StringNullableFilter<"Video"> | string | null
+  title?: Prisma.StringFilter<"Video"> | string
   description?: Prisma.StringNullableFilter<"Video"> | string | null
   views?: Prisma.IntFilter<"Video"> | number
-  categoryId?: Prisma.StringNullableFilter<"Video"> | string | null
-  authorName?: Prisma.StringNullableFilter<"Video"> | string | null
-  authorUrl?: Prisma.StringNullableFilter<"Video"> | string | null
+  categoryId?: Prisma.StringFilter<"Video"> | string
+  authorName?: Prisma.StringFilter<"Video"> | string
+  authorUrl?: Prisma.StringFilter<"Video"> | string
   userId?: Prisma.StringFilter<"Video"> | string
   createdAt?: Prisma.DateTimeFilter<"Video"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Video"> | Date | string
@@ -818,12 +818,12 @@ export type VideoScalarWhereInput = {
 export type VideoCreateManyUserInput = {
   id?: string
   youtubeId: string
-  title?: string | null
+  title: string
   description?: string | null
   views?: number
-  categoryId?: string | null
-  authorName?: string | null
-  authorUrl?: string | null
+  categoryId: string
+  authorName: string
+  authorUrl: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -831,12 +831,12 @@ export type VideoCreateManyUserInput = {
 export type VideoUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   youtubeId?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   views?: Prisma.IntFieldUpdateOperationsInput | number
-  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  authorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  authorUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  authorName?: Prisma.StringFieldUpdateOperationsInput | string
+  authorUrl?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   likes?: Prisma.LikeUpdateManyWithoutVideoNestedInput
@@ -846,12 +846,12 @@ export type VideoUpdateWithoutUserInput = {
 export type VideoUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   youtubeId?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   views?: Prisma.IntFieldUpdateOperationsInput | number
-  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  authorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  authorUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  authorName?: Prisma.StringFieldUpdateOperationsInput | string
+  authorUrl?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   likes?: Prisma.LikeUncheckedUpdateManyWithoutVideoNestedInput
@@ -861,12 +861,12 @@ export type VideoUncheckedUpdateWithoutUserInput = {
 export type VideoUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   youtubeId?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   views?: Prisma.IntFieldUpdateOperationsInput | number
-  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  authorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  authorUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  authorName?: Prisma.StringFieldUpdateOperationsInput | string
+  authorUrl?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -997,12 +997,12 @@ export type $VideoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     youtubeId: string
-    title: string | null
+    title: string
     description: string | null
     views: number
-    categoryId: string | null
-    authorName: string | null
-    authorUrl: string | null
+    categoryId: string
+    authorName: string
+    authorUrl: string
     userId: string
     createdAt: Date
     updatedAt: Date

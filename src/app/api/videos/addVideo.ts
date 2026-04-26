@@ -3,12 +3,15 @@
 import { z } from "zod";
 import prisma from "@/shared/lib/prisma";
 import { fetchVideoInfo } from "./fetchVideoInfo";
-import { VideoCategory, CATEGORIES } from "@/shared/constants/videoCategories";
+import {
+  VideoCategoryId,
+  CATEGORIES,
+} from "@/shared/constants/videoCategories";
 
 type AddVideoProps = {
   userId: string;
   videoId: string;
-  categoryId: VideoCategory;
+  categoryId: VideoCategoryId;
 };
 
 type PostVideoResponse = { ok: true } | { ok: false; message: string };

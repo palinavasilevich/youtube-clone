@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { VideoInfo, GetVideosResponse } from "@/shared/types/api.types";
+import { VideoInfo } from "@/shared/types/api.types";
 import { DEFAULT_CATEGORY } from "@/shared/constants/videoCategories";
 import { VideoList } from "@/widgets/VideoList";
 

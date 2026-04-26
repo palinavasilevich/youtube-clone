@@ -9,10 +9,7 @@ export const CATEGORIES = [
 
 export const DEFAULT_CATEGORY = { id: "all", title: "All videos" } as const;
 
-export const VIDEO_CATEGORIES: {
-  id: (typeof CATEGORIES)[number];
-  title: string;
-}[] = [
+export const VIDEO_CATEGORIES: VideoCategory[] = [
   { id: "games", title: "Games" },
   { id: "news", title: "News" },
   { id: "fun", title: "Fun" },
@@ -21,4 +18,9 @@ export const VIDEO_CATEGORIES: {
   { id: "music", title: "Music" },
 ];
 
-export type VideoCategory = (typeof CATEGORIES)[number];
+export type VideoCategoryId = (typeof CATEGORIES)[number];
+
+export type VideoCategory = {
+  id: VideoCategoryId;
+  title: string;
+};

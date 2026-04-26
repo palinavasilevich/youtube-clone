@@ -3,12 +3,15 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { isAllowedHost, parseYouTube, YOUTUBE_DOMAINS } from "@/shared/lib";
-import { CATEGORIES, VideoCategory } from "@/shared/constants/videoCategories";
+import {
+  CATEGORIES,
+  VideoCategoryId,
+} from "@/shared/constants/videoCategories";
 import { addVideo } from "@/app/api/videos/addVideo";
 
 type Inputs = {
   videoUrl: string;
-  videoCategory: VideoCategory;
+  videoCategory: VideoCategoryId;
 };
 
 const schema = z.object({
