@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { ROUTES, buildRoute } from "@/shared/constants/routes";
-import { Video } from "@/shared/types/api.types";
+import { VideoInfo } from "@/shared/types/api.types";
 import cls from "./VideoScreen.module.css";
 
 type VideoScreenProps = {
-  data: Omit<Video, "categoryId">;
+  data: Omit<VideoInfo, "categoryId">;
 };
 
 export const VideoScreen = ({ data }: VideoScreenProps) => {
