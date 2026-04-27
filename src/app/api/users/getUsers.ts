@@ -1,8 +1,12 @@
 import { cookies } from "next/headers";
 import jsonwebtoken from "jsonwebtoken";
-import { GetUserResponse, UserInfoFromToken } from "@/shared/types/api.types";
+import { AuthUser, UserInfoFromToken } from "@/shared/types/api.types";
 import { AUTH_COOKIE_NAME } from "@/shared/constants/cookiesNames";
 import prisma from "@/shared/lib/prisma";
+
+export type GetUserResponse =
+  | { ok: true; user: AuthUser }
+  | { ok: false; message: string };
 
 export async function getUsers(): Promise<GetUserResponse> {
   const cookiesStore = await cookies();

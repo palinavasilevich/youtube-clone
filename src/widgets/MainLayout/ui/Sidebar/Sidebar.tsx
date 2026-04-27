@@ -37,7 +37,10 @@ export function Sidebar({ userId }: SidebarProps) {
 
         {userId && (
           <>
-            <Link href={buildRoute(ROUTES.PROFILE, { profileId: userId })} className={cls.navLink}>
+            <Link
+              href={buildRoute(ROUTES.PROFILE, { userId })}
+              className={cls.navLink}
+            >
               <User width={24} />
               Profile
             </Link>

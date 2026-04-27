@@ -27,14 +27,14 @@ export const VideoScreen = ({ data }: VideoScreenProps) => {
 
       <div className={cls.videoInfoContainer}>
         <Link
-          href={buildRoute(ROUTES.PROFILE, { profileId: authorUrl })}
+          href={buildRoute(ROUTES.PROFILE, { userId: authorUrl })}
           className={cls.channelAvatarLink}
         >
           <div className={cls.hiddenText}>{authorName}</div>
         </Link>
 
         <Link
-          href={buildRoute(ROUTES.PROFILE, { profileId: authorUrl })}
+          href={buildRoute(ROUTES.PROFILE, { userId: authorUrl })}
           className={cls.channelNameLink}
         >
           {authorName}

@@ -1,9 +1,13 @@
-import { GetVideoByIdResponse } from "@/shared/types/api.types";
+import { VideoInfo } from "@/shared/types/api.types";
 import prisma from "@/shared/lib/prisma";
 
 type GetVideoByIdProps = {
   videoId: string;
 };
+
+type GetVideoByIdResponse =
+  | { ok: true; data: Omit<VideoInfo, "categoryId"> }
+  | { ok: false; data: null };
 
 export async function getVideoById({
   videoId,
