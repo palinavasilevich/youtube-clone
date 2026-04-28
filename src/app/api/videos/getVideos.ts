@@ -50,6 +50,7 @@ export async function getVideos({
       authorName: v.authorName,
       authorUrl: v.authorUrl,
       channelThumbnail: v.channelThumbnail,
+      publishedAt: v.publishedAt,
     }));
 
     return { ok: true, data, categories };

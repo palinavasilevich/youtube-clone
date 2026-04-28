@@ -4,6 +4,7 @@ type YouTubeVideoItem = {
     description: string;
     channelId: string;
     channelTitle: string;
+    publishedAt: string;
   };
   statistics: {
     viewCount?: string;
@@ -21,6 +22,7 @@ export type YouTubeFetchedInfo = {
   authorName: string;
   authorUrl: string;
   channelThumbnail: string | null;
+  publishedAt: string;
   viewCount: number;
 };
 
@@ -97,6 +99,7 @@ export async function fetchVideoInfo(
       authorName: snippet.channelTitle,
       authorUrl: snippet.channelId,
       channelThumbnail,
+      publishedAt: snippet.publishedAt,
       viewCount: parseInt(statistics.viewCount ?? "0", 10),
     };
   } catch {

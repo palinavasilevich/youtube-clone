@@ -24,7 +24,9 @@
 }
 
 .videoInfo {
-  font-size: 1rem;
+  display: flex;
+  gap: 12px;
+  font-size: 14px;
   line-height: 2rem;
   font-weight: 700;
 }
@@ -85,5 +87,5 @@
   line-height: 1.5;
   white-space: pre-wrap;
   font-weight: 500;
-  color: #ccc;
+  color: #fff;
 }

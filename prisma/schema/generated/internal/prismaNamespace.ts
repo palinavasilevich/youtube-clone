@@ -786,6 +786,7 @@ export const VideoScalarFieldEnum = {
   authorName: 'authorName',
   authorUrl: 'authorUrl',
   channelThumbnail: 'channelThumbnail',
+  publishedAt: 'publishedAt',
   userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

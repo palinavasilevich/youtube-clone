@@ -68,11 +68,15 @@ export async function addVideo(
         authorName: videoInfo.authorName,
         authorUrl: videoInfo.authorUrl,
         channelThumbnail: videoInfo.channelThumbnail,
+        publishedAt: videoInfo.publishedAt,
       },
     });
   } catch (e: unknown) {
     if ((e as { code?: string }).code === "P2002") {
-      return { ok: false, message: "The link to this video has already been added previously" };
+      return {
+        ok: false,
+        message: "The link to this video has already been added previously",
+      };
     }
     throw e;
   }

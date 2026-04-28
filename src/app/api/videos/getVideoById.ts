@@ -30,6 +30,7 @@ export async function getVideoById({
       authorName: video.authorName,
       authorUrl: video.authorUrl,
       channelThumbnail: video.channelThumbnail,
+      publishedAt: video.publishedAt,
     },
   };
 }

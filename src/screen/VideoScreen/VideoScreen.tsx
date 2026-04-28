@@ -7,6 +7,7 @@ import { VideoInfo } from "@/shared/types/api.types";
 import cls from "./VideoScreen.module.css";
 import { useState } from "react";
 import { cn } from "@/shared/lib/css";
+import { dateFormat, viewsFormat } from "@/shared/lib/dataFormat";
 
 type VideoScreenProps = {
   data: Omit<VideoInfo, "categoryId">;
@@ -21,6 +22,7 @@ export const VideoScreen = ({ data }: VideoScreenProps) => {
     authorName,
     authorUrl,
     channelThumbnail,
+    publishedAt,
   } = data;
 
   const [showFullDescription, setShowFullDescription] = useState(false);
@@ -74,7 +76,10 @@ export const VideoScreen = ({ data }: VideoScreenProps) => {
           )}
         >
           <div className={cls.videoInfo}>
-            <span className={cls.views}>{views.toLocaleString("en-US")} views</span>
+            <span className={cls.views}>{viewsFormat(views)} views</span>
+            {publishedAt && (
+              <span className={cls.publishedAt}>{dateFormat(publishedAt)}</span>
+            )}
           </div>
           <p className={cls.description}>
             {showFullDescription ? description : description.slice(0, 300)}

@@ -11,6 +11,7 @@ model Video {
     authorName       String  @map("author_name")
     authorUrl        String  @map("author_url")
     channelThumbnail String? @map("channel_thumbnail")
+    publishedAt      String? @map("published_at")
 
     userId String @map("user_id")
     user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
