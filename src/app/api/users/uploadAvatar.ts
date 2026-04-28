@@ -1,7 +1,6 @@
 "use server";
 
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
+import { put } from "@vercel/blob";
 import prisma from "@/shared/lib/prisma";
 
 type UploadAvatarResponse = { ok: true; url: string } | { ok: false; message: string };
@@ -24,22 +23,17 @@ export async function uploadAvatar(formData: FormData): Promise<UploadAvatarResp
 
   try {
     const ext = file.name.split(".").pop();
-    const filename = `${userId}.${ext}`;
-    const uploadsDir = path.join(process.cwd(), "public", "uploads", "avatars");
-
-    await mkdir(uploadsDir, { recursive: true });
-
-    const bytes = await file.arrayBuffer();
-    await writeFile(path.join(uploadsDir, filename), Buffer.from(bytes));
-
-    const avatarUrl = `/uploads/avatars/${filename}`;
+    const blob = await put(`avatars/${userId}.${ext}`, file, {
+      access: "public",
+      allowOverwrite: true,
+    });
 
     await prisma.user.update({
       where: { id: userId },
-      data: { avatar: avatarUrl },
+      data: { avatar: blob.url },
     });
 
-    return { ok: true, url: avatarUrl };
+    return { ok: true, url: blob.url };
   } catch (error) {
     console.error(error);
     return { ok: false, message: "Failed to upload avatar" };
