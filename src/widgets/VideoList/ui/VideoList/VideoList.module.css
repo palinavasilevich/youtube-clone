@@ -69,6 +69,11 @@
   }
 }
 
+.channelAvatar {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .videoInfo {
   display: flex;
   flex-direction: column;

@@ -64,6 +64,7 @@ export async function addVideo(
       title: videoInfo.title,
       authorName: videoInfo.authorName,
       authorUrl: videoInfo.authorUrl,
+      channelThumbnail: videoInfo.channelThumbnail,
     },
   });
 

@@ -4,6 +4,7 @@ export type VideoInfo = {
   title: string;
   authorName: string;
   authorUrl: string;
+  channelThumbnail: string | null;
 };
 
 export type AuthUser = {

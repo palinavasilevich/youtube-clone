@@ -27,6 +27,7 @@ export async function getVideoById({
       title: video.title,
       authorName: video.authorName,
       authorUrl: video.authorUrl,
+      channelThumbnail: video.channelThumbnail,
     },
   };
 }

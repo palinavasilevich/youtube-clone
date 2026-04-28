@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ROUTES, buildRoute } from "@/shared/constants/routes";
 import { VideoInfo } from "@/shared/types/api.types";
 import cls from "./VideoScreen.module.css";
@@ -8,7 +9,7 @@ type VideoScreenProps = {
 };
 
 export const VideoScreen = ({ data }: VideoScreenProps) => {
-  const { videoId, title, authorName, authorUrl } = data;
+  const { videoId, title, authorName, authorUrl, channelThumbnail } = data;
 
   return (
     <div className={cls.container}>
@@ -30,7 +31,17 @@ export const VideoScreen = ({ data }: VideoScreenProps) => {
           href={buildRoute(ROUTES.PROFILE, { userId: authorUrl })}
           className={cls.channelAvatarLink}
         >
-          <div className={cls.hiddenText}>{authorName}</div>
+          {channelThumbnail ? (
+            <Image
+              src={channelThumbnail}
+              alt={authorName}
+              fill
+              unoptimized
+              className={cls.channelAvatar}
+            />
+          ) : (
+            <div className={cls.hiddenText}>{authorName}</div>
+          )}
         </Link>
 
         <Link

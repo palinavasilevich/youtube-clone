@@ -8,7 +8,47 @@ export type VideoOEmbedInfo = {
   title: string;
   authorName: string;
   authorUrl: string;
+  channelThumbnail: string | null;
 };
+
+async function fetchChannelThumbnail(
+  authorUrl: string,
+): Promise<string | null> {
+  const apiKey = process.env.YOUTUBE_API_KEY;
+  if (!apiKey) return null;
+
+  const params = new URLSearchParams({
+    part: "snippet",
+    key: apiKey,
+    maxResults: "1",
+  });
+
+  if (/^UC[\w-]{22}$/.test(authorUrl)) {
+    params.set("id", authorUrl);
+  } else if (authorUrl.startsWith("@")) {
+    params.set("forHandle", authorUrl.replace(/^@/, ""));
+  } else {
+    params.set("forUsername", authorUrl);
+  }
+
+  try {
+    const res = await fetch(
+      `https://www.googleapis.com/youtube/v3/channels?${params}`,
+    );
+    if (!res.ok) return null;
+
+    const data = await res.json();
+
+    return (
+      data.items?.[0]?.snippet?.thumbnails?.high?.url ||
+      data.items?.[0]?.snippet?.thumbnails?.medium?.url ||
+      data.items?.[0]?.snippet?.thumbnails?.default?.url ||
+      null
+    );
+  } catch {
+    return null;
+  }
+}
 
 export async function fetchVideoInfo(
   videoId: string,
@@ -25,11 +65,14 @@ export async function fetchVideoInfo(
     if (!response.ok) return null;
 
     const data = (await response.json()) as OEmbedResponse;
+    const authorUrl = data.author_url.split("/").at(-1) ?? "";
+    const channelThumbnail = await fetchChannelThumbnail(authorUrl);
 
     return {
       title: data.title,
       authorName: data.author_name,
-      authorUrl: data.author_url.split("/").at(-1) ?? "",
+      authorUrl,
+      channelThumbnail,
     };
   } catch {
     return null;

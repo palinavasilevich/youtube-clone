@@ -52,6 +52,7 @@ async function main() {
         title: info.title,
         authorName: info.authorName,
         authorUrl: info.authorUrl,
+        channelThumbnail: info.channelThumbnail,
       },
       create: {
         youtubeId,
@@ -60,6 +61,7 @@ async function main() {
         title: info.title,
         authorName: info.authorName,
         authorUrl: info.authorUrl,
+        channelThumbnail: info.channelThumbnail,
       },
     });
 

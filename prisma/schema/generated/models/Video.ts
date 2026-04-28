@@ -43,6 +43,7 @@ export type VideoMinAggregateOutputType = {
   categoryId: string | null
   authorName: string | null
   authorUrl: string | null
+  channelThumbnail: string | null
   userId: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -57,6 +58,7 @@ export type VideoMaxAggregateOutputType = {
   categoryId: string | null
   authorName: string | null
   authorUrl: string | null
+  channelThumbnail: string | null
   userId: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -71,6 +73,7 @@ export type VideoCountAggregateOutputType = {
   categoryId: number
   authorName: number
   authorUrl: number
+  channelThumbnail: number
   userId: number
   createdAt: number
   updatedAt: number
@@ -95,6 +98,7 @@ export type VideoMinAggregateInputType = {
   categoryId?: true
   authorName?: true
   authorUrl?: true
+  channelThumbnail?: true
   userId?: true
   createdAt?: true
   updatedAt?: true
@@ -109,6 +113,7 @@ export type VideoMaxAggregateInputType = {
   categoryId?: true
   authorName?: true
   authorUrl?: true
+  channelThumbnail?: true
   userId?: true
   createdAt?: true
   updatedAt?: true
@@ -123,6 +128,7 @@ export type VideoCountAggregateInputType = {
   categoryId?: true
   authorName?: true
   authorUrl?: true
+  channelThumbnail?: true
   userId?: true
   createdAt?: true
   updatedAt?: true
@@ -224,6 +230,7 @@ export type VideoGroupByOutputType = {
   categoryId: string
   authorName: string
   authorUrl: string
+  channelThumbnail: string | null
   userId: string
   createdAt: Date
   updatedAt: Date
@@ -261,6 +268,7 @@ export type VideoWhereInput = {
   categoryId?: Prisma.StringFilter<"Video"> | string
   authorName?: Prisma.StringFilter<"Video"> | string
   authorUrl?: Prisma.StringFilter<"Video"> | string
+  channelThumbnail?: Prisma.StringNullableFilter<"Video"> | string | null
   userId?: Prisma.StringFilter<"Video"> | string
   createdAt?: Prisma.DateTimeFilter<"Video"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Video"> | Date | string
@@ -278,6 +286,7 @@ export type VideoOrderByWithRelationInput = {
   categoryId?: Prisma.SortOrder
   authorName?: Prisma.SortOrder
   authorUrl?: Prisma.SortOrder
+  channelThumbnail?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -298,6 +307,7 @@ export type VideoWhereUniqueInput = Prisma.AtLeast<{
   categoryId?: Prisma.StringFilter<"Video"> | string
   authorName?: Prisma.StringFilter<"Video"> | string
   authorUrl?: Prisma.StringFilter<"Video"> | string
+  channelThumbnail?: Prisma.StringNullableFilter<"Video"> | string | null
   userId?: Prisma.StringFilter<"Video"> | string
   createdAt?: Prisma.DateTimeFilter<"Video"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Video"> | Date | string
@@ -315,6 +325,7 @@ export type VideoOrderByWithAggregationInput = {
   categoryId?: Prisma.SortOrder
   authorName?: Prisma.SortOrder
   authorUrl?: Prisma.SortOrder
+  channelThumbnail?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -337,6 +348,7 @@ export type VideoScalarWhereWithAggregatesInput = {
   categoryId?: Prisma.StringWithAggregatesFilter<"Video"> | string
   authorName?: Prisma.StringWithAggregatesFilter<"Video"> | string
   authorUrl?: Prisma.StringWithAggregatesFilter<"Video"> | string
+  channelThumbnail?: Prisma.StringNullableWithAggregatesFilter<"Video"> | string | null
   userId?: Prisma.StringWithAggregatesFilter<"Video"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Video"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Video"> | Date | string
@@ -351,6 +363,7 @@ export type VideoCreateInput = {
   categoryId: string
   authorName: string
   authorUrl: string
+  channelThumbnail?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutVideosInput
@@ -367,6 +380,7 @@ export type VideoUncheckedCreateInput = {
   categoryId: string
   authorName: string
   authorUrl: string
+  channelThumbnail?: string | null
   userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -383,6 +397,7 @@ export type VideoUpdateInput = {
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   authorName?: Prisma.StringFieldUpdateOperationsInput | string
   authorUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  channelThumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutVideosNestedInput
@@ -399,6 +414,7 @@ export type VideoUncheckedUpdateInput = {
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   authorName?: Prisma.StringFieldUpdateOperationsInput | string
   authorUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  channelThumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -415,6 +431,7 @@ export type VideoCreateManyInput = {
   categoryId: string
   authorName: string
   authorUrl: string
+  channelThumbnail?: string | null
   userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -429,6 +446,7 @@ export type VideoUpdateManyMutationInput = {
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   authorName?: Prisma.StringFieldUpdateOperationsInput | string
   authorUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  channelThumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -442,6 +460,7 @@ export type VideoUncheckedUpdateManyInput = {
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   authorName?: Prisma.StringFieldUpdateOperationsInput | string
   authorUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  channelThumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -471,6 +490,7 @@ export type VideoCountOrderByAggregateInput = {
   categoryId?: Prisma.SortOrder
   authorName?: Prisma.SortOrder
   authorUrl?: Prisma.SortOrder
+  channelThumbnail?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -489,6 +509,7 @@ export type VideoMaxOrderByAggregateInput = {
   categoryId?: Prisma.SortOrder
   authorName?: Prisma.SortOrder
   authorUrl?: Prisma.SortOrder
+  channelThumbnail?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -503,6 +524,7 @@ export type VideoMinOrderByAggregateInput = {
   categoryId?: Prisma.SortOrder
   authorName?: Prisma.SortOrder
   authorUrl?: Prisma.SortOrder
+  channelThumbnail?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -599,6 +621,7 @@ export type VideoCreateWithoutLikesInput = {
   categoryId: string
   authorName: string
   authorUrl: string
+  channelThumbnail?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutVideosInput
@@ -614,6 +637,7 @@ export type VideoUncheckedCreateWithoutLikesInput = {
   categoryId: string
   authorName: string
   authorUrl: string
+  channelThumbnail?: string | null
   userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -645,6 +669,7 @@ export type VideoUpdateWithoutLikesInput = {
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   authorName?: Prisma.StringFieldUpdateOperationsInput | string
   authorUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  channelThumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutVideosNestedInput
@@ -660,6 +685,7 @@ export type VideoUncheckedUpdateWithoutLikesInput = {
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   authorName?: Prisma.StringFieldUpdateOperationsInput | string
   authorUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  channelThumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -675,6 +701,7 @@ export type VideoCreateWithoutCommentsInput = {
   categoryId: string
   authorName: string
   authorUrl: string
+  channelThumbnail?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutVideosInput
@@ -690,6 +717,7 @@ export type VideoUncheckedCreateWithoutCommentsInput = {
   categoryId: string
   authorName: string
   authorUrl: string
+  channelThumbnail?: string | null
   userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -721,6 +749,7 @@ export type VideoUpdateWithoutCommentsInput = {
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   authorName?: Prisma.StringFieldUpdateOperationsInput | string
   authorUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  channelThumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutVideosNestedInput
@@ -736,6 +765,7 @@ export type VideoUncheckedUpdateWithoutCommentsInput = {
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   authorName?: Prisma.StringFieldUpdateOperationsInput | string
   authorUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  channelThumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -751,6 +781,7 @@ export type VideoCreateWithoutUserInput = {
   categoryId: string
   authorName: string
   authorUrl: string
+  channelThumbnail?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   likes?: Prisma.LikeCreateNestedManyWithoutVideoInput
@@ -766,6 +797,7 @@ export type VideoUncheckedCreateWithoutUserInput = {
   categoryId: string
   authorName: string
   authorUrl: string
+  channelThumbnail?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutVideoInput
@@ -810,6 +842,7 @@ export type VideoScalarWhereInput = {
   categoryId?: Prisma.StringFilter<"Video"> | string
   authorName?: Prisma.StringFilter<"Video"> | string
   authorUrl?: Prisma.StringFilter<"Video"> | string
+  channelThumbnail?: Prisma.StringNullableFilter<"Video"> | string | null
   userId?: Prisma.StringFilter<"Video"> | string
   createdAt?: Prisma.DateTimeFilter<"Video"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Video"> | Date | string
@@ -824,6 +857,7 @@ export type VideoCreateManyUserInput = {
   categoryId: string
   authorName: string
   authorUrl: string
+  channelThumbnail?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -837,6 +871,7 @@ export type VideoUpdateWithoutUserInput = {
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   authorName?: Prisma.StringFieldUpdateOperationsInput | string
   authorUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  channelThumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   likes?: Prisma.LikeUpdateManyWithoutVideoNestedInput
@@ -852,6 +887,7 @@ export type VideoUncheckedUpdateWithoutUserInput = {
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   authorName?: Prisma.StringFieldUpdateOperationsInput | string
   authorUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  channelThumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   likes?: Prisma.LikeUncheckedUpdateManyWithoutVideoNestedInput
@@ -867,6 +903,7 @@ export type VideoUncheckedUpdateManyWithoutUserInput = {
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   authorName?: Prisma.StringFieldUpdateOperationsInput | string
   authorUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  channelThumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -920,6 +957,7 @@ export type VideoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   categoryId?: boolean
   authorName?: boolean
   authorUrl?: boolean
+  channelThumbnail?: boolean
   userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -938,6 +976,7 @@ export type VideoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   categoryId?: boolean
   authorName?: boolean
   authorUrl?: boolean
+  channelThumbnail?: boolean
   userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -953,6 +992,7 @@ export type VideoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   categoryId?: boolean
   authorName?: boolean
   authorUrl?: boolean
+  channelThumbnail?: boolean
   userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -968,12 +1008,13 @@ export type VideoSelectScalar = {
   categoryId?: boolean
   authorName?: boolean
   authorUrl?: boolean
+  channelThumbnail?: boolean
   userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type VideoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "youtubeId" | "title" | "description" | "views" | "categoryId" | "authorName" | "authorUrl" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["video"]>
+export type VideoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "youtubeId" | "title" | "description" | "views" | "categoryId" | "authorName" | "authorUrl" | "channelThumbnail" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["video"]>
 export type VideoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   likes?: boolean | Prisma.Video$likesArgs<ExtArgs>
@@ -1003,6 +1044,7 @@ export type $VideoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     categoryId: string
     authorName: string
     authorUrl: string
+    channelThumbnail: string | null
     userId: string
     createdAt: Date
     updatedAt: Date
@@ -1440,6 +1482,7 @@ export interface VideoFieldRefs {
   readonly categoryId: Prisma.FieldRef<"Video", 'String'>
   readonly authorName: Prisma.FieldRef<"Video", 'String'>
   readonly authorUrl: Prisma.FieldRef<"Video", 'String'>
+  readonly channelThumbnail: Prisma.FieldRef<"Video", 'String'>
   readonly userId: Prisma.FieldRef<"Video", 'String'>
   readonly createdAt: Prisma.FieldRef<"Video", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Video", 'DateTime'>

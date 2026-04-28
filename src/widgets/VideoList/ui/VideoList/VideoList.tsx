@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { VideoInfo } from "@/shared/types/api.types";
 import { ROUTES, buildRoute } from "@/shared/constants/routes";
@@ -15,7 +16,7 @@ export function VideoList({ videos }: VideoListProps) {
 
   return (
     <div className={cls.videoGrid}>
-      {videos.map(({ videoId, title, authorName, authorUrl }) => (
+      {videos.map(({ videoId, title, authorName, authorUrl, channelThumbnail }) => (
         <div key={videoId} className={cls.videoBlock}>
           <Link
             href={buildRoute(ROUTES.VIDEO, { videoId })}
@@ -29,7 +30,17 @@ export function VideoList({ videos }: VideoListProps) {
               href={buildRoute(ROUTES.PROFILE, { userId: authorUrl })}
               className={cls.channelAvatarLink}
             >
-              <div className={cls.hiddenText}>{authorName}</div>
+              {channelThumbnail ? (
+                <Image
+                  src={channelThumbnail}
+                  alt={authorName}
+                  fill
+                  unoptimized
+                  className={cls.channelAvatar}
+                />
+              ) : (
+                <div className={cls.hiddenText}>{authorName}</div>
+              )}
             </Link>
 
             <div className={cls.videoInfo}>
