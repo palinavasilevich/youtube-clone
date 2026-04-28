@@ -49,9 +49,10 @@ export async function getUsers(): Promise<GetUserResponse> {
     };
   } catch (error) {
     console.error(error);
-    return {
-      ok: false,
-      message: "The token is out of date",
-    };
+    const message =
+      error instanceof Error && error.name === "JsonWebTokenError"
+        ? "The token is out of date"
+        : "Failed to authenticate user";
+    return { ok: false, message };
   }
 }
