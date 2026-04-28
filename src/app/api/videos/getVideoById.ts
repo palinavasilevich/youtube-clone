@@ -25,6 +25,8 @@ export async function getVideoById({
     data: {
       videoId: video.youtubeId,
       title: video.title,
+      description: video.description,
+      views: video.views,
       authorName: video.authorName,
       authorUrl: video.authorUrl,
       channelThumbnail: video.channelThumbnail,

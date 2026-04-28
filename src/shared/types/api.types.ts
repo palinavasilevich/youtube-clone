@@ -2,6 +2,8 @@ export type VideoInfo = {
   videoId: string;
   categoryId: string;
   title: string;
+  description: string | null;
+  views: number;
   authorName: string;
   authorUrl: string;
   channelThumbnail: string | null;

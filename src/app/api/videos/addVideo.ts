@@ -56,17 +56,26 @@ export async function addVideo(
     };
   }
 
-  await prisma.video.create({
-    data: {
-      youtubeId: videoId,
-      userId,
-      categoryId,
-      title: videoInfo.title,
-      authorName: videoInfo.authorName,
-      authorUrl: videoInfo.authorUrl,
-      channelThumbnail: videoInfo.channelThumbnail,
-    },
-  });
+  try {
+    await prisma.video.create({
+      data: {
+        youtubeId: videoId,
+        userId,
+        categoryId,
+        title: videoInfo.title,
+        description: videoInfo.description,
+        views: videoInfo.viewCount,
+        authorName: videoInfo.authorName,
+        authorUrl: videoInfo.authorUrl,
+        channelThumbnail: videoInfo.channelThumbnail,
+      },
+    });
+  } catch (e: unknown) {
+    if ((e as { code?: string }).code === "P2002") {
+      return { ok: false, message: "The link to this video has already been added previously" };
+    }
+    throw e;
+  }
 
   return { ok: true };
 }

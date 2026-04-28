@@ -50,6 +50,8 @@ async function main() {
       update: {
         categoryId,
         title: info.title,
+        description: info.description,
+        views: info.viewCount,
         authorName: info.authorName,
         authorUrl: info.authorUrl,
         channelThumbnail: info.channelThumbnail,
@@ -59,6 +61,8 @@ async function main() {
         userId: SEED_USER_ID,
         categoryId,
         title: info.title,
+        description: info.description,
+        views: info.viewCount,
         authorName: info.authorName,
         authorUrl: info.authorUrl,
         channelThumbnail: info.channelThumbnail,

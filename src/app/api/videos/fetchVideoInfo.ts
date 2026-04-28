@@ -1,39 +1,48 @@
-type OEmbedResponse = {
-  title: string;
-  author_name: string;
-  author_url: string;
+type YouTubeVideoItem = {
+  snippet: {
+    title: string;
+    description: string;
+    channelId: string;
+    channelTitle: string;
+  };
+  statistics: {
+    viewCount?: string;
+    likeCount?: string;
+  };
 };
 
-export type VideoOEmbedInfo = {
+type YouTubeVideosResponse = {
+  items?: YouTubeVideoItem[];
+};
+
+export type YouTubeFetchedInfo = {
   title: string;
+  description: string;
   authorName: string;
   authorUrl: string;
   channelThumbnail: string | null;
+  viewCount: number;
 };
 
 async function fetchChannelThumbnail(
-  authorUrl: string,
+  channelId: string,
 ): Promise<string | null> {
   const apiKey = process.env.YOUTUBE_API_KEY;
   if (!apiKey) return null;
 
   const params = new URLSearchParams({
     part: "snippet",
+    id: channelId,
     key: apiKey,
-    maxResults: "1",
   });
 
-  if (/^UC[\w-]{22}$/.test(authorUrl)) {
-    params.set("id", authorUrl);
-  } else if (authorUrl.startsWith("@")) {
-    params.set("forHandle", authorUrl.replace(/^@/, ""));
-  } else {
-    params.set("forUsername", authorUrl);
-  }
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 5000);
 
   try {
     const res = await fetch(
       `https://www.googleapis.com/youtube/v3/channels?${params}`,
+      { signal: controller.signal },
     );
     if (!res.ok) return null;
 
@@ -47,32 +56,48 @@ async function fetchChannelThumbnail(
     );
   } catch {
     return null;
+  } finally {
+    clearTimeout(timeout);
   }
 }
 
 export async function fetchVideoInfo(
   videoId: string,
-): Promise<VideoOEmbedInfo | null> {
+): Promise<YouTubeFetchedInfo | null> {
+  const apiKey = process.env.YOUTUBE_API_KEY;
+  if (!apiKey) return null;
+
+  const params = new URLSearchParams({
+    part: "snippet,statistics",
+    id: videoId,
+    key: apiKey,
+  });
+
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 5000);
 
   try {
-    const response = await fetch(
-      `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`,
+    const res = await fetch(
+      `https://www.googleapis.com/youtube/v3/videos?${params}`,
       { signal: controller.signal },
     );
 
-    if (!response.ok) return null;
+    if (!res.ok) return null;
 
-    const data = (await response.json()) as OEmbedResponse;
-    const authorUrl = data.author_url.split("/").at(-1) ?? "";
-    const channelThumbnail = await fetchChannelThumbnail(authorUrl);
+    const data = (await res.json()) as YouTubeVideosResponse;
+    const item = data.items?.[0];
+    if (!item) return null;
+
+    const { snippet, statistics } = item;
+    const channelThumbnail = await fetchChannelThumbnail(snippet.channelId);
 
     return {
-      title: data.title,
-      authorName: data.author_name,
-      authorUrl,
+      title: snippet.title,
+      description: snippet.description,
+      authorName: snippet.channelTitle,
+      authorUrl: snippet.channelId,
       channelThumbnail,
+      viewCount: parseInt(statistics.viewCount ?? "0", 10),
     };
   } catch {
     return null;

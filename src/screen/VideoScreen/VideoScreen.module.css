@@ -7,19 +7,26 @@
 .iframe {
   aspect-ratio: 16 / 9;
   width: 80%;
-  height: 90%;
+  height: auto;
 }
 
 .videoTitle {
   margin-top: 12px;
   font-size: 20px;
+  font-weight: 700;
 }
 
 .videoInfoContainer {
+  margin-top: 12px;
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-top: 12px;
+}
+
+.videoInfo {
+  font-size: 1rem;
+  line-height: 2rem;
+  font-weight: 700;
 }
 
 .channelAvatarLink {
@@ -47,4 +54,36 @@
 .channelAvatar {
   border-radius: 50%;
   object-fit: cover;
+}
+
+.channelNameLink {
+  font-weight: 500;
+}
+
+.descriptionContainer {
+  width: 80%;
+  margin: 12px 0 20px;
+  padding: 12px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+}
+
+.shortDescription {
+  &:hover .moreButton {
+    text-decoration: underline;
+  }
+}
+
+.moreButton {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.description {
+  display: inline-block;
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  font-weight: 500;
+  color: #ccc;
 }

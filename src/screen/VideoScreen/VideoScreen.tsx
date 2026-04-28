@@ -1,15 +1,29 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { ROUTES, buildRoute } from "@/shared/constants/routes";
 import { VideoInfo } from "@/shared/types/api.types";
 import cls from "./VideoScreen.module.css";
+import { useState } from "react";
+import { cn } from "@/shared/lib/css";
 
 type VideoScreenProps = {
   data: Omit<VideoInfo, "categoryId">;
 };
 
 export const VideoScreen = ({ data }: VideoScreenProps) => {
-  const { videoId, title, authorName, authorUrl, channelThumbnail } = data;
+  const {
+    videoId,
+    title,
+    description,
+    views,
+    authorName,
+    authorUrl,
+    channelThumbnail,
+  } = data;
+
+  const [showFullDescription, setShowFullDescription] = useState(false);
 
   return (
     <div className={cls.container}>
@@ -24,7 +38,7 @@ export const VideoScreen = ({ data }: VideoScreenProps) => {
         className={cls.iframe}
       />
 
-      <h1 className={cls.title}>{title}</h1>
+      <h1 className={cls.videoTitle}>{title}</h1>
 
       <div className={cls.videoInfoContainer}>
         <Link
@@ -51,6 +65,30 @@ export const VideoScreen = ({ data }: VideoScreenProps) => {
           {authorName}
         </Link>
       </div>
+
+      {description && (
+        <div
+          className={cn(
+            cls.descriptionContainer,
+            !showFullDescription && cls.shortDescription,
+          )}
+        >
+          <div className={cls.videoInfo}>
+            <span className={cls.views}>{views.toLocaleString("en-US")} views</span>
+          </div>
+          <p className={cls.description}>
+            {showFullDescription ? description : description.slice(0, 300)}
+            {!showFullDescription && (
+              <span
+                className={cls.moreButton}
+                onClick={() => setShowFullDescription(true)}
+              >
+                ...more
+              </span>
+            )}
+          </p>
+        </div>
+      )}
     </div>
   );
 };
