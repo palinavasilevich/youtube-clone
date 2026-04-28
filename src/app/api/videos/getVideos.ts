@@ -45,6 +45,8 @@ export async function getVideos({
       videoId: v.youtubeId,
       categoryId: v.categoryId,
       title: v.title,
+      description: v.description,
+      views: v.views,
       authorName: v.authorName,
       authorUrl: v.authorUrl,
       channelThumbnail: v.channelThumbnail,
