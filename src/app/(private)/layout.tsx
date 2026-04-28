@@ -8,7 +8,7 @@ type PrivateLayoutProps = {
 };
 
 function PrivateLayout({ user, children }: PrivateLayoutProps) {
-  return <MainLayout userId={user?.id}>{children}</MainLayout>;
+  return <MainLayout user={user}>{children}</MainLayout>;
 }
 
 export default withAuth(PrivateLayout);
