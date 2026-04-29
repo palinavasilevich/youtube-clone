@@ -6,7 +6,7 @@ type GetVideoByIdProps = {
 };
 
 type GetVideoByIdResponse =
-  | { ok: true; data: Omit<VideoInfo, "categoryId"> }
+  | { ok: true; data: Omit<VideoInfo, "categoryId"> & { ownerId: string } }
   | { ok: false; data: null };
 
 export async function getVideoById({
@@ -24,6 +24,7 @@ export async function getVideoById({
     ok: true,
     data: {
       videoId: video.youtubeId,
+      ownerId: video.userId,
       title: video.title,
       description: video.description,
       views: video.views,

@@ -2,21 +2,30 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { ROUTES, buildRoute } from "@/shared/constants/routes";
 import { VideoInfo } from "@/shared/types/api.types";
+import { deleteVideo } from "@/app/api/videos/deleteVideo";
 import cls from "./VideoScreen.module.css";
 import { useState } from "react";
 import { cn } from "@/shared/lib/css";
 import { dateFormat, viewsFormat } from "@/shared/lib/dataFormat";
 
 type VideoScreenProps = {
-  data: Omit<VideoInfo, "categoryId">;
+  data: Omit<VideoInfo, "categoryId"> & { ownerId: string };
+  currentUserId?: string;
 };
 
 function linkifyText(text: string) {
   return text.split(/(https?:\/\/[^\s]+)/g).map((part, i) =>
     /^https?:\/\//.test(part) ? (
-      <a key={i} href={part} target="_blank" rel="noopener noreferrer" className={cls.link}>
+      <a
+        key={i}
+        href={part}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={cls.link}
+      >
         {part}
       </a>
     ) : (
@@ -25,9 +34,10 @@ function linkifyText(text: string) {
   );
 }
 
-export const VideoScreen = ({ data }: VideoScreenProps) => {
+export const VideoScreen = ({ data, currentUserId }: VideoScreenProps) => {
   const {
     videoId,
+    ownerId,
     title,
     description,
     views,
@@ -38,7 +48,20 @@ export const VideoScreen = ({ data }: VideoScreenProps) => {
     publishedAt,
   } = data;
 
+  const router = useRouter();
   const [showFullDescription, setShowFullDescription] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    if (!currentUserId) return;
+    setIsDeleting(true);
+    const result = await deleteVideo({ userId: currentUserId, videoId });
+    if (result.ok) {
+      router.push(ROUTES.HOME);
+    } else {
+      setIsDeleting(false);
+    }
+  };
 
   return (
     <div className={cls.container}>
@@ -53,7 +76,18 @@ export const VideoScreen = ({ data }: VideoScreenProps) => {
         className={cls.iframe}
       />
 
-      <h1 className={cls.videoTitle}>{title}</h1>
+      <div className={cls.titleRow}>
+        <h1 className={cls.videoTitle}>{title}</h1>
+        {currentUserId === ownerId && (
+          <button
+            className={cls.deleteButton}
+            onClick={handleDelete}
+            disabled={isDeleting}
+          >
+            {isDeleting ? "Deleting..." : "Delete"}
+          </button>
+        )}
+      </div>
 
       <div className={cls.videoInfoContainer}>
         <Link
@@ -100,7 +134,9 @@ export const VideoScreen = ({ data }: VideoScreenProps) => {
             )}
           </div>
           <p className={cls.description}>
-            {linkifyText(showFullDescription ? description : description.slice(0, 300))}
+            {linkifyText(
+              showFullDescription ? description : description.slice(0, 300),
+            )}
             {!showFullDescription && (
               <span
                 className={cls.moreButton}
