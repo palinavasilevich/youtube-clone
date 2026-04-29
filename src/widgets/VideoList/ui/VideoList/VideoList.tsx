@@ -63,13 +63,6 @@ export function VideoList({ videos }: VideoListProps) {
                 </Link>
 
                 <div className={cls.channelInfoContainer}>
-                  {/* <Link
-                    href={buildRoute(ROUTES.PROFILE, { userId: authorUrl })}
-                    className={cls.channelNameLink}
-                  >
-                    {authorName}
-                  </Link> */}
-
                   <a
                     href={
                       authorUsername
@@ -85,7 +78,7 @@ export function VideoList({ videos }: VideoListProps) {
                     <span> • </span>
                     {publishedAt && (
                       <span className={cls.publishedAt}>
-                        {dateFormat(publishedAt)}
+                        {dateFormat({ date: publishedAt })}
                       </span>
                     )}
                   </div>

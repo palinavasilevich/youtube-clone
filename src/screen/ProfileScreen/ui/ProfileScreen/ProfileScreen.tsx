@@ -1,11 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import { AuthUser, VideoInfo } from "@/shared/types/api.types";
 import { VideoList } from "@/widgets/VideoList";
-import cls from "./ProfileScreen.module.css";
 import { UserAvatar } from "../UserAvatar";
 import { EditAvatarModal } from "../EditAvatarModal";
-import { useState } from "react";
+import cls from "./ProfileScreen.module.css";
+import { Camera } from "lucide-react";
 
 type ProfileScreenProps = {
   user: AuthUser;
@@ -27,11 +28,15 @@ export function ProfileScreen({ user, videos, isOwner }: ProfileScreenProps) {
       )}
       <div className={cls.container}>
         <div className={cls.header}>
-          <UserAvatar
-            username={user.username}
-            avatar={user.avatar}
+          <div
+            className={cls.userAvatar}
             onClick={isOwner ? () => setIsOpenModal(true) : undefined}
-          />
+          >
+            <UserAvatar username={user.username} avatar={user.avatar} />
+            <div className={cls.iconWrapper}>
+              <Camera className={cls.icon} />
+            </div>
+          </div>
           <div className={cls.userInfo}>
             <h1 className={cls.username}>{user.username}</h1>
             <p className={cls.videoCount}>

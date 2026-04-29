@@ -24,8 +24,6 @@
 }
 
 .videoInfo {
-  display: flex;
-  gap: 12px;
   font-size: 14px;
   line-height: 2rem;
   font-weight: 700;

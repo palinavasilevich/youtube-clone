@@ -1,32 +1,48 @@
 "use server";
 
-import { put } from "@vercel/blob";
+import { put, del } from "@vercel/blob";
 import prisma from "@/shared/lib/prisma";
 
-type UploadAvatarResponse = { ok: true; url: string } | { ok: false; message: string };
+type UploadAvatarProps = {
+  userId: string;
+  avatar: File;
+};
 
-export async function uploadAvatar(formData: FormData): Promise<UploadAvatarResponse> {
-  const userId = formData.get("userId") as string;
-  const file = formData.get("file") as File | null;
+type UploadAvatarResponse =
+  | { ok: true; url: string }
+  | { ok: false; message: string };
 
-  if (!userId) {
+export async function uploadAvatar({
+  userId,
+  avatar,
+}: UploadAvatarProps): Promise<UploadAvatarResponse> {
+  if (!userId || typeof userId !== "string") {
     return { ok: false, message: "Missing user ID" };
   }
 
-  if (!file || file.size === 0) {
+  if (!(avatar instanceof File) || avatar.size === 0) {
     return { ok: false, message: "No file selected" };
   }
 
-  if (!file.type.startsWith("image/")) {
+  if (!avatar.type.startsWith("image/")) {
     return { ok: false, message: "File must be an image" };
   }
 
   try {
-    const ext = file.name.split(".").pop();
-    const blob = await put(`avatars/${userId}.${ext}`, file, {
-      access: "public",
-      allowOverwrite: true,
-    });
+    const ext = avatar.name.split(".").pop() ?? "jpg";
+    const [existingUser, blob] = await Promise.all([
+      prisma.user.findUnique({
+        where: { id: userId },
+        select: { avatar: true },
+      }),
+      put(`avatars/${userId}-${Date.now()}.${ext}`, avatar, {
+        access: "public",
+      }),
+    ]);
+
+    if (existingUser?.avatar && existingUser.avatar !== blob.url) {
+      await del(existingUser.avatar);
+    }
 
     await prisma.user.update({
       where: { id: userId },

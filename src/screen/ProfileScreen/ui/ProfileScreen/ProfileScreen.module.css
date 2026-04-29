@@ -28,3 +28,31 @@
   color: #aaaaaa;
   margin: 0;
 }
+
+.userAvatar {
+  position: relative;
+  cursor: pointer;
+
+  &:hover .iconWrapper {
+    background: rgb(138, 180, 248);
+  }
+}
+
+.iconWrapper {
+  width: 28px;
+  height: 28px;
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 0;
+  bottom: 0px;
+  background: #37393b;
+  border-radius: 50%;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}

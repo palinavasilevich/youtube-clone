@@ -1,9 +1,8 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { Modal, Button } from "@/shared/components";
+import { Modal, Button, Loader } from "@/shared/components";
 import cls from "./EditAvatarModal.module.css";
-import { uploadAvatar } from "@/app/api/users/uploadAvatar";
+import { useUploadAvatar } from "../../lib/useUploadAvatar";
 
 type EditAvatarModalProps = {
   isOpen: boolean;
@@ -16,38 +15,52 @@ export function EditAvatarModal({
   onClose,
   userId,
 }: EditAvatarModalProps) {
-  const router = useRouter();
+  const { isLoading, errors, errorMessage, register, onSubmit, onClose: handleClose } =
+    useUploadAvatar(userId, onClose);
 
-  async function handleSubmit(formData: FormData) {
-    const result = await uploadAvatar(formData);
-
-    if (result.ok) {
-      router.refresh();
-      onClose();
-    }
-  }
+  const hasAvatarError = !!errors.avatar;
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Edit Avatar">
-      <form className={cls.form} action={handleSubmit}>
-        <input type="hidden" name="userId" value={userId} />
-
-        <input
-          type="file"
-          name="file"
-          accept="image/*"
-          className={cls.fileInput}
-        />
-
-        <div className={cls.actions}>
-          <Button type="submit" fullWidth className={cls.btn}>
-            Save
-          </Button>
-          <Button type="button" fullWidth className={cls.btn} onClick={onClose}>
-            Cancel
-          </Button>
+    <Modal isOpen={isOpen} onClose={handleClose} title="Edit Avatar">
+      {isLoading ? (
+        <div className={cls.loaderContainer}>
+          <Loader size={48} />
         </div>
-      </form>
+      ) : (
+        <form className={cls.form} onSubmit={onSubmit}>
+          <label htmlFor="avatar" className={cls.label}>
+            <input
+              id="avatar"
+              type="file"
+              accept="image/*"
+              className={cls.fileInput}
+              {...register("avatar")}
+            />
+
+            {hasAvatarError && (
+              <p className={cls.inputErrorMessage}>{errors.avatar?.message}</p>
+            )}
+          </label>
+
+          {errorMessage && !hasAvatarError && (
+            <p className={cls.errorMessage}>{errorMessage}</p>
+          )}
+
+          <div className={cls.actions}>
+            <Button type="submit" fullWidth className={cls.btn}>
+              Save
+            </Button>
+            <Button
+              type="button"
+              fullWidth
+              className={cls.btn}
+              onClick={handleClose}
+            >
+              Cancel
+            </Button>
+          </div>
+        </form>
+      )}
     </Modal>
   );
 }

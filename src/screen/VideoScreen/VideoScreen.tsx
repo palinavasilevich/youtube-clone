@@ -60,14 +60,6 @@ export const VideoScreen = ({ data }: VideoScreenProps) => {
             <div className={cls.hiddenText}>{authorName}</div>
           )}
         </Link>
-
-        {/* <Link
-          href={buildRoute(ROUTES.PROFILE, { userId: authorUrl })}
-          className={cls.channelNameLink}
-        >
-          {authorName}
-        </Link> */}
-
         <a
           href={
             authorUsername
@@ -88,9 +80,11 @@ export const VideoScreen = ({ data }: VideoScreenProps) => {
           )}
         >
           <div className={cls.videoInfo}>
-            <span className={cls.views}>{viewsFormat(views)} views</span>
+            <span className={cls.views}>{viewsFormat(views)} views </span>
             {publishedAt && (
-              <span className={cls.publishedAt}>{dateFormat(publishedAt)}</span>
+              <span className={cls.publishedAt}>
+                {dateFormat({ date: publishedAt, format: "full" })}
+              </span>
             )}
           </div>
           <p className={cls.description}>
