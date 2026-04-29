@@ -12,6 +12,7 @@ import { addVideo } from "@/app/api/videos/addVideo";
 type Inputs = {
   videoUrl: string;
   videoCategory: VideoCategoryId;
+  isPrivate: boolean;
 };
 
 const schema = z.object({
@@ -42,6 +43,8 @@ const schema = z.object({
     }),
 
   videoCategory: z.enum(CATEGORIES, { message: "Invalid category" }),
+
+  isPrivate: z.boolean(),
 });
 
 export function useAddVideoForm(userId: string) {
@@ -56,6 +59,7 @@ export function useAddVideoForm(userId: string) {
     formState: { errors },
   } = useForm<Inputs>({
     resolver: zodResolver(schema),
+    defaultValues: { isPrivate: false },
   });
 
   const onSubmitHandler: SubmitHandler<Inputs> = async (data) => {
@@ -75,6 +79,7 @@ export function useAddVideoForm(userId: string) {
         userId,
         videoId,
         categoryId: data.videoCategory,
+        isPrivate: data.isPrivate,
       });
 
       if (!response.ok) {

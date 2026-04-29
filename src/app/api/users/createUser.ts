@@ -19,7 +19,7 @@ export type PostUserResponse = { ok: true } | { ok: false; message: string };
 const postUserSchema = z.object({
   username: z
     .string()
-    .min(3)
+    .min(2)
     .max(32)
     .regex(/^\w+$/, "Login must contain only letters, digits, or underscores"),
   password: z

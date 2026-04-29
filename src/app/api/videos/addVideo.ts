@@ -12,6 +12,7 @@ type AddVideoProps = {
   userId: string;
   videoId: string;
   categoryId: VideoCategoryId;
+  isPrivate: boolean;
 };
 
 type PostVideoResponse = { ok: true } | { ok: false; message: string };
@@ -20,6 +21,7 @@ const postVideoSchema = z.object({
   userId: z.string().min(1),
   videoId: z.string().min(1),
   categoryId: z.enum(CATEGORIES),
+  isPrivate: z.boolean(),
 });
 
 export async function addVideo(
@@ -34,7 +36,7 @@ export async function addVideo(
     };
   }
 
-  const { videoId, userId, categoryId } = parsed.data;
+  const { videoId, userId, categoryId, isPrivate } = parsed.data;
 
   const existing = await prisma.video.findUnique({
     where: { youtubeId: videoId },
@@ -70,6 +72,7 @@ export async function addVideo(
         authorUsername: videoInfo.authorUsername,
         channelThumbnail: videoInfo.channelThumbnail,
         publishedAt: videoInfo.publishedAt,
+        isPrivate,
       },
     });
   } catch (e: unknown) {

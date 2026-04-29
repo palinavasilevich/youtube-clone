@@ -33,6 +33,7 @@ export async function getVideoById({
       authorUsername: video.authorUsername ?? null,
       channelThumbnail: video.channelThumbnail,
       publishedAt: video.publishedAt,
+      isPrivate: video.isPrivate,
     },
   };
 }

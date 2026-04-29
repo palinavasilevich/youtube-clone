@@ -39,12 +39,10 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
   const { userId } = await params;
 
   try {
-    const [userResponse, videosResponse, currentUserResponse] =
-      await Promise.all([
-        cachedGetUserById({ userId }),
-        cachedGetVideos({ userId }),
-        getUsers(),
-      ]);
+    const [userResponse, currentUserResponse] = await Promise.all([
+      cachedGetUserById({ userId }),
+      getUsers(),
+    ]);
 
     if (!userResponse.ok) {
       throw new Error("No user data available");
@@ -52,6 +50,12 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
 
     const isOwner =
       currentUserResponse.ok && currentUserResponse.user.id === userId;
+
+    const currentUserId = currentUserResponse.ok
+      ? currentUserResponse.user.id
+      : undefined;
+
+    const videosResponse = await cachedGetVideos({ userId, currentUserId });
 
     return (
       <ProfileScreen

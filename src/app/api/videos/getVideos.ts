@@ -10,6 +10,7 @@ import {
 type GetVideosProps = {
   userId?: string;
   categoryId?: string;
+  currentUserId?: string;
 };
 
 type GetVideosResponse =
@@ -19,11 +20,16 @@ type GetVideosResponse =
 export async function getVideos({
   userId,
   categoryId,
+  currentUserId,
 }: GetVideosProps = {}): Promise<GetVideosResponse> {
   try {
+    const privacyFilter = currentUserId
+      ? { OR: [{ isPrivate: false }, { userId: currentUserId }] }
+      : { isPrivate: false };
+
     const [videos, categoryRows] = await Promise.all([
       prisma.video.findMany({
-        where: { userId, categoryId },
+        where: { userId, categoryId, ...privacyFilter },
         orderBy: { createdAt: "desc" },
       }),
       categoryId
@@ -52,6 +58,7 @@ export async function getVideos({
       authorUsername: v.authorUsername ?? null,
       channelThumbnail: v.channelThumbnail,
       publishedAt: v.publishedAt,
+      isPrivate: v.isPrivate,
     }));
 
     return { ok: true, data, categories };

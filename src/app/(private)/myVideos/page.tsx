@@ -15,7 +15,7 @@ export default async function MyVideosPage() {
       throw new Error("Failed to get current user");
     }
 
-    const response = await getVideos({ userId: userResponse.user.id });
+    const response = await getVideos({ userId: userResponse.user.id, currentUserId: userResponse.user.id });
 
     if (!response.data) {
       throw new Error(`Video request failed`);

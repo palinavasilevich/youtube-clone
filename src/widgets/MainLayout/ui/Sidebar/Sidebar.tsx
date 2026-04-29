@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ROUTES, buildRoute } from "@/shared/constants/routes";
 import { Home, User, PlusCircle, SquarePlay, LogOut } from "lucide-react";
+import { logout } from "@/app/api/users/logout";
 import cls from "./Sidebar.module.css";
 
 type SidebarProps = {
@@ -15,12 +16,7 @@ export function Sidebar({ userId }: SidebarProps) {
 
   const onLogout = async () => {
     try {
-      const response = await fetch("/api/users/logout");
-
-      if (!response.ok) {
-        throw new Error(`Logout request failed: ${response.status}`);
-      }
-
+      await logout();
       router.refresh();
     } catch (error) {
       console.error(error);

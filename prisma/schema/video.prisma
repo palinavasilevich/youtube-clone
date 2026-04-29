@@ -14,6 +14,8 @@ model Video {
     channelThumbnail String? @map("channel_thumbnail")
     publishedAt      String? @map("published_at")
 
+    isPrivate Boolean @default(false) @map("is_private")
+
     userId String @map("user_id")
     user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 

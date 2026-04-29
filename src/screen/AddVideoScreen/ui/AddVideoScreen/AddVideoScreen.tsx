@@ -13,6 +13,7 @@ export const AddVideoScreen = ({ userId }: { userId: string }) => {
 
   const hasVideoUrlError = !!errors.videoUrl?.message;
   const hasVideoCategoryError = !!errors.videoCategory?.message;
+  const hasIsPrivateError = !!errors.isPrivate?.message;
 
   if (isLoading) {
     return (
@@ -58,6 +59,19 @@ export const AddVideoScreen = ({ userId }: { userId: string }) => {
           />
           {hasVideoUrlError && (
             <p className={cls.inputErrorMessage}>{errors.videoUrl?.message}</p>
+          )}
+        </label>
+
+        <label htmlFor="isPrivate" className={cls.checkboxLabel}>
+          <input
+            id="isPrivate"
+            type="checkbox"
+            className={cn(cls.checkbox, hasIsPrivateError && cls.errorInput)}
+            {...register("isPrivate")}
+          />
+          <span>Private video</span>
+          {hasIsPrivateError && (
+            <p className={cls.inputErrorMessage}>{errors.isPrivate?.message}</p>
           )}
         </label>
 

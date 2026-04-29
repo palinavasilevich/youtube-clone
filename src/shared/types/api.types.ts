@@ -9,6 +9,7 @@ export type VideoInfo = {
   authorUsername: string | null;
   publishedAt: string | null;
   channelThumbnail: string | null;
+  isPrivate: boolean;
 };
 
 export type AuthUser = {

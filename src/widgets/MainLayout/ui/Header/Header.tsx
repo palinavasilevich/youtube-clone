@@ -36,7 +36,7 @@ export function Header({ user }: HeaderProps) {
             >
               <span className={cls.hiddenText}>Profile</span>
               <UserAvatar
-                username={user.id}
+                username={user.username}
                 avatar={user.avatar}
                 className={cls.avatar}
               />

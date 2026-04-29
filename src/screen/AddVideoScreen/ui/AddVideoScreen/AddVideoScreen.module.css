@@ -66,6 +66,32 @@
   color: #ee1111;
 }
 
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 8px 12px;
+  border: 1px solid #8c8c8c;
+  border-radius: 12px;
+  color: #b9b9b9;
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+
+  &:hover {
+    border-color: white;
+    color: white;
+  }
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: white;
+  cursor: pointer;
+}
+
 .submitButton {
   background: transparent;
   padding: 8px 12px;

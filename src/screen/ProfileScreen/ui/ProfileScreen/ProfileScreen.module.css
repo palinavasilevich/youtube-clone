@@ -32,6 +32,7 @@
 .userAvatar {
   position: relative;
   cursor: pointer;
+  font-size: 32px;
 
   &:hover .iconWrapper {
     background: rgb(138, 180, 248);
