@@ -10,6 +10,7 @@ model Video {
     categoryId       String  @map("category_id")
     authorName       String  @map("author_name")
     authorUrl        String  @map("author_url")
+    authorUsername   String? @map("author_username")
     channelThumbnail String? @map("channel_thumbnail")
     publishedAt      String? @map("published_at")
 

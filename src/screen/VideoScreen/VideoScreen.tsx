@@ -21,6 +21,7 @@ export const VideoScreen = ({ data }: VideoScreenProps) => {
     views,
     authorName,
     authorUrl,
+    authorUsername,
     channelThumbnail,
     publishedAt,
   } = data;
@@ -60,12 +61,23 @@ export const VideoScreen = ({ data }: VideoScreenProps) => {
           )}
         </Link>
 
-        <Link
+        {/* <Link
           href={buildRoute(ROUTES.PROFILE, { userId: authorUrl })}
           className={cls.channelNameLink}
         >
           {authorName}
-        </Link>
+        </Link> */}
+
+        <a
+          href={
+            authorUsername
+              ? `https://www.youtube.com/${authorUsername}`
+              : `https://www.youtube.com/channel/${authorUrl}`
+          }
+          className={cls.channelNameLink}
+        >
+          {authorName ?? authorUsername}
+        </a>
       </div>
 
       {description && (

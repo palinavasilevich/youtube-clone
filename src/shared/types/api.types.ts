@@ -6,6 +6,7 @@ export type VideoInfo = {
   views: number;
   authorName: string;
   authorUrl: string;
+  authorUsername: string | null;
   publishedAt: string | null;
   channelThumbnail: string | null;
 };

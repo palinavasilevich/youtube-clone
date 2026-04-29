@@ -21,16 +21,20 @@ export type YouTubeFetchedInfo = {
   description: string;
   authorName: string;
   authorUrl: string;
+  authorUsername: string | null;
   channelThumbnail: string | null;
   publishedAt: string;
   viewCount: number;
 };
 
-async function fetchChannelThumbnail(
-  channelId: string,
-): Promise<string | null> {
+type ChannelData = {
+  thumbnail: string | null;
+  authorUsername: string | null;
+};
+
+async function fetchChannelData(channelId: string): Promise<ChannelData> {
   const apiKey = process.env.YOUTUBE_API_KEY;
-  if (!apiKey) return null;
+  if (!apiKey) return { thumbnail: null, authorUsername: null };
 
   const params = new URLSearchParams({
     part: "snippet",
@@ -46,18 +50,21 @@ async function fetchChannelThumbnail(
       `https://www.googleapis.com/youtube/v3/channels?${params}`,
       { signal: controller.signal },
     );
-    if (!res.ok) return null;
+    if (!res.ok) return { thumbnail: null, authorUsername: null };
 
     const data = await res.json();
+    const snippet = data.items?.[0]?.snippet;
 
-    return (
-      data.items?.[0]?.snippet?.thumbnails?.high?.url ||
-      data.items?.[0]?.snippet?.thumbnails?.medium?.url ||
-      data.items?.[0]?.snippet?.thumbnails?.default?.url ||
-      null
-    );
+    return {
+      thumbnail:
+        snippet?.thumbnails?.high?.url ||
+        snippet?.thumbnails?.medium?.url ||
+        snippet?.thumbnails?.default?.url ||
+        null,
+      authorUsername: snippet?.customUrl ?? null,
+    };
   } catch {
-    return null;
+    return { thumbnail: null, authorUsername: null };
   } finally {
     clearTimeout(timeout);
   }
@@ -91,13 +98,15 @@ export async function fetchVideoInfo(
     if (!item) return null;
 
     const { snippet, statistics } = item;
-    const channelThumbnail = await fetchChannelThumbnail(snippet.channelId);
+    const { thumbnail: channelThumbnail, authorUsername } =
+      await fetchChannelData(snippet.channelId);
 
     return {
       title: snippet.title,
       description: snippet.description,
       authorName: snippet.channelTitle,
       authorUrl: snippet.channelId,
+      authorUsername,
       channelThumbnail,
       publishedAt: snippet.publishedAt,
       viewCount: parseInt(statistics.viewCount ?? "0", 10),

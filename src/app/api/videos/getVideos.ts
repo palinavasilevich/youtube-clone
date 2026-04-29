@@ -49,6 +49,7 @@ export async function getVideos({
       views: v.views,
       authorName: v.authorName,
       authorUrl: v.authorUrl,
+      authorUsername: v.authorUsername ?? null,
       channelThumbnail: v.channelThumbnail,
       publishedAt: v.publishedAt,
     }));

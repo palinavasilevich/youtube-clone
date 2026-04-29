@@ -67,6 +67,7 @@ export async function addVideo(
         views: videoInfo.viewCount,
         authorName: videoInfo.authorName,
         authorUrl: videoInfo.authorUrl,
+        authorUsername: videoInfo.authorUsername,
         channelThumbnail: videoInfo.channelThumbnail,
         publishedAt: videoInfo.publishedAt,
       },

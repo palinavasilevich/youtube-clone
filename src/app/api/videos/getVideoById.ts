@@ -29,6 +29,7 @@ export async function getVideoById({
       views: video.views,
       authorName: video.authorName,
       authorUrl: video.authorUrl,
+      authorUsername: video.authorUsername ?? null,
       channelThumbnail: video.channelThumbnail,
       publishedAt: video.publishedAt,
     },

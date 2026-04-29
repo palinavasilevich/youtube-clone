@@ -23,6 +23,7 @@ export function VideoList({ videos }: VideoListProps) {
           title,
           authorName,
           authorUrl,
+          authorUsername,
           channelThumbnail,
           views,
           publishedAt,
@@ -62,12 +63,23 @@ export function VideoList({ videos }: VideoListProps) {
                 </Link>
 
                 <div className={cls.channelInfoContainer}>
-                  <Link
+                  {/* <Link
                     href={buildRoute(ROUTES.PROFILE, { userId: authorUrl })}
                     className={cls.channelNameLink}
                   >
                     {authorName}
-                  </Link>
+                  </Link> */}
+
+                  <a
+                    href={
+                      authorUsername
+                        ? `https://www.youtube.com/${authorUsername}`
+                        : `https://www.youtube.com/channel/${authorUrl}`
+                    }
+                    className={cls.channelNameLink}
+                  >
+                    {authorName ?? authorUsername}
+                  </a>
                   <div>
                     {views !== null && <span>{viewsFormat(views)} views</span>}
                     <span> • </span>
