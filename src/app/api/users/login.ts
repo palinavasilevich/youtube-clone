@@ -39,7 +39,7 @@ export async function login(
     if (!isPasswordsEqual) {
       return {
         ok: false,
-        message: "Incorrect password",
+        message: "Incorrect username or password",
       };
     }
   } catch {
