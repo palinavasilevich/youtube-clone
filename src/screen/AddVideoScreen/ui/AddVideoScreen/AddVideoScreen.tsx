@@ -26,12 +26,28 @@ export const AddVideoScreen = ({ userId }: { userId: string }) => {
   return (
     <div className={cls.container}>
       <form onSubmit={onSubmit} className={cls.form}>
+        <label htmlFor="videoUrl" className={cls.label}>
+          <input
+            id="videoUrl"
+            type="text"
+            placeholder="Please paste the link to the YouTube video"
+            className={cn(cls.input, hasVideoUrlError && cls.errorInput)}
+            {...register("videoUrl")}
+          />
+          {hasVideoUrlError && (
+            <p className={cls.inputErrorMessage}>{errors.videoUrl?.message}</p>
+          )}
+        </label>
         <label htmlFor="videoCategory" className={cls.label}>
           <select
             id="videoCategory"
+            defaultValue=""
             className={cn(cls.select, hasVideoCategoryError && cls.errorInput)}
             {...register("videoCategory")}
           >
+            <option disabled value="">
+              Please select category
+            </option>
             {VIDEO_CATEGORIES.map((category) => (
               <option
                 key={category.id}
@@ -49,19 +65,6 @@ export const AddVideoScreen = ({ userId }: { userId: string }) => {
           )}
         </label>
 
-        <label htmlFor="videoUrl" className={cls.label}>
-          <input
-            id="videoUrl"
-            type="text"
-            placeholder="Paste the link to the YouTube video"
-            className={cn(cls.input, hasVideoUrlError && cls.errorInput)}
-            {...register("videoUrl")}
-          />
-          {hasVideoUrlError && (
-            <p className={cls.inputErrorMessage}>{errors.videoUrl?.message}</p>
-          )}
-        </label>
-
         <label htmlFor="isPrivate" className={cls.checkboxLabel}>
           <input
             id="isPrivate"
@@ -75,13 +78,13 @@ export const AddVideoScreen = ({ userId }: { userId: string }) => {
           )}
         </label>
 
-        {errorMessage && !hasVideoUrlError && !hasVideoCategoryError && (
-          <p className={cls.errorMessage}>{errorMessage}</p>
-        )}
-
         <button type="submit" className={cls.submitButton} disabled={isLoading}>
           {isLoading ? "Adding..." : "Add Video"}
         </button>
+
+        {errorMessage && !hasVideoUrlError && !hasVideoCategoryError && (
+          <p className={cls.errorMessage}>{errorMessage}</p>
+        )}
       </form>
 
       {videoId && (
