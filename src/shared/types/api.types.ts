@@ -1,5 +1,6 @@
 export type VideoInfo = {
   videoId: string;
+  ownerId: string;
   categoryId: string;
   title: string;
   description: string | null;

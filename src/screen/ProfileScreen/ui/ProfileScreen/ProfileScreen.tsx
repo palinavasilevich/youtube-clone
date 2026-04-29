@@ -44,7 +44,7 @@ export function ProfileScreen({ user, videos, isOwner }: ProfileScreenProps) {
             </p>
           </div>
         </div>
-        <VideoList videos={videos} />
+        <VideoList videos={videos} currentUserId={isOwner ? user.id : undefined} />
       </div>
     </>
   );

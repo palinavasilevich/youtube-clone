@@ -21,7 +21,7 @@ export default async function MyVideosPage() {
       throw new Error(`Video request failed`);
     }
 
-    return <MyVideosScreen videos={response.data} />;
+    return <MyVideosScreen videos={response.data} currentUserId={userResponse.user.id} />;
   } catch (error) {
     console.error(error);
     return <div>Something went wrong...</div>;

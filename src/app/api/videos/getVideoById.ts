@@ -6,7 +6,7 @@ type GetVideoByIdProps = {
 };
 
 type GetVideoByIdResponse =
-  | { ok: true; data: Omit<VideoInfo, "categoryId"> & { ownerId: string } }
+  | { ok: true; data: Omit<VideoInfo, "categoryId"> }
   | { ok: false; data: null };
 
 export async function getVideoById({

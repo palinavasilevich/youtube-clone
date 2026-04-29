@@ -49,6 +49,7 @@ export async function getVideos({
 
     const data: VideoInfo[] = videos.map((v) => ({
       videoId: v.youtubeId,
+      ownerId: v.userId,
       categoryId: v.categoryId,
       title: v.title,
       description: v.description,

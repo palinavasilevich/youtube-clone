@@ -1,0 +1,1 @@
+export { VideoDeleteButton } from "./VideoDeleteButton";

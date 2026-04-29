@@ -1,0 +1,22 @@
+.deleteButton {
+  position: relative;
+  z-index: 2;
+  padding: 5px 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #cc0000;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover:not(:disabled) {
+    background-color: #e00000;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}

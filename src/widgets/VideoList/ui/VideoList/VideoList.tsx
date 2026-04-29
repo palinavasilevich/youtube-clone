@@ -4,13 +4,15 @@ import { VideoInfo } from "@/shared/types/api.types";
 import { ROUTES, buildRoute } from "@/shared/constants/routes";
 import cls from "./VideoList.module.css";
 import { VideoThumbnail } from "../VideoThumbnail";
+import { VideoDeleteButton } from "../VideoDeleteButton";
 import { dateFormat, viewsFormat } from "@/shared/lib/dataFormat";
 
 type VideoListProps = {
   videos: VideoInfo[];
+  currentUserId?: string;
 };
 
-export function VideoList({ videos }: VideoListProps) {
+export function VideoList({ videos, currentUserId }: VideoListProps) {
   if (!videos || videos.length <= 0) {
     return <div className={cls.noVideosBlock}>No videos found 😕</div>;
   }
@@ -20,6 +22,7 @@ export function VideoList({ videos }: VideoListProps) {
       {videos.map(
         ({
           videoId,
+          ownerId,
           title,
           authorName,
           authorUrl,
@@ -86,6 +89,9 @@ export function VideoList({ videos }: VideoListProps) {
               </div>
             </div>
 
+            {currentUserId === ownerId && (
+              <VideoDeleteButton videoId={videoId} userId={currentUserId} />
+            )}
             <Link
               href={buildRoute(ROUTES.VIDEO, { videoId })}
               className={cls.videoOverlayLink}

@@ -12,7 +12,7 @@ import { cn } from "@/shared/lib/css";
 import { dateFormat, viewsFormat } from "@/shared/lib/dataFormat";
 
 type VideoScreenProps = {
-  data: Omit<VideoInfo, "categoryId"> & { ownerId: string };
+  data: Omit<VideoInfo, "categoryId">;
   currentUserId?: string;
 };
 
