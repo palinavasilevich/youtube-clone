@@ -1,21 +1,25 @@
 export const CATEGORIES = [
-  "science",
+  "movies",
   "music",
-  "games",
-  "news",
-  "fun",
+  "travel",
+  "education",
+  "science",
+  "entertainment",
   "sport",
+  "gaming",
 ] as const;
 
 export const DEFAULT_CATEGORY = { id: "all", title: "All videos" } as const;
 
 export const VIDEO_CATEGORIES: VideoCategory[] = [
-  { id: "games", title: "Games" },
-  { id: "news", title: "News" },
-  { id: "fun", title: "Fun" },
-  { id: "science", title: "Science" },
-  { id: "sport", title: "Sport" },
+  { id: "movies", title: "Movies" },
   { id: "music", title: "Music" },
+  { id: "travel", title: "Travel & Events" },
+  { id: "education", title: "Education" },
+  { id: "science", title: "Science & Technology" },
+  { id: "entertainment", title: "Entertainment" },
+  { id: "sport", title: "Sport" },
+  { id: "gaming", title: "Gaming" },
 ];
 
 export type VideoCategoryId = (typeof CATEGORIES)[number];

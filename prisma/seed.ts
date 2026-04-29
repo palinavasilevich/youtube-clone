@@ -3,6 +3,12 @@ import "dotenv/config";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "./schema/generated/client";
 import { fetchVideoInfo } from "../src/app/api/videos/fetchVideoInfo";
+import { VideoCategoryId } from "@/shared/constants/videoCategories";
+
+type SeedVideos = {
+  youtubeId: string;
+  categoryId: VideoCategoryId;
+};
 
 const databaseUrl = process.env.DATABASE_URL;
 if (!databaseUrl) {
@@ -15,14 +21,13 @@ const prisma = new PrismaClient({ adapter });
 
 const SEED_USER_ID = "seed-user-0";
 
-const seedVideos = [
-  { youtubeId: "hXYHZVMHec0", categoryId: "science" },
-  { youtubeId: "3KZnAVWL5IQ", categoryId: "science" },
-  { youtubeId: "dQw4w9WgXcQ", categoryId: "music" },
-  { youtubeId: "oHAmjGo7h58", categoryId: "news" },
-  { youtubeId: "At2gVjhf9Ac", categoryId: "games" },
-  { youtubeId: "ssoCumPEH0g", categoryId: "fun" },
-  { youtubeId: "BXv8NUSOZko", categoryId: "fun" },
+const seedVideos: SeedVideos[] = [
+  { youtubeId: "BXv8NUSOZko", categoryId: "education" },
+  { youtubeId: "3Mbynm0pGX0", categoryId: "entertainment" },
+  { youtubeId: "tPbcKWppmko", categoryId: "music" },
+  { youtubeId: "04cJF4oLxOw", categoryId: "gaming" },
+  { youtubeId: "IuTDuvYr7f0", categoryId: "travel" },
+  { youtubeId: "6LOaOvujfEA", categoryId: "science" },
 ];
 
 async function main() {

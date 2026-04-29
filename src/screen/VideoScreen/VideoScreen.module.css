@@ -1,13 +1,16 @@
 .container {
+  max-width: 1400px;
+  padding: 0 16px;
   display: flex;
-  justify-content: center;
   flex-direction: column;
+  justify-content: center;
 }
 
 .iframe {
   aspect-ratio: 16 / 9;
-  width: 80%;
+  width: 100%;
   height: auto;
+  border-radius: 12px;
 }
 
 .videoTitle {
@@ -57,14 +60,14 @@
 }
 
 .channelNameLink {
-  font-weight: 500;
+  font-weight: 700;
+  font-size: 14px;
 }
 
 .descriptionContainer {
-  width: 80%;
   margin: 12px 0 20px;
   padding: 12px;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 12px;
 }
 
@@ -86,4 +89,13 @@
   white-space: pre-wrap;
   font-weight: 500;
   color: #fff;
+}
+
+.link {
+  color: #3ea6ff;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }

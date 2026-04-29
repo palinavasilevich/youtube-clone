@@ -13,6 +13,18 @@ type VideoScreenProps = {
   data: Omit<VideoInfo, "categoryId">;
 };
 
+function linkifyText(text: string) {
+  return text.split(/(https?:\/\/[^\s]+)/g).map((part, i) =>
+    /^https?:\/\//.test(part) ? (
+      <a key={i} href={part} target="_blank" rel="noopener noreferrer" className={cls.link}>
+        {part}
+      </a>
+    ) : (
+      part
+    ),
+  );
+}
+
 export const VideoScreen = ({ data }: VideoScreenProps) => {
   const {
     videoId,
@@ -88,7 +100,7 @@ export const VideoScreen = ({ data }: VideoScreenProps) => {
             )}
           </div>
           <p className={cls.description}>
-            {showFullDescription ? description : description.slice(0, 300)}
+            {linkifyText(showFullDescription ? description : description.slice(0, 300))}
             {!showFullDescription && (
               <span
                 className={cls.moreButton}
