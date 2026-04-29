@@ -18,18 +18,13 @@ export default function withAuth<T extends WithAuthProps>(
       return <Component {...(props as T)} />;
     }
 
-    try {
-      const data = await getUsers();
+    const data = await getUsers();
 
-      if (!data.ok) {
-        throw new Error(data.message || `Auth request failed`);
-      }
-
-      return <Component user={data.user} {...(props as T)} />;
-    } catch (error) {
-      console.error(error);
+    if (!data.ok) {
       return <Component {...(props as T)} />;
     }
+
+    return <Component user={data.user} {...(props as T)} />;
   };
 
   ComponentWithAuth.displayName = `withAuth(${Component.displayName ?? Component.name})`;

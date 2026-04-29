@@ -17,7 +17,7 @@ export function Sidebar({ userId }: SidebarProps) {
   const onLogout = async () => {
     try {
       await logout();
-      router.refresh();
+      router.push(ROUTES.HOME);
     } catch (error) {
       console.error(error);
     }
