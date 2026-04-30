@@ -25,7 +25,9 @@ export async function generateMetadata({
     }
 
     return {
-      title: `User: ${response.user.username}`,
+      title:
+        response.user.username.charAt(0).toUpperCase() +
+        response.user.username.slice(1),
     };
   } catch (error) {
     console.error(error);

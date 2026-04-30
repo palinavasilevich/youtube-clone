@@ -23,7 +23,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: `Video in category: ${foundCategory?.title}`,
+    title: `${foundCategory?.title}`,
   };
 }
 

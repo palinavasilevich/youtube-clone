@@ -23,7 +23,7 @@ export async function generateMetadata({
     }
 
     return {
-      title: `Video: ${response.data.title}`,
+      title: `${response.data.title}`,
     };
   } catch (error) {
     console.error(error);

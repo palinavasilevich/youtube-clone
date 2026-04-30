@@ -103,6 +103,15 @@
   gap: 4px;
 }
 
+.videoActions {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
 .videoPreview,
 .videoTitleLink,
 .channelNameLink {

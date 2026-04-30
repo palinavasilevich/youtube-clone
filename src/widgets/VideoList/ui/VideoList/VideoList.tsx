@@ -5,6 +5,7 @@ import { ROUTES, buildRoute } from "@/shared/constants/routes";
 import cls from "./VideoList.module.css";
 import { VideoThumbnail } from "../VideoThumbnail";
 import { VideoDeleteButton } from "../VideoDeleteButton";
+import { VideoPrivacyToggle } from "../VideoPrivacyToggle";
 import { dateFormat, viewsFormat } from "@/shared/lib/dataFormat";
 
 type VideoListProps = {
@@ -23,6 +24,7 @@ export function VideoList({ videos, currentUserId }: VideoListProps) {
         ({
           videoId,
           ownerId,
+          isPrivate,
           title,
           authorName,
           authorUrl,
@@ -58,20 +60,12 @@ export function VideoList({ videos, currentUserId }: VideoListProps) {
               </Link>
 
               <div className={cls.videoInfo}>
-                <div className={cls.videoTitleContainer}>
-                  <Link
-                    href={buildRoute(ROUTES.VIDEO, { videoId })}
-                    className={cls.videoTitleLink}
-                  >
-                    <h3>{title}</h3>
-                  </Link>
-                  {currentUserId === ownerId && (
-                    <VideoDeleteButton
-                      videoId={videoId}
-                      userId={currentUserId}
-                    />
-                  )}
-                </div>
+                <Link
+                  href={buildRoute(ROUTES.VIDEO, { videoId })}
+                  className={cls.videoTitleLink}
+                >
+                  <h3>{title}</h3>
+                </Link>
 
                 <div className={cls.channelInfoContainer}>
                   <a
@@ -94,6 +88,20 @@ export function VideoList({ videos, currentUserId }: VideoListProps) {
                     )}
                   </div>
                 </div>
+
+                {currentUserId === ownerId && (
+                  <div className={cls.videoActions}>
+                    <VideoPrivacyToggle
+                      videoId={videoId}
+                      userId={currentUserId}
+                      isPrivate={isPrivate}
+                    />
+                    <VideoDeleteButton
+                      videoId={videoId}
+                      userId={currentUserId}
+                    />
+                  </div>
+                )}
               </div>
             </div>
 
