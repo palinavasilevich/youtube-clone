@@ -58,12 +58,20 @@ export function VideoList({ videos, currentUserId }: VideoListProps) {
               </Link>
 
               <div className={cls.videoInfo}>
-                <Link
-                  href={buildRoute(ROUTES.VIDEO, { videoId })}
-                  className={cls.videoTitleLink}
-                >
-                  <h3>{title}</h3>
-                </Link>
+                <div className={cls.videoTitleContainer}>
+                  <Link
+                    href={buildRoute(ROUTES.VIDEO, { videoId })}
+                    className={cls.videoTitleLink}
+                  >
+                    <h3>{title}</h3>
+                  </Link>
+                  {currentUserId === ownerId && (
+                    <VideoDeleteButton
+                      videoId={videoId}
+                      userId={currentUserId}
+                    />
+                  )}
+                </div>
 
                 <div className={cls.channelInfoContainer}>
                   <a
@@ -89,9 +97,6 @@ export function VideoList({ videos, currentUserId }: VideoListProps) {
               </div>
             </div>
 
-            {currentUserId === ownerId && (
-              <VideoDeleteButton videoId={videoId} userId={currentUserId} />
-            )}
             <Link
               href={buildRoute(ROUTES.VIDEO, { videoId })}
               className={cls.videoOverlayLink}
